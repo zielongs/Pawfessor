@@ -1,0 +1,170 @@
+<!-- ===================================================
+     TASKS PAGE
+     ---------------------------------------------------
+    Author: Siti Norlie Yana
+    Date: 01 January 2026
+    Tested by:
+    Updated by:
+    Description:
+     This page displays the user's task list including:
+     - Search bar for tasks
+     - Task categories filter
+     - Task list (dynamically populated)
+     - Add New Task button
+
+     All dynamic content is populated via tasks.js
+     using data stored in localStorage.
+=================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My Tasks Page</title>
+    
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Page-Specific Styles -->
+    <link rel="stylesheet" href="css/tasks.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <img src="images/Dashboard/d_sidebar.png" width="40" height="40">
+    </button>
+
+    <div class="container">
+        <!-- ===================================================
+             SIDEBAR NAVIGATION
+        =================================================== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="images/Pawfessor_Logo.png" width="55" height="65">
+            </div>
+            <nav>
+                <a href="dashboard.html" class="menu-item active">
+                    <img src="images/Dashboard/d_dashboard.png" width="40" height="40">
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="menu-item">
+                    <img src="images/Dashboard/d_my_tasks.png" width="40" height="40">
+                    <span>My Tasks</span>
+                </a>
+                <a href="progress.html" class="menu-item">
+                    <img src="images/Dashboard/d_progress.png" width="40" height="40">
+                    <span>Progress</span>
+                </a>
+                <a href="store.html" class="menu-item">
+                    <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
+                    <span>Mascot Store</span>
+                </a>
+                <a href="subscriptions.html" class="menu-item">
+                    <img src="images/Dashboard/d_subscriptions.png" width="40" height="40">
+                    <span>Subscriptions</span>
+                </a>
+                <a href="carts.html" class="menu-item">
+                    <img src="images/Dashboard/d_carts.png" width="40" height="40">
+                    <span>Carts</span>
+                </a>
+                <a href="transaction-history.html" class="menu-item">
+                    <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
+                    <span>Transaction History</span>
+                </a>
+                <a href="profiles.html" class="menu-item">
+                    <img src="images/Dashboard/d_profiles.png" width="40" height="40">
+                    <span>Profiles</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ===================================================
+             MAIN CONTENT
+        =================================================== -->
+        <main class="main-content">
+            <!-- Header with Notifications & Profile -->
+            <header class="header">
+                <div></div>
+                <div class="header-icons">
+                    <button class="icon-btn" id="notificationBtn">
+                        <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
+                    </button>
+                    <button class="icon-btn" id="profileBtn">
+                        <img src="images/h_profiles.png" width="55" height="50">
+                    </button>
+                </div>
+            </header>
+
+            <!-- ===================================================
+                 TASKS HEADER & FILTERS
+            =================================================== -->
+            <div class="tasks-header">
+                <h1 class="tasks-title">TASK LISTS</h1>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        placeholder="Search Task"
+                        id="searchInput"
+                    >
+                    <span class="search-icon">
+                        <img src="images/search_icon.png" width="40" height="35">
+                    </span>
+                </div>
+
+                <!-- Categories Filter -->
+                <div class="categories-filter">
+                    <span class="categories-label">Categories:</span>
+                    <div class="category-checkboxes">
+                        <div class="category-item">
+                            <input type="checkbox" id="catAll" checked>
+                            <label for="catAll">All</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="catExam">
+                            <label for="catExam">Exam</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="catRevision">
+                            <label for="catRevision">Revision</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="catAssignment">
+                            <label for="catAssignment">Assignment</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="catProject">
+                            <label for="catProject">Project</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="catQuiz">
+                            <label for="catQuiz">Quiz</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================
+                 TASK LIST
+                 (Populated dynamically via tasks.js)
+            =================================================== -->
+            <div class="tasks-section-title">All Tasks</div>
+            <div class="task-list" id="taskList">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+
+            <!-- Add New Task Button -->
+            <button class="add-task-btn" id="addTaskBtn">ADD NEW TASK</button>
+        </main>
+    </div>
+
+    <!-- ===================================================
+         JAVASCRIPT FILES
+    =================================================== -->
+    <script src="js/security.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+</html>

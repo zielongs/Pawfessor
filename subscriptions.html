@@ -1,0 +1,176 @@
+<!-- ===================================================
+     SUBSCRIPTIONS PAGE
+     ---------------------------------------------------
+    Author: Siti Norlie Yana
+    Date: 01 January 2026
+    Tested by:
+    Updated by:
+    Description:
+     This page displays subscription and billing information including:
+     - Current subscription plan
+     - Billing settings (auto-renew, payment method)
+     - Upgrade or cancel actions
+     - Data dynamically updated via subscriptions.js
+=================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Subscription Page</title>
+    
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Page-Specific Styles -->
+    <link rel="stylesheet" href="css/subscription.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <img src="images/Dashboard/d_sidebar.png" width="40" height="40">
+    </button>
+
+    <div class="container">
+        <!-- ===================================================
+             SIDEBAR NAVIGATION
+        =================================================== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="images/Pawfessor_Logo.png" width="55" height="65">
+            </div>
+            <nav>
+                <a href="dashboard.html" class="menu-item active">
+                    <img src="images/Dashboard/d_dashboard.png" width="40" height="40">
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="menu-item">
+                    <img src="images/Dashboard/d_my_tasks.png" width="40" height="40">
+                    <span>My Tasks</span>
+                </a>
+                <a href="progress.html" class="menu-item">
+                    <img src="images/Dashboard/d_progress.png" width="40" height="40">
+                    <span>Progress</span>
+                </a>
+                <a href="store.html" class="menu-item">
+                    <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
+                    <span>Mascot Store</span>
+                </a>
+                <a href="subscriptions.html" class="menu-item">
+                    <img src="images/Dashboard/d_subscriptions.png" width="40" height="40">
+                    <span>Subscriptions</span>
+                </a>
+                <a href="carts.html" class="menu-item">
+                    <img src="images/Dashboard/d_carts.png" width="40" height="40">
+                    <span>Carts</span>
+                </a>
+                <a href="transaction-history.html" class="menu-item">
+                    <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
+                    <span>Transaction History</span>
+                </a>
+                <a href="profiles.html" class="menu-item">
+                    <img src="images/Dashboard/d_profiles.png" width="40" height="40">
+                    <span>Profiles</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ===================================================
+             MAIN CONTENT
+        =================================================== -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <div class="logo-section">
+                    <img src="images/Pawfessor_Logo.png" width="50" height="60">
+                    <span class="logo-text">PAWFESSOR</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="subscriptions.html" class="nav-link" style="color: #007bff;">Pricing</a>
+                    <a href="transaction-history.html" class="nav-link">Transaction History</a>
+                </nav>
+                <div class="header-icons">
+                    <button class="icon-btn" id="notificationBtn">
+                        <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
+                    </button>
+                    <button class="icon-btn" id="profileBtn">
+                        <img src="images/h_profiles.png" width="55" height="50">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Page Title -->
+            <h1 class="page-title">Subscriptions & Billing</h1>
+
+            <!-- ===================================================
+                 CURRENT PLAN SECTION
+            =================================================== -->
+            <div class="section">
+                <h2 class="section-title">Current Plan</h2>
+                <div class="plan-cards">
+                    <div class="plan-card">
+                        <div class="plan-badge">
+                            <img src="images/Plans/standard.png" width="55" height="50">
+                        </div>
+                        <div class="plan-info">
+                            <h3 id="currentPlanName">Standard Plan</h3>
+                        </div>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="price">
+                            Price: <span id="planPrice">RM5.99</span> 
+                            <span class="price-small">per month</span>
+                        </div>
+                        <div class="billing-date">
+                            Next Billing Date: <strong id="nextBillingDate">12 Oct 2025</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================
+                 BILLING SETTINGS SECTION
+            =================================================== -->
+            <div class="section">
+                <h2 class="section-title">Billing Settings</h2>
+                <div class="billing-settings">
+                    <div class="setting-item">
+                        <div class="setting-label">Auto Renew Subscription</div>
+                        <div class="setting-value">
+                            <span class="toggle-label" id="autoRenewLabel">ON</span>
+                            <div class="toggle-switch active" id="autoRenewToggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Payment Method: <span id="paymentMethod">Visa **** 1234</span></div>
+                        <button class="edit-btn" id="editPaymentBtn">
+                            <img src="images/edit_icon.png" width="55" height="50">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================
+                 ACTIONS SECTION
+            =================================================== -->
+            <div class="section">
+                <h2 class="section-title">Actions</h2>
+                <div class="actions-buttons">
+                    <button class="action-btn primary" id="upgradePlanBtn">Upgrade Plan</button>
+                    <button class="action-btn danger" id="cancelSubscriptionBtn">Cancel Subscription</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===================================================
+         JAVASCRIPT FILES
+    =================================================== -->
+    <script src="js/security.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/subscriptions.js"></script>
+</body>
+</html>
