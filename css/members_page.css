@@ -1,0 +1,253 @@
+
+.fig_cards{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
+  margin-bottom:16px;
+}
+
+.fig_card{
+  border-radius:18px;
+  padding:14px 16px;
+  border: 1px solid rgba(255,255,255,.28);
+}
+
+.fig_label{
+  font-size:12px;
+  font-weight:800;
+  opacity:.7;
+  margin-bottom:6px;
+}
+
+.fig_value{
+  font-size:22px;
+  font-weight:950;
+}
+
+/* member management header card */
+.mm_header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px;
+  border-radius:18px;
+  border: 1px solid rgba(255,255,255,.28);
+  margin-bottom:16px;
+}
+
+.mm_left{ display:flex; flex-direction:column; gap:10px; }
+
+.mm_title{
+  margin:0;
+  font-size:18px;
+  font-weight:950;
+}
+
+.mm_searchwrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:42px;
+  padding:0 12px;
+  border-radius:999px;
+  border: 1px solid rgba(255,255,255,.28);
+}
+
+.mm_searchicon{ opacity:.65; font-size:14px; }
+
+.mm_search{
+  width:220px;
+  border:0;
+  outline:none;
+  background: transparent;
+  font-weight:700;
+  color: inherit;
+}
+
+.mm_right{ display:flex; align-items:center; }
+
+.mm_addbtn{
+  height:42px;
+  padding:0 16px;
+  border-radius:10px; /* figma button looks more square */
+  border: 0;
+  background: rgba(47,111,237,.92);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow: 0 14px 28px rgba(17,24,39,.10);
+}
+
+.mm_addbtn:hover{
+  transform: translateY(-1px);
+  transition: 160ms ease;
+}
+
+/* list panel */
+.mm_panel{
+  border-radius:18px;
+  padding:16px;
+  border: 1px solid rgba(255,255,255,.28);
+}
+
+.mm_panel_head{
+  margin-bottom:10px;
+}
+
+.mm_panel_title{
+  font-size:12px;
+  font-weight:950;
+  opacity:.7;
+}
+
+.mm_list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* each row like figma: checkbox + name | view | delete | edit */
+.mm_row{
+  display:grid;
+  grid-template-columns: 1fr 90px 90px 90px;
+  gap:10px;
+  align-items:center;
+  padding:12px 12px;
+  border-radius:16px;
+  border: 1px solid rgba(255,255,255,.26);
+  background: rgba(255,255,255,.20);
+  box-shadow: 0 10px 22px rgba(17,24,39,.06);
+}
+
+.mm_namewrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.mm_name{
+  font-weight:950;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.mm_btn{
+  height:38px;
+  border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-weight:900;
+  background: rgba(47,111,237,.92);
+  color:#fff;
+}
+
+.mm_btn.danger{
+  background: rgba(37,99,235,.88);
+}
+
+.mm_btn.ghost{
+  background: rgba(47,111,237,.78);
+}
+
+.mm_btn:hover{
+  transform: translateY(-1px);
+  transition: 160ms ease;
+}
+
+.mm_empty{
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  text-align:center;
+  font-weight:900;
+  opacity:.7;
+  border: 1px solid rgba(255,255,255,.26);
+}
+
+/* modal (reuse style vibe) */
+.modal{
+  position:fixed;
+  inset:0;
+  background: rgba(17,24,39,.35);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.show{ display:flex; }
+
+.modal_card{
+  width:520px;
+  max-width:100%;
+  border-radius:22px;
+  border: 1px solid rgba(255,255,255,.35);
+  overflow:hidden;
+}
+
+.modal_head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.22);
+}
+
+.modal_title{
+  font-weight:950;
+  font-size:16px;
+}
+
+.modal_x{
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border: 1px solid rgba(255,255,255,.35);
+  cursor:pointer;
+}
+
+.modal_body{ padding:16px; }
+
+.field{ display:block; margin-bottom:12px; }
+
+.field span{
+  display:block;
+  font-size:11px;
+  font-weight:900;
+  opacity:.7;
+  margin-bottom:6px;
+}
+
+.field input, .field select{
+  width:100%;
+  height:42px;
+  padding:0 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,.35);
+  outline:none;
+}
+
+.mm_desc{
+  margin-top:10px;
+  font-size:12px;
+  opacity:.75;
+  line-height:1.45;
+}
+
+.modal_foot{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:14px 16px;
+  border-top: 1px solid rgba(255,255,255,.22);
+}
+
+@media (max-width: 900px){
+  .fig_cards{ grid-template-columns: 1fr; }
+  .mm_header{ flex-direction:column; align-items:stretch; }
+  .mm_search{ width:100%; }
+  .mm_row{ grid-template-columns: 1fr; }
+}
