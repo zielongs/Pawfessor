@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f5f5ff, #b8b8ff);
+    margin: 0;
+}
+
+.page-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* navbar height */
+}
+
+.navbar nav{
+    display: none;
+}
+
+
+
+.container {
+    width: 360px;
+    background: transparent;
+   text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.google-btn img {
+    width: 18px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.divider span {
+    flex: 1;
+    height: 1px;
+    background: #ccc;
+}
+
+.divider p {
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+form {
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.password-box {
+    position: relative;
+}
+
+.password-box i {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    cursor: pointer;
+    color: #666;
+}
+
+.create-btn {
+    width: 100%;
+    padding: 14px;
+    background: #ffd1c8;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.login-text {
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.login-text a {
+    color: #5a5aff;
+    text-decoration: none;
+}
+
+.socials i {
+    margin: 0 8px;
+    cursor: pointer;
+    color: #444;
+}
