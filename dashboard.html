@@ -1,215 +1,106 @@
-<!-- ===================================================
-     DASHBOARD PAGE
-     ---------------------------------------------------
-    Author: Siti Norlie Yana
-    Date: 31 December 2025
-    Tested by:
-    Updated by:
-    Description:
-     This page displays the main user dashboard including:
-     - User greeting
-     - Today's tasks
-     - Progress summary (weekly & overall)
-     - Upcoming deadlines
-
-     All dynamic content is populated via dashboard.js
-     using data stored in localStorage.
-=================================================== -->
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <!-- Meta information for character encoding and responsive layout -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
 
-    <!-- Page title -->
-    <title>Dashboard Page</title>
-
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard_page.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="dash_body">
 
-    <!-- ===================================================
-         Sidebar Toggle Button
-         ---------------------------------------------------
-         Used to show/hide sidebar on smaller screens
-    =================================================== -->
-    <button class="menu-toggle" id="menuToggle">
-        <img src="images/Dashboard/d_sidebar.png" width="40" height="40" alt="Menu">
-    </button>
-
-    <div class="container">
-
-        <!-- ===================================================
-             SIDEBAR NAVIGATION
-             ---------------------------------------------------
-             Contains main navigation links for the system
-        =================================================== -->
-        <aside class="sidebar" id="sidebar">
-
-            <!-- Sidebar logo / header -->
-            <div class="sidebar-header">
-                <img src="images/Pawfessor_Logo.png" width="55" height="65" alt="Pawfessor Logo">
-            </div>
-
-            <!-- Navigation menu -->
-            <nav>
-                <a href="dashboard.html" class="menu-item active">
-                    <img src="images/Dashboard/d_dashboard.png" width="40" height="40" alt="">
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="tasks.html" class="menu-item">
-                    <img src="images/Dashboard/d_my_tasks.png" width="40" height="40" alt="">
-                    <span>My Tasks</span>
-                </a>
-
-                <a href="progress.html" class="menu-item">
-                    <img src="images/Dashboard/d_progress.png" width="40" height="40" alt="">
-                    <span>Progress</span>
-                </a>
-
-                <a href="store.html" class="menu-item">
-                    <img src="images/Dashboard/d_mascot_store.png" width="40" height="40" alt="">
-                    <span>Mascot Store</span>
-                </a>
-
-                <a href="subscriptions.html" class="menu-item">
-                    <img src="images/Dashboard/d_subscriptions.png" width="40" height="40" alt="">
-                    <span>Subscriptions</span>
-                </a>
-
-                <a href="carts.html" class="menu-item">
-                    <img src="images/Dashboard/d_carts.png" width="40" height="40" alt="">
-                    <span>Carts</span>
-                </a>
-
-                <a href="transaction-history.html" class="menu-item">
-                    <img src="images/Dashboard/d_transaction_history.png" width="40" height="40" alt="">
-                    <span>Transaction History</span>
-                </a>
-
-                <a href="profiles.html" class="menu-item">
-                    <img src="images/Dashboard/d_profiles.png" width="40" height="40" alt="">
-                    <span>Profiles</span>
-                </a>
-            </nav>
-        </aside>
-
-        <!-- ===================================================
-             MAIN CONTENT AREA
-             ---------------------------------------------------
-             Displays dashboard information and cards
-        =================================================== -->
-        <main class="main-content">
-
-            <!-- ===================================================
-                 HEADER
-                 ---------------------------------------------------
-                 Displays notification and profile icons
-            =================================================== -->
-            <header class="header">
-                <div></div>
-                <div class="header-icons">
-                    <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
-                    <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
-                    </button>
-
-                    <button class="icon-btn" id="profileBtn" aria-label="Profile">
-                        <img src="images/h_profiles.png" width="55" height="50" alt="Profile">
-                    </button>
-                </div>
-            </header>
-
-            <!-- ===================================================
-                 USER GREETING
-                 ---------------------------------------------------
-                 Displays logged-in user's name
-            =================================================== -->
-            <div class="greeting">
-                Good morning, <strong id="userName">Yana</strong>
-            </div>
-
-            <!-- ===================================================
-                 TODAY'S TASKS SECTION
-                 ---------------------------------------------------
-                 Populated dynamically by dashboard.js
-            =================================================== -->
-            <div class="card">
-                <h3 class="card-title">Today's Tasks</h3>
-
-                <!-- Container for dynamically rendered tasks -->
-                <div id="todayTasksContainer"></div>
-            </div>
-
-            <!-- ===================================================
-                 PROGRESS SUMMARY SECTION
-                 ---------------------------------------------------
-                 Displays weekly and overall task completion
-            =================================================== -->
-            <div class="card">
-                <h3 class="card-title">Progress Summary</h3>
-
-                <!-- Weekly progress bar -->
-                <div class="progress-bar-container">
-                    <div class="progress-label">
-                        <span>Weekly Progress</span>
-                        <span id="weeklyPercent"></span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="weeklyProgress"></div>
-                    </div>
-                </div>
-
-                <!-- Overall task completion bar -->
-                <div class="progress-bar-container">
-                    <div class="progress-label">
-                        <span>Task Completed</span>
-                        <span id="taskPercent"></span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="todayTaskProgress"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===================================================
-                 UPCOMING DEADLINES SECTION
-                 ---------------------------------------------------
-                 Displays nearest upcoming deadlines
-            =================================================== -->
-            <div class="card">
-                <h3 class="card-title">Upcoming Deadlines</h3>
-
-                <!-- Container for dynamically rendered deadlines -->
-                <div id="deadlinesContainer"></div>
-
-                <!-- Weekly view button (future feature) -->
-                <div class="weekly-view" id="weeklyViewBtn">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <img src="images/Dashboard/s_weekly_view.png" width="40" height="40" alt="Weekly View">
-                        <span style="font-weight: 500;">Weekly View</span>
-                    </div>
-                    <button class="arrow-btn">→</button>
-                </div>
-            </div>
-
-        </main>
+  <aside class="dash_sidebar glass">
+    <div class="dash_brand">
+      <img src="assets/Pawfessor_Logo.png" alt="Pawfessor Logo">
     </div>
 
-    <!-- ===================================================
-         JAVASCRIPT FILES
-         ---------------------------------------------------
-         security.js   - authentication & access control
-         main.js       - global UI interactions
-         dashboard.js  - dashboard logic and rendering
-    =================================================== -->
-    <script src="js/security.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/dashboard.js"></script>
+    <nav class="dash_nav">
+      <a class="dash_link active" href="dashboard.html">
+        <img class="dash_icon" src="assets/d_dashboard.png" alt="">
+        <span>Dashboard</span>
+      </a>
 
+      <a class="dash_link" href="members.html">
+        <img class="dash_icon" src="assets/d_profiles.png" alt="">
+        <span>Members</span>
+      </a>
+
+      <a class="dash_link" href="products.html">
+        <img class="dash_icon" src="assets/d_carts.png" alt="">
+        <span>Products</span>
+      </a>
+
+      <a class="dash_link" href="reports.html">
+        <img class="dash_icon" src="assets/d_my_tasks.png" alt="">
+        <span>Reports</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="dash_main">
+    <h1 class="dash_greeting">Good Morning, <span>Admin</span> ☁️</h1>
+
+    <section class="dash_cards">
+      <div class="dash_card glass">
+        <div class="dash_card_label">Total Sales</div>
+        <div class="dash_card_value" id="stat_sales">RM 661.01</div>
+      </div>
+
+      <div class="dash_card glass">
+        <div class="dash_card_label">New Members</div>
+        <div class="dash_card_value" id="stat_members">29</div>
+      </div>
+
+      <div class="dash_card glass">
+        <div class="dash_card_label">Orders Today</div>
+        <div class="dash_card_value" id="stat_orders">12</div>
+      </div>
+    </section>
+
+    <section class="dash_panel glass">
+      <div class="dash_panel_head">
+        <div>
+          <div class="dash_panel_title">Latest Activity</div>
+          <div class="dash_panel_sub">Sales overview</div>
+        </div>
+      </div>
+
+      <div class="dash_chart_wrap">
+        <svg class="sales_svg" viewBox="0 0 760 180" role="img" aria-label="Sales chart">
+          <rect x="0" y="0" width="760" height="180" rx="16" class="svg_bg"></rect>
+          <line x1="24" y1="156" x2="736" y2="156" class="svg_axis"></line>
+
+          <polygon
+            points="24,128 142.7,156 261.3,140 380,104 498.7,146 617.3,80 736,52 736,156 24,156"
+            class="svg_fill"></polygon>
+
+          <polyline
+            points="24,128 142.7,156 261.3,140 380,104 498.7,146 617.3,80 736,52"
+            class="svg_line"></polyline>
+
+          <text x="24" y="174" text-anchor="middle" class="svg_lbl">Mon</text>
+          <text x="142.7" y="174" text-anchor="middle" class="svg_lbl">Tue</text>
+          <text x="261.3" y="174" text-anchor="middle" class="svg_lbl">Wed</text>
+          <text x="380" y="174" text-anchor="middle" class="svg_lbl">Thu</text>
+          <text x="498.7" y="174" text-anchor="middle" class="svg_lbl">Fri</text>
+          <text x="617.3" y="174" text-anchor="middle" class="svg_lbl">Sat</text>
+          <text x="736" y="174" text-anchor="middle" class="svg_lbl">Sun</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="dash_panel glass">
+      <div class="dash_panel_head">
+        <div class="dash_panel_title">Quick Actions</div>
+      </div>
+
+      <div class="dash_qalist" id="qa_list"></div>
+    </section>
+  </main>
+
+  <script src="js/dashboard_page.js"></script>
 </body>
 </html>

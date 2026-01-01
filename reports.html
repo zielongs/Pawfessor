@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reports</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reports_page.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="dash_body">
+<aside class="dash_sidebar glass">
+  <div class="dash_brand">
+    <img src="assets/Pawfessor_Logo.png" alt="Pawfessor Logo">
+  </div>
+
+  <nav class="dash_nav">
+    <a class="dash_link" href="dashboard.html">
+      <img class="dash_icon" src="assets/d_dashboard.png" alt="">
+      <span>Dashboard</span>
+    </a>
+
+    <a class="dash_link" href="members.html">
+      <img class="dash_icon" src="assets/d_profiles.png" alt="">
+      <span>Members</span>
+    </a>
+
+    <a class="dash_link" href="products.html">
+      <img class="dash_icon" src="assets/d_carts.png" alt="">
+      <span>Products</span>
+    </a>
+
+    <a class="dash_link" href="reports.html">
+      <img class="dash_icon" src="assets/d_my_tasks.png" alt="">
+      <span>Reports</span>
+    </a>
+  </nav>
+</aside>
+
+
+  <main class="dash_main">
+    <!-- TOP CARDS -->
+    <section class="fig_cards">
+      <div class="fig_card glass">
+        <div class="fig_label">Total Sales</div>
+        <div class="fig_value" id="stat_sales">RM 661.01</div>
+      </div>
+
+      <div class="fig_card glass">
+        <div class="fig_label">New Members</div>
+        <div class="fig_value" id="stat_members">29</div>
+      </div>
+
+      <div class="fig_card glass">
+        <div class="fig_label">Orders Today</div>
+        <div class="fig_value" id="stat_orders">12</div>
+      </div>
+    </section>
+
+    <section class="rep_grid">
+      <div class="rep_left">
+        <div class="rep_title">Transaction History</div>
+
+        <div class="datebox glass">
+          <div class="datebar">
+            <div class="daterange" id="range_label">5 Dec 2025 - 21 Dec 2025</div>
+            <button class="iconbtn" id="btn_pick" type="button" title="Pick date">📅</button>
+          </div>
+
+          <div class="picker" id="picker">
+            <div class="pick_head">
+              <button class="navbtn" id="prev_month" type="button">‹</button>
+              <div class="month" id="month_label">December 2025</div>
+              <button class="navbtn" id="next_month" type="button">›</button>
+            </div>
+
+            <div class="dow">
+              <span>sun</span><span>mon</span><span>tue</span><span>wed</span><span>thu</span><span>fri</span><span>sat</span>
+            </div>
+
+            <div class="days" id="days"></div>
+
+            <div class="pick_foot">
+              <button class="pill" id="btn_clear" type="button">Clear</button>
+              <button class="pill primary" id="btn_apply" type="button">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel glass rep_panel">
+          <div class="form_title">Record Transaction</div>
+
+          <div class="form_grid">
+            <label class="field">
+              <span>Date</span>
+              <input id="t_date" type="date" class="glass" />
+            </label>
+
+            <label class="field">
+              <span>Item</span>
+              <select id="t_item" class="glass"></select>
+            </label>
+
+            <label class="field">
+              <span>Payment</span>
+              <select id="t_method" class="glass">
+                <option value="google pay">Google Pay</option>
+                <option value="debit card">Debit Card</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Total (RM)</span>
+              <input id="t_total" type="number" step="0.01" min="0" class="glass" placeholder="0.00" />
+            </label>
+          </div>
+
+          <div class="quick_prices" id="quick_prices"></div>
+
+          <div class="form_actions">
+            <button class="glass" id="btn_reset" type="button">Reset</button>
+            <button class="glass primary" id="btn_add_tx" type="button">Add Transaction</button>
+          </div>
+
+        </div>
+
+        <div class="panel glass rep_panel">
+          <div class="list_head">
+            <div class="list_title">Transaction Records</div>
+            <div class="muted" id="list_count">0 records</div>
+          </div>
+
+          <div class="tx_head">
+            <div>Date</div>
+            <div>Item</div>
+            <div>Method</div>
+            <div class="right">Total</div>
+            <div class="right">Del</div>
+          </div>
+
+          <div id="tx_list" class="tx_list"></div>
+
+          <div id="tx_empty" class="empty glass" style="display:none;">No transactions in selected range!</div>
+        </div>
+      </div>
+
+      <div class="rep_right">
+        <div class="sum_stack">
+          <div class="sum_card glass">
+            <div class="sum_label">Mascot Purchases</div>
+            <div class="sum_value" id="sum_mascot">RM 0.00</div>
+          </div>
+
+          <div class="sum_card glass">
+            <div class="sum_label">New Subscriptions</div>
+            <div class="sum_value" id="sum_sub">RM 0.00</div>
+          </div>
+
+          <div class="sum_card glass">
+            <div class="sum_label">Total Sales</div>
+            <div class="sum_value" id="sum_total">RM 0.00</div>
+          </div>
+        </div>
+
+        <button class="download" id="btn_pdf" type="button">
+          Download PDF <span class="dl">⬇️</span>
+        </button>
+      </div>
+    </section>
+
+    <div id="print_area" class="print_area" aria-hidden="true"></div>
+  </main>
+
+  <script src="js/reports_page.js"></script>
+</body>
+</html>
