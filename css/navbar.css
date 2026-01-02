@@ -1,46 +1,100 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+/* ============================================
+   NAVIGATION BAR STYLESHEET
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Styles for the website navigation
+                 bar, including logo layout,
+                 navigation links, call-to-action
+                 buttons, and responsive behavior.
+   ============================================ */
 
-/* Navbar */
+   /* Navbar container */
 .navbar {
     display: flex;
-    justify-content: space-between;
-    padding: 20px 60px;
+    justify-content: space-between; /* logo left, links right */
     align-items: center;
+    padding: 15px 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
+/* Logo */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-.logo {
-    font-size: 22px;
+.navbar .logo img {
+    height: 50px;
+}
+
+.navbar .logo span {
+    font-size: 20px;
     font-weight: bold;
-    color: #ff6f61;
-}
-
-.navbar nav a {
-    margin-right: 20px;
-    text-decoration: none;
     color: #333;
 }
 
-#logoImage {
-    width: 55px;
-    height: 55px;
-}
-
-.logo{
+/* Navigation links */
+.navbar .nav-links {
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 
-.btn {
-    background: #ffb3a7;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 20px;
-    cursor: pointer;
+/* Standard links */
+.navbar .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
 }
+
+.navbar .nav-links a:hover {
+    color: #5a5aff;
+}
+
+/* Login button styling */
+.navbar .nav-links a.login-btn {
+    padding: 8px 15px;
+    background-color: #5a5aff;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.navbar .nav-links a.login-btn:hover {
+    background-color: #3f3fff;
+}
+
+/* CTA button (Get Pawfessor Free) */
+.navbar .nav-links a.cta-btn {
+    padding: 8px 15px;
+    background-color: #ffd1c8;
+    color: #333;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.navbar .nav-links a.cta-btn:hover {
+    background-color: #ffb8a0;
+}
+
+/* Responsive for mobile */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+}
+
