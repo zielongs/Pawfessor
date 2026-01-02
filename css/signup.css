@@ -1,3 +1,14 @@
+/* ============================================
+   SIGNUP PAGE STYLESHEET
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Styles for the signup page layout,
+                 including form fields, password input,
+                 buttons, Google login button, dividers,
+                 social icons, and centered page content
+                 with navbar adjustments.
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -8,26 +19,23 @@
 body {
     min-height: 100vh;
     background: linear-gradient(180deg, #f5f5ff, #b8b8ff);
-    margin: 0;
 }
 
 .page-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 80px); /* navbar height */
+    min-height: calc(100vh - 80px);
 }
 
-.navbar nav{
+.navbar nav {
     display: none;
 }
-
-
 
 .container {
     width: 360px;
     background: transparent;
-   text-align: center;
+    text-align: center;
 }
 
 h2 {
@@ -125,3 +133,4 @@ input {
     cursor: pointer;
     color: #444;
 }
+
