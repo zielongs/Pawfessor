@@ -343,7 +343,8 @@ function initDashboard() {
    ============================================ */
 document.addEventListener('DOMContentLoaded', () => {
     const page = window.location.pathname.split('/').pop();
-    if (page === 'dashboard.html' || page === '') {
+    if (page === 'dashboard-user.html' || page === '') {
         initDashboard();
     }
 });
+
