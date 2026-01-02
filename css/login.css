@@ -1,3 +1,13 @@
+/* ============================================
+   LOGIN PAGE STYLESHEET
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Styles for the login page layout,
+                 form elements, buttons, password
+                 input, and responsive centering
+                 with navbar integration.
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -124,3 +134,4 @@ input {
     cursor: pointer;
     color: #444;
 }
+
