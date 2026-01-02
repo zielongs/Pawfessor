@@ -1,6 +1,16 @@
+<!-- ============================================
+     SIGNUP / CREATE ACCOUNT PAGE
+     Author      : Md Habibullah Habib
+     Updated By  : Siti Norlie Yana
+     Tested By   : Siti Norlie Yana
+     Description : Page for users to create a new
+                   account using email or Google login,
+                   including password input, form fields,
+                   social icons, and navbar integration.
+     ============================================ -->
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Create an account</title>
@@ -9,8 +19,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/signup.css">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
@@ -25,7 +36,8 @@
 
             <button class="google-btn">
                 Create account with Google
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                     alt="Google">
             </button>
 
             <div class="divider">
@@ -43,16 +55,19 @@
 
                 <label>Password</label>
                 <div class="password-box">
-                    <input type="password" id="password" placeholder="Create your password" required>
+                    <input type="password" id="password"
+                           placeholder="Create your password" required>
                     <i class="fa-regular fa-eye" id="togglePassword"></i>
                 </div>
 
-                <button type="submit" class="create-btn">Create an account</button>
+                <button type="submit" class="create-btn">
+                    Create an account
+                </button>
             </form>
 
             <p class="login-text">
                 Already have an account?
-                <a href="#">Login</a>
+                <a href="login.html">Login</a>
             </p>
 
             <div class="socials">
@@ -66,6 +81,4 @@
 
     <script src="js/signup.js"></script>
 </body>
-
-
 </html>
