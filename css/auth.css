@@ -1,4 +1,16 @@
-/* Reset */
+/* ============================================
+   AUTHENTICATION PAGES STYLESHEET
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Common styles for authentication
+                 pages including forgot password,
+                 form layout, buttons, inputs, and
+                 centered page content with navbar
+                 adjustments.
+   ============================================ */
+
+   /* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -76,3 +88,4 @@ button {
 button:hover {
     background-color: #ffb0a0;
 }
+
