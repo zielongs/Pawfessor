@@ -1,0 +1,211 @@
+    /* ============================================
+         WEEKLY VIEW PAGE - CSS
+         Author: Noraziela Binti Jepsin
+         Date: 31 December 2025
+         Tested by:
+         Updated by:
+
+         ============================================ */
+
+/* Weekly View Calendar */
+
+/* Main Content Background */
+.main-content {
+    background: linear-gradient(180deg, #f8f9fc 0%, #cbd5e1 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== HEADER SECTION ===== */
+.header {
+    display: flex;
+    justify-content: flex-start; /* Groups buttons to the left */
+    align-items: center;
+    padding: 20px 30px;
+    background: transparent;
+    gap: 15px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.today-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.nav-arrows {
+    display: flex;
+    gap: 8px;
+}
+
+.arrow-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.month-display {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #334155;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.header-right {
+    margin-left: auto; /* Pushes profile/icons to the right */
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.view-selector {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== CALENDAR WRAPPER (Rounded Container) ===== */
+.calendar-wrapper {
+    padding: 0 30px 30px;
+}
+
+/* ===== CALENDAR TABLE ===== */
+.calendar-table {
+    width: 100%;
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures all columns stay the same size */
+}
+
+/* ===== TABLE HEADER (Gray Bar) ===== */
+.calendar-table thead tr {
+    background-color: #f1f1f1; /* Light gray from screenshot */
+}
+
+.time-header {
+    width: 80px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.day-header {
+    text-align: center;
+    padding: 15px 10px;
+    border-left: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.day-number {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.day-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #64748b;
+}
+
+/* ===== TABLE BODY ===== */
+.calendar-table tbody tr {
+    height: 60px;
+}
+
+.time-cell {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.calendar-cell {
+    border-left: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 5px;
+    vertical-align: middle; /* Centers the pill vertically */
+    position: relative;
+}
+
+/* ===== ADAPTABLE EVENT PILLS ===== */
+.event {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+    width: 90%;
+    margin: 0 auto;
+    
+    /* Text Adaptation Logic */
+    font-size: 0.8rem;
+    line-height: 1.1;
+    text-align: center;
+    word-wrap: break-word; /* Wrap text if too long */
+    overflow: hidden;
+    max-height: 50px;
+}
+
+/* Color Palette Matching the Images */
+.event-blue { background-color: #e3f2fd; color: #448aff; }
+.event-purple { background-color: #f3e5f5; color: #b066ff; }
+.event-yellow { background-color: #fff8e1; color: #ffca28; }
+.event-pink { background-color: #fce4ec; color: #f06292; }
+.event-green { background-color: #e8f5e9; color: #66bb6a; }
+.event-indigo { background-color: #e0e7ff; color: #6366f1; }
+.event-white { background-color: #ffffff; color: #64748b; border: 1px solid #e2e8f0; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .calendar-table { min-width: 600px; }
+    .calendar-wrapper { overflow-x: auto; }
+}
+
+/* Animation for pills when hovering */
+.event:hover {
+    transform: scale(1.05); /* Makes the pill grow slightly */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Style for empty cells to show they are clickable */
+.calendar-cell:not(:has(.event)) {
+    cursor: pointer;
+}
+
+.calendar-cell:not(:has(.event)):hover {
+    background-color: #f8fafc; /* Very light blue/gray highlight */
+}
+

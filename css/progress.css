@@ -1,0 +1,268 @@
+    /* ============================================
+         PROGRESS DASHBOARD PAGE - CSS
+         Author: Noraziela Binti Jepsin
+         Date: 31 December 2025
+         Tested by:
+         Updated by:
+
+         ============================================ */
+
+/* --- Global Reset & Root Variables --- */
+:root {
+    --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #d9e2ff 100%);
+    --sidebar-bg: #ffffff;
+    
+    /* Section Colors based on your image */
+    --ongoing-bg: #c5c5dc;
+    --incoming-bg: #f4e4d7;
+    --completed-bg: #b8d9c8;
+    --overdue-bg: #d4b3c5;
+    
+    --purple-primary: #4b30a1;
+    --blue-accent: #3b82f6;
+    --text-dark: #1a1a1a;
+    --text-muted: #777;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+    background: var(--bg-gradient);
+    color: var(--text-dark);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Sidebar Refinement --- */
+.sidebar {
+    width: 250px;
+    background: var(--sidebar-bg);
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.menu-item.active {
+    background: #f0f4ff;
+    color: var(--blue-accent);
+}
+
+/* --- Main Content Layout --- */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    max-width: 1200px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.date-badge {
+    background: white;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* --- Progress Blocks --- */
+.prog-block {
+    border-radius: 30px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.bg-ongoing { background: var(--ongoing-bg); }
+.bg-completed { background: var(--completed-bg); }
+.bg-overdue { background: var(--overdue-bg); }
+
+/* The specific Blue Border for Incoming */
+.bg-incoming { 
+    background: var(--incoming-bg); 
+    border: 3px solid var(--blue-accent);
+}
+
+.block-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.block-title {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* --- Ongoing Section (Gauge + Tasks) --- */
+.ongoing-content {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.chart-container { 
+    position: relative; 
+    width: 180px; 
+    height: 180px;
+    flex-shrink: 0;
+}
+
+.chart-container svg { 
+    transform: rotate(-90deg);
+}
+
+.circle-bg { 
+    fill: none; 
+    stroke: rgba(255, 255, 255, 0.5); 
+    stroke-width: 12;
+}
+
+.circle-fill {
+    fill: none; 
+    stroke: var(--purple-primary); 
+    stroke-width: 12;
+    stroke-linecap: round; 
+    stroke-dasharray: 251.2; /* Matches r=40 viewBox=100 */
+    stroke-dashoffset: 75; /* This represents 70% */
+}
+
+.chart-val {
+    position: absolute; 
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.8rem; 
+    font-weight: 800; 
+    color: white;
+}
+
+/* --- Cards (Tasks, Incoming, Completed) --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.task-card, .item-card {
+    background: white;
+    border-radius: 25px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.task-card:hover, .item-card:hover {
+    transform: translateY(-2px);
+}
+
+.task-icon, .item-icon {
+    width: 50px;
+    height: 50px;
+    background: #f0f0f8;
+    border-radius: 15px; /* Boxy-rounded like image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.item-icon.completed { background: #e0f2f1; }
+.item-icon.overdue { background: #fee2e2; }
+
+.task-info h4, .item-info h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.task-info p, .item-info p {
+    margin: 2px 0 8px 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* --- Progress Bar Elements --- */
+.progress-bar {
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    width: 140px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #6b5dd3;
+    border-radius: 10px;
+}
+
+.progress-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 900px) {
+    .ongoing-content { flex-direction: column; text-align: center; }
+    .card-grid { grid-template-columns: 1fr; }
+}
+
+/* Styling for the new image icons in headers */
+.header-icon-img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain; /* Prevents stretching */
+    flex-shrink: 0;
+}
+
+/* Optional: If you want the images to have a slight shadow 
+   like the reference image */
+.header-icon-img {
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Adjust the block header to align items perfectly center */
+.block-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* Feedback for clickable cards */
+.task-card, .item-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.task-card:hover, .item-card:hover {
+    transform: translateY(-5px); /* Card lifts up */
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Shadow gets deeper */
+    border: 1px solid rgba(74, 144, 226, 0.3); /* Subtle blue glow */
+}

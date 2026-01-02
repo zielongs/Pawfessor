@@ -1,0 +1,107 @@
+    /* ============================================
+         UPDATE PROFILE PAGE - CSS
+         Author: Noraziela Binti Jepsin
+         Date: 31 December 2025S
+         Tested by:
+         Updated by:
+
+         ============================================ */
+
+/* Global Reset */
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+.container { display: flex; width: 100%; }
+
+/* Layout Background Gradient */
+.update-profile-layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #BCC8FF 100%); /* Purple glow from image */
+    min-height: 100vh;
+}
+
+/* Profile Header Section */
+.profile-summary { text-align: center; margin-bottom: 30px; }
+.avatar-wrapper { position: relative; display: inline-block; }
+.main-avatar { width: 90px; height: 90px; border-radius: 50%; background: #000; border: 3px solid white; }
+.edit-pen { 
+    position: absolute; right: -8px; top: 15px; 
+    color: #6366f1; background: white; border-radius: 50%; 
+    width: 24px; height: 24px; font-size: 14px; 
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.user-id { margin: 10px 0 0; font-size: 1.2rem; font-weight: 600; }
+.user-email { color: #6b7280; font-size: 0.85rem; margin: 2px 0; }
+
+/* Form Elements */
+.update-form { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 15px; }
+
+.form-input {
+    width: 100%; padding: 14px 20px; border-radius: 12px;
+    border: 1px solid #E5E7EB; background: white;
+    font-size: 0.9rem; outline: none; transition: border 0.3s;
+}
+
+/* Phone Field Specific (Flex Layout) */
+.phone-input-container {
+    display: flex; background: white; border-radius: 12px;
+    border: 1px solid #E5E7EB; overflow: hidden; align-items: center;
+}
+.flag-box {
+    padding: 0 15px; border-right: 1px solid #E5E7EB; /* Vertical line from image */
+    height: 50px; display: flex; align-items: center; background: #fafafa;
+}
+.phone-input-field { border: none; padding: 14px; flex: 1; outline: none; font-size: 0.9rem; }
+
+/* Select and Date Styling */
+.select-wrapper, .date-input-container { position: relative; width: 100%; }
+.select-input { appearance: none; cursor: pointer; }
+.select-wrapper::after {
+    content: '▼'; position: absolute; right: 15px; top: 50%;
+    transform: translateY(-50%); color: #9CA3AF; font-size: 0.7rem; pointer-events: none;
+}
+
+/* This hides the default calendar icon provided by the browser */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+/* Ensure your container is positioned correctly */
+.date-input-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Position your custom image exactly where you want it */
+.calendar-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* This allows you to click "through" the icon to open the date picker */
+    display: flex;
+    align-items: center;
+}
+
+/* Peach/Pink Button */
+.update-btn {
+    background: #FFD2D2; /* Matches image color */
+    color: #333; padding: 14px; border-radius: 15px;
+    border: none; font-weight: 600; font-size: 1rem;
+    cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.update-btn:hover { background: #ffbebe; }

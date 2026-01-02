@@ -1,0 +1,133 @@
+    /* ============================================
+         PROFILE PAGE - CSS
+         Author: Noraziela Binti Jepsin
+         Date: 31 December 2025S
+         Tested by:
+         Updated by:
+
+         ============================================ */
+
+/* PROFILE PAGE STYLES */
+.profile-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    background: linear-gradient(180deg, #f3f4f6 0%, #dbeafe 100%);
+    min-height: 100vh;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: black;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Control exact spacing here */
+    margin: 10px 0;
+}
+
+.profile-email {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+/* Styling the link to remove default blue underlines */
+.edit-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    margin-left: 0; /* Remove the extra margin that pushed it away */
+    cursor: pointer;
+}
+
+/* Add a hover effect so the user knows it is clickable */
+.edit-link:hover {
+    transform: scale(1.2);
+}
+
+.edit-icon {
+    color: #6366f1; /* Purple color from your theme */
+    font-size: 1.2rem;
+}
+
+/* Plan Badge Styling */
+.plan-badge {
+    background: #fecaca; /* Light Red/Pink */
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #b91c1c;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Profile Menu Items */
+.profile-options {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-item {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #374151;
+    transition: transform 0.2s ease;
+}
+
+.option-item:hover {
+    transform: translateX(5px);
+    background: #f9fafb;
+}
+
+.option-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-weight: bold;
+    border: 1px solid #e5e7eb;
+}
+
+.option-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.arrow-right {
+    color: #9ca3af;
+    font-weight: bold;
+}
+
+/* Icon Colors matching your image */
+.purple { color: #8b5cf6; }
+.blue { color: #3b82f6; }
+.blue-dark { color: #1e40af; }
+.blue-sky { color: #0ea5e9; }
+.blue-gradient { color: #2563eb; }
