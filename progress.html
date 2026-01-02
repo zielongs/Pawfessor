@@ -1,0 +1,244 @@
+    <!-- ============================================
+         PROGRESS DASHBOARD PAGE - HTML
+         Author: Noraziela Binti Jepsin
+         Date: 31 December 2025
+         Tested by:
+         Updated by:
+         
+         Description:
+         - Displays task progress across four categories
+         - ONGOING: Tasks currently in progress with completion percentages
+         - INCOMING: Upcoming tasks not yet started
+         - COMPLETED: Successfully finished tasks
+         - OVERDUE: Tasks past their due date
+         - Features circular progress chart for ongoing tasks
+         ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/progress.css">
+</head>
+<body>
+
+    <!-- ============================================
+         MOBILE MENU TOGGLE BUTTON
+         -------------------------------------------- 
+         Hamburger menu button for mobile responsiveness
+         ============================================ -->
+    <button class="menu-toggle" id="menuToggle">
+        <img src="images/Dashboard/d_sidebar.png" width="40" height="40" alt="Menu">
+    </button>
+
+    <div class="container">
+        <!-- ============================================
+             SIDEBAR NAVIGATION
+             --------------------------------------------
+             Left sidebar containing app logo and 
+             main navigation menu items
+             Progress page is marked as active
+             ============================================ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="images/Pawfessor_Logo.png" width="55" height="65" alt="Logo">
+            </div>
+            <nav>
+                <a href="dashboard.html" class="menu-item"><img src="images/Dashboard/d_dashboard.png" width="40"><span>Dashboard</span></a>
+                <a href="tasks.html" class="menu-item"><img src="images/Dashboard/d_my_tasks.png" width="40"><span>My Tasks</span></a>
+                <a href="progress.html" class="menu-item active"><img src="images/Dashboard/d_progress.png" width="40"><span>Progress</span></a>
+                <a href="store.html" class="menu-item"><img src="images/Dashboard/d_mascot_store.png" width="40"><span>Mascot Store</span></a>
+                <a href="subscriptions.html" class="menu-item"><img src="images/Dashboard/d_subscriptions.png" width="40"><span>Subscriptions</span></a>
+                <a href="carts.html" class="menu-item"><img src="images/Dashboard/d_carts.png" width="40"><span>Carts</span></a>
+                <a href="transaction-history.html" class="menu-item"><img src="images/Dashboard/d_transaction_history.png" width="40"><span>Transaction History</span></a>
+                <a href="profiles.html" class="menu-item"><img src="images/Dashboard/d_profiles.png" width="40"><span>Profiles</span></a>
+            </nav>
+        </aside>
+
+        <!-- ============================================
+             MAIN CONTENT AREA
+             ============================================ -->
+        <main class="main-content">
+            <!-- ============================================
+                 HEADER SECTION
+                 --------------------------------------------
+                 Contains notification and profile buttons
+                 ============================================ -->
+            <header class="header">
+                <div></div>
+                <div class="header-icons">
+                    <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
+                        <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
+                    </button>
+
+                    <button class="icon-btn" id="profileBtn" aria-label="Profile">
+                        <img src="images/h_profiles.png" width="55" height="50" alt="Profile">
+                    </button>
+                </div>
+            </header>
+
+            <!-- ============================================
+                 ONGOING TASKS SECTION
+                 --------------------------------------------
+                 Displays tasks currently in progress with:
+                 - Circular progress chart showing overall completion
+                 - Individual task cards with progress bars
+                 - Due dates and completion percentages
+                 ============================================ -->
+            <section class="prog-block bg-ongoing">
+                <div class="block-header">
+                    <img src="images/Progress/ongoing.png" class="header-icon-img" alt="Ongoing">
+                    <div class="block-title">ONGOING</div>
+                </div>
+                <div class="ongoing-content">
+                    <!-- Circular progress chart (70% completion) -->
+                    <div class="chart-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-fill" id="prog70" cx="50" cy="50" r="40"></circle>
+                        </svg>
+                        <div class="chart-val">70%</div>
+                    </div>
+                    
+                    <!-- Task list with individual progress -->
+                    <div class="task-list">
+                        <!-- Mathematics task - 80% complete -->
+                        <div class="task-card">
+                            <div class="task-icon">📐</div>
+                            <div class="task-info">
+                                <h4>Mathematics</h4>
+                                <p>Due on 9th July 2025</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <span class="progress-label">80/100%</span>
+                        </div>
+                        
+                        <!-- Chemistry task - 90% complete -->
+                        <div class="task-card">
+                            <div class="task-icon">🧪</div>
+                            <div class="task-info">
+                                <h4>Chemistry</h4>
+                                <p>Due on 11th July 2025</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                            <span class="progress-label">90/100%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 INCOMING TASKS SECTION
+                 --------------------------------------------
+                 Displays upcoming tasks that haven't started yet
+                 Shows open/start dates for future tasks
+                 ============================================ -->
+            <section class="prog-block bg-incoming">
+                <div class="block-header">
+                    <img src="images/Progress/incoming.png" class="header-icon-img" alt="Incoming">
+                    <div class="block-title">INCOMING</div>
+                </div>
+                <div class="card-grid">
+                    <!-- Mathematics Extra Exercise - Opens July 12 -->
+                    <div class="item-card">
+                        <div class="item-icon">🕐</div>
+                        <div class="item-info">
+                            <h4>Mathematics Extra Exercise</h4>
+                            <p>Open on 12th July 2025</p>
+                        </div>
+                    </div>
+                    
+                    <!-- English Essay - Opens July 30 -->
+                    <div class="item-card">
+                        <div class="item-icon">🕐</div>
+                        <div class="item-info">
+                            <h4>English Essay</h4>
+                            <p>Open on 30th July 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 COMPLETED TASKS SECTION
+                 --------------------------------------------
+                 Displays successfully finished tasks
+                 Shows completion dates and checkmark icons
+                 ============================================ -->
+            <section class="prog-block bg-completed">
+                <div class="block-header">
+                    <img src="images/Progress/completed.png" class="header-icon-img" alt="Completed">
+                    <div class="block-title">COMPLETED</div>
+                </div>
+                <div class="card-grid">
+                    <!-- Biology Lab Prep - Completed July 5 -->
+                    <div class="item-card">
+                        <div class="item-icon completed">🧬</div>
+                        <div class="item-info">
+                            <h4>Biology Lab Prep</h4>
+                            <p>Finished on 5th July 2025</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chemistry Quiz - Completed July 4 -->
+                    <div class="item-card">
+                        <div class="item-icon completed">🧪</div>
+                        <div class="item-info">
+                            <h4>Chemistry Quiz</h4>
+                            <p>Finished on 4th July 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 OVERDUE TASKS SECTION
+                 --------------------------------------------
+                 Displays tasks that are past their due date
+                 Shows warning icons and original due dates
+                 Requires immediate attention
+                 ============================================ -->
+            <section class="prog-block bg-overdue">
+                <div class="block-header">
+                    <img src="images/Progress/overdue.png" class="header-icon-img" alt="Overdue">
+                    <div class="block-title">OVERDUE</div>
+                </div>
+                <div class="card-grid">
+                    <!-- English Essay - Overdue since July 4 -->
+                    <div class="item-card">
+                        <div class="item-icon overdue">⚠️</div>
+                        <div class="item-info">
+                            <h4>English Essay</h4>
+                            <p>Due on 4th July 2025</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Biology Revision - Overdue since July 2 -->
+                    <div class="item-card">
+                        <div class="item-icon overdue">⚠️</div>
+                        <div class="item-info">
+                            <h4>Biology Revision</h4>
+                            <p>Due on 2nd July 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT FILES
+         --------------------------------------------
+         Main functionality and progress page logic
+         ============================================ -->
+    <script src="js/main.js"></script>
+    <script src="js/progress.js"></script>
+</body>
+</html>
