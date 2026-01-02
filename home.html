@@ -1,3 +1,17 @@
+<!--==========================================================
+Author      : Md Habibullah Habib
+Updated By  : Siti Norlie Yana
+Tested By   : Siti Norlie Yana
+Date        : 2026-01-02
+Description : Home page of Pawfessor web app.
+              - Displays hero section with mascot, tagline, and call-to-action button
+              - Loads navbar from external component
+              - Footer includes company info, help, FAQ, social links, and payment icons
+              - Links CSS and JS files for styling and functionality
+Notes       : - Font Awesome used for social icons
+              - Hero CTA button can be linked to signup page
+==========================================================-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +21,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/navbar.css">
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,23 +30,38 @@
 
 <body>
 
-    <!-- Navbar -->
-    <div id="navbar"></div>
+    <!-- Inline Navbar -->
+    <header class="navbar">
+        <!-- Left: Logo -->
+        <div class="logo">
+            <a href="home.html">
+                <img src="images/Pawfessor_Logo.png" width="50" height="50" alt="Pawfessor Logo">
+            </a>
+            <span>Pawfessor</span>
+        </div>
+
+        <!-- Right: Navigation links -->
+        <nav class="nav-links">
+            <a href="pricing.html">Pricing</a>
+            <a href="help.html">Help</a>
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="cta-btn">Get Pawfessor Free</a>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <img src="/images/Mascots/pawfessor cat.png" alt="Pawfessor Mascot" class="mascot">
-
+        <img src="images/Pawfessor_Logo.png" alt="Pawfessor Mascot" class="mascot">
         <h1>Plan smarter.<br>Study better.</h1>
         <p>Pawfessor is your friendly guide<br>to better productivity.</p>
 
-        <button class="btn big">Get Pawfessor Free</button>
+        <!-- CTA button goes to signup page -->
+        <a href="signup.html" class="btn big">Get Pawfessor Free</a>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-grid">
-
             <div class="footer-logo">
                 <h2>Pawfessor</h2>
                 <div class="socials">
@@ -65,7 +95,6 @@
                 <p>Orders</p>
                 <p>Payments</p>
             </div>
-
         </div>
 
         <div class="footer-bottom">
@@ -80,8 +109,5 @@
         </div>
     </footer>
 
-    <!-- JS -->
-    <script src="/js/home.js"></script>
 </body>
-
 </html>
