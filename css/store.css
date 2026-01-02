@@ -1,0 +1,179 @@
+/* ===================================================
+     MASCOT STORE PAGE - CSS
+     ---------------------------------------------------
+    Author: Noraziela Binti Jepsin
+    Date: 31 December 2025
+    Tested by: 
+    Updated by:
+
+=================================================== */
+
+/* ============================================
+   1. CORE PAGE LAYOUT
+   ============================================ */
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f7ff;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 260px;
+    background: white;
+    padding: 20px;
+    border-right: 1px solid #eee;
+}
+
+.store-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.store-title h1 {
+    font-size: 2.5rem;
+    color: #000;
+}
+
+/* ============================================
+   2. FILTER SECTION
+   ============================================ */
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0 40px 0;
+}
+
+.filter-options {
+    background: white;
+    padding: 12px 35px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 25px;
+}
+
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 8px;
+}
+
+/* ============================================
+   3. MASCOT GRID & PINK CARDS
+   ============================================ */
+.mascot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 0 20px;
+}
+
+.mascot-card {
+    background-color: #fce4ec; /* Soft pink */
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.mascot-card:hover {
+    transform: translateY(-5px);
+}
+
+.mascot-image {
+    height: 110px;
+    margin-bottom: 12px;
+}
+
+.mascot-image img {
+    max-height: 100%;
+    width: auto;
+}
+
+.mascot-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   4. BUTTONS & CONTROLS
+   ============================================ */
+.mascot-controls {
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-btn, .upgrade-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 8px 0;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.status-btn:hover, .upgrade-btn:hover {
+    background-color: #f9f9f9;
+}
+
+.status-btn.equipped {
+    cursor: default;
+    color: #888;
+    background-color: #f2f2f2;
+}
+
+/* Updated for Side-by-Side Layout */
+.purchase-row {
+    display: flex;            /* Makes children sit side-by-side */
+    justify-content: space-between; /* Pushes price to left, button to right */
+    align-items: center;      /* Vertically aligns them */
+    width: 100%;
+    margin-top: 5px;
+}
+
+.price-text {
+    font-weight: 700;
+    font-size: 14px;
+    text-align: left;         /* Align text to the left */
+    line-height: 1.2;         /* Keeps "Buy for RM..." stacked tightly */
+}
+
+.cart-add-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;      /* Slightly more rounded for a pill shape */
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;            /* Center the cart icon inside button */
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.cart-add-btn:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);   /* Small pop effect on hover */
+}
