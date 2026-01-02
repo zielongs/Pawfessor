@@ -1,3 +1,13 @@
+/* ============================================
+   MAIN LANDING PAGE STYLESHEET
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Styles for the main landing page,
+                 including navbar, hero section,
+                 buttons, and footer layout.
+   ============================================ */
+
 * {
     margin: 0;
     padding: 0;
@@ -122,3 +132,25 @@ footer p {
     padding: 5px 8px;
     border-radius: 5px;
 }
+/* Remove underline from buttons that are links */
+.btn {
+    text-decoration: none; /* removes underline */
+    display: inline-block; /* ensures padding works properly */
+}
+
+/* Optional: styling for your big hero button */
+.btn.big {
+    padding: 15px 30px;
+    background-color: #ffd1c8;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 25px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn.big:hover {
+    background-color: #ffb8a0;
+}
+
