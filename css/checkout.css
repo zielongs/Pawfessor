@@ -1,0 +1,172 @@
+/* ============================================
+   CHECKOUT PAGE – STYLESHEET
+   --------------------------------------------
+   Author: Nur 'Aainaa Hamraa binti Hamka
+   Date: 01 January 2026
+   Tested by: Siti Norlie Yana
+   Updated by: Siti Norlie Yana
+   Description:
+   This stylesheet defines the layout and visual
+   styling for the Checkout page, including:
+   - Page structure and spacing
+   - Payment section layout
+   - Order summary card styling
+   - Buttons and interactive elements
+
+   The design follows the Pawfessor UI theme
+   for consistency across all pages.
+============================================ */
+
+/* ================= HEADER ================= */
+.checkout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: white;
+}
+
+.checkout-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkout-logo img {
+  width: 40px;
+}
+
+.checkout-logo span {
+  font-weight: 700;
+  font-size: 22px;
+  color: #ff9b8f;
+}
+
+.checkout-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.checkout-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.checkout-icons img {
+  width: 32px;
+}
+
+/* ================= MAIN ================= */
+.checkout-main {
+  display: flex;
+  gap: 40px;
+  padding: 60px 80px;
+  background: radial-gradient(circle at top, #f2f3ff, #c6c8f5);
+  min-height: 100vh;
+}
+
+/* ================= LEFT SIDE ================= */
+.checkout-left {
+  flex: 2;
+}
+
+.checkout-left h2 {
+  margin-bottom: 20px;
+}
+
+.payment-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 24px;
+}
+
+.payment-item,
+.payment-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e6e6f0;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.payment-item:hover,
+.payment-card:hover {
+  background: #f4f5ff;
+}
+
+.payment-card.selected {
+  border: 2px solid #6c63ff;
+}
+
+.payment-card img {
+  width: 42px;
+}
+
+.add-method {
+  width: 100%;
+  padding: 14px;
+  border-radius: 20px;
+  border: none;
+  background: #f1f1f1;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================= RIGHT SIDE ================= */
+.checkout-summary {
+  flex: 1;
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  height: 35cqmax;
+}
+
+.summary-header {
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.summary-row.total {
+  font-weight: 700;
+}
+/* PLAN ICON  */
+.plan-icon-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.plan-icon-box img {
+  width: 50px;
+  height: auto;
+}
+
+.pay-btn {
+  width: 100%;
+  margin-top: 30px;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  background: #ffd1dc;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  transition: 0.2s;
+}
+.pay-btn:hover {
+  background: #ffb6c1;
+}
