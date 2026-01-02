@@ -2,8 +2,8 @@
    DASHBOARD PAGE - JAVASCRIPT
     Author: Siti Norlie Yana
     Date: 31 December 2025
-    Tested by:
-    Updated by:
+    Tested by: Noraziela Binti Jepsin
+    Updated by: Noraziela Binti Jepsin
 
    Description:
    - Displays today's tasks
@@ -343,8 +343,32 @@ function initDashboard() {
    ============================================ */
 document.addEventListener('DOMContentLoaded', () => {
     const page = window.location.pathname.split('/').pop();
-    if (page === 'dashboard-user.html' || page === '') {
+    if (page === 'dashboard.html' || page === '') {
         initDashboard();
     }
 });
 
+/* ============================================
+   NAVIGATION BUTTONS
+   -------------------------------------------- */   
+
+document.addEventListener('DOMContentLoaded', function() {
+    const weeklyViewBtn = document.getElementById('weeklyViewBtn');
+    
+    if (weeklyViewBtn) {
+        weeklyViewBtn.style.cursor = 'pointer'; 
+        weeklyViewBtn.addEventListener('click', function() {
+            window.location.href = 'weekly-view.html';
+        });
+    }
+});
+
+// Sync name from Profile Update
+const savedName = localStorage.getItem('userName');
+const dashboardName = document.getElementById('userName');
+
+if (savedName && dashboardName) {
+    // Only use the first name for the greeting (e.g., "Good morning, Siti")
+    const firstName = savedName.split(' ')[0];
+    dashboardName.textContent = firstName;
+}
