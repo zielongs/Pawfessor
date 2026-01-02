@@ -1,3 +1,15 @@
+/* ============================================
+   RESET PASSWORD PAGE FUNCTIONALITY - JAVASCRIPT
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Handles resetting the user's password,
+                 including validation for empty fields,
+                 password confirmation, success alert, 
+                 redirection to login page, and dynamic
+                 navbar loading.
+   ============================================ */
+
 function resetPassword() {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
