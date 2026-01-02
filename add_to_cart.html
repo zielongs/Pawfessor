@@ -1,0 +1,124 @@
+<!-- ===================================================
+     ADD TO CART PAGE
+     ---------------------------------------------------
+    Author: Nur 'Aainaa Hamraa binti Hamka
+    Date: 01 January 2026
+    Tested by:
+    Updated by:
+    Description:
+       This page displays the shopping 
+       cart page for Pawfessor subscription.
+=================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pawfessor | Add to Cart</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/add_to_cart.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="cart-header">
+  <div class="cart-logo">
+    <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo">
+    <span>PAWFESSOR</span>
+  </div>
+
+  <nav class="cart-nav">
+    <a href="homepage.html">Home</a>
+    <a href="pricing_plan.html">Pricing</a>
+    <a href="transaction-history.html">Transaction History</a>
+
+    <div class="cart-icons">
+      <a href="add_to_cart.html">
+        <img src="images/h_add_to_cart.png" alt="Cart">
+      </a>
+      <a href="profile.html">
+        <img src="images/h_profiles.png" alt="Profile">
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="cart-main">
+
+  <!-- LEFT SIDE -->
+  <section class="cart-left">
+    <h2>Shopping Cart</h2>
+    <p class="subtext">You have 3 available plans.</p>
+
+    <!-- PREMIUM -->
+    <label class="cart-item">
+      <input type="radio" name="plan" onclick="selectPlan('Premium Plan', 5.99)">
+      <img src="images/Plans/premium.png">
+      <div class="item-info">
+        <strong>Premium Plan</strong>
+        <span>1 month</span>
+      </div>
+      <span class="price">RM5.99</span>
+    </label>
+
+    <!-- STANDARD -->
+    <label class="cart-item">
+      <input type="radio" name="plan" onclick="selectPlan('Standard Plan', 15.98)">
+      <img src="images/Plans/standard.png">
+      <div class="item-info">
+        <strong>Standard Plan</strong>
+        <span>2 months</span>
+      </div>
+      <span class="price">RM15.98</span>
+    </label>
+
+    <!-- DRAGON -->
+    <label class="cart-item">
+      <input type="radio" name="plan" onclick="selectPlan('Professor Dragon', 2.99)">
+      <img src="images/Mascots/pawfessor_dragon.png">
+      <div class="item-info">
+        <strong>Professor Dragon</strong>
+        <span>Special Edition</span>
+      </div>
+      <span class="price">RM2.99</span>
+    </label>
+
+  </section>
+
+  <!-- RIGHT SIDE -->
+  <section class="cart-summary">
+    <h3 id="summary-title">Select a Plan</h3>
+
+    <div class="summary-row">
+      <span>Order</span>
+      <span id="order-price">RM0.00</span>
+    </div>
+
+    <div class="summary-row">
+      <span>Discount</span>
+      <span>RM0.00</span>
+    </div>
+
+    <hr>
+
+    <div class="summary-row total">
+      <span>Total</span>
+      <span id="total-price">RM0.00</span>
+    </div>
+
+    <a href="checkout.html" class="pay-btn">Proceed to Payment</a>
+  </section>
+
+</main>
+
+<!-- JS -->
+<script src="js/add_to_cart.js"></script>
+
+</body>
+</html>
