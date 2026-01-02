@@ -348,3 +348,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const weeklyBtn = document.getElementById('weeklyViewBtn');
+    
+    if (weeklyBtn) {
+        weeklyBtn.style.cursor = 'pointer'; 
+        weeklyBtn.addEventListener('click', function() {
+            window.location.href = 'weekly-view.html';
+        });
+    }
+});
+
