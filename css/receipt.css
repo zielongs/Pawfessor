@@ -1,0 +1,128 @@
+/* ============================================
+   RECEIPT PAGE STYLES
+   Author: Nur 'Aainaa Hamraa binti Hamka
+   Date: 01 January 2026
+    Tested by: Siti Norlie Yana
+    Updated by: Siti Norlie Yana
+    Description:
+       This page displays the receipt
+       page for Pawfessor subscription.
+============================================ */
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: white;
+}
+
+.receipt-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.receipt-logo img {
+  width: 40px;
+}
+
+.receipt-logo span {
+  font-weight: 700;
+  font-size: 22px;
+  color: #ff9b8f;
+}
+
+.receipt-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.receipt-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.header-icons img {
+  width: 28px;
+  margin-left: 10px;
+}
+
+/* MAIN */
+.receipt-main {
+  padding: 80px 20px;
+  background: radial-gradient(circle at top, #f2f3ff, #c6c8f5);
+  display: flex;
+  justify-content: center;
+}
+
+.receipt-box {
+  width: 420px;
+  background: white;
+  border-radius: 26px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  border-radius: 50%;
+  background: #b7e4c7;
+  color: #2d6a4f;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-text {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.receipt-card {
+  background: #f8f8ff;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: left;
+  margin: 20px 0;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.success-badge {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.share-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 30px;
+  border: 1px solid #bbb;
+  background: transparent;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.back-btn {
+  display: block;
+  margin-top: 15px;
+  padding: 14px;
+  background: #5b4bce;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+}
