@@ -1,32 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- ============================================
+     NAVIGATION BAR COMPONENT
+     Author      : Md Habibullah Habib
+     Updated By  : Siti Norlie Yana
+     Tested By   : Siti Norlie Yana
+     Description : Reusable navigation bar layout
+                   containing logo, branding, and
+                   main navigation links for the
+                   Pawfessor website.
+     ============================================ -->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<header class="navbar">
+    <!-- Left: Logo -->
+    <div class="logo">
+        <a href="home.html">
+            <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo" width="50" height="50">
+        </a>
+        <span>Pawfessor</span>
+    </div>
 
-     <!-- CSS -->
-    <link rel="stylesheet" href="/css//navbar.css">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-
-<body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="logo">
-            <img id="logoImage" src="/images/Pawfessor_Logo.png" alt="Pawfessor Mascot" class="mascot">
-            <p>Pawfessor</p>
-        </div>
-        <nav>
-            <a href="#">Pricing</a>
-            <a href="#">Help</a>
-            <a href="#">Log In</a>
-            <button class="btn">Get Pawfessor Free</button>
-        </nav>
-    </header>
-</body>
-
-</html>
+    <!-- Right: Navigation links -->
+    <nav class="nav-links">
+        <a href="pricing.html">Pricing</a>
+        <a href="help.html">Help</a>
+        <a href="login.html" class="login-btn">Login</a>
+        <a href="signup.html" class="cta-btn">Get Pawfessor Free</a>
+    </nav>
+</header>
