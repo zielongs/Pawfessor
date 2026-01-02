@@ -1,3 +1,14 @@
+/* ============================================
+   VERIFY CODE PAGE FUNCTIONALITY - JAVASCRIPT
+   Author      : Md Habibullah Habib
+   Updated By  : Siti Norlie Yana
+   Tested By   : Siti Norlie Yana
+   Description : Handles verification code input
+                 validation, redirects to reset
+                 password page, and dynamically
+                 loads the navbar component.
+   ============================================ */
+
 function goToReset() {
     const codeInput = document.querySelector('input[type="text"]');
     if (codeInput.value.trim().length !== 6) {
