@@ -2,8 +2,8 @@
    DASHBOARD PAGE - JAVASCRIPT
     Author: Siti Norlie Yana
     Date: 31 December 2025
-    Tested by:
-    Updated by:
+    Tested by: Noraziela Binti Jepsin
+    Updated by: Noraziela Binti Jepsin
 
    Description:
    - Displays today's tasks
@@ -358,4 +358,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 
