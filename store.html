@@ -1,0 +1,343 @@
+<!-- ===================================================
+     MASCOT STORE PAGE
+     ---------------------------------------------------
+    Author: Noraziela Binti Jepsin
+    Date: 31 December 2025
+    Tested by: 
+    Updated by:
+    Description:
+     This page displays the mascot store where users can:
+     - Browse available mascots (Basic, Standard, Premium tiers)
+     - Filter mascots by tier
+     - Equip/unlock basic mascots
+     - Purchase Standard mascots (RM4.99 each)
+     - Purchase Premium mascots (RM5.99 each)
+     - Add mascots to shopping cart
+     - View currently equipped mascot
+
+     Mascot management and purchase functionality
+     are handled via store.js using data stored
+     in localStorage.
+=================================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascot Store - Pawfessor</title>
+    
+    <!-- Main stylesheet for global styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Store-specific styles -->
+    <link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+    <!-- ===================================================
+         MOBILE MENU TOGGLE BUTTON
+         Appears on smaller screens to show/hide sidebar
+    =================================================== -->
+    <button class="menu-toggle" id="menuToggle">
+        <img src="images/Dashboard/d_sidebar.png" width="40" height="40" alt="Menu">
+    </button>
+
+    <div class="container">
+        <!-- ===================================================
+             SIDEBAR NAVIGATION
+             Contains logo and main menu items
+        =================================================== -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Logo section -->
+            <div class="sidebar-header">
+                <img src="images/Pawfessor_Logo.png" width="55" height="65" alt="Logo">
+            </div>
+            
+            <!-- Main navigation menu -->
+            <nav>
+                <a href="dashboard-user.html" class="menu-item">
+                    <img src="images/Dashboard/d_dashboard.png" width="40"><span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="menu-item">
+                    <img src="images/Dashboard/d_my_tasks.png" width="40"><span>My Tasks</span>
+                </a>
+                <a href="progress.html" class="menu-item">
+                    <img src="images/Dashboard/d_progress.png" width="40"><span>Progress</span>
+                </a>
+                <!-- Active page indicator -->
+                <a href="store.html" class="menu-item active">
+                    <img src="images/Dashboard/d_mascot_store.png" width="40"><span>Mascot Store</span>
+                </a>
+                <a href="subscriptions.html" class="menu-item">
+                    <img src="images/Dashboard/d_subscriptions.png" width="40"><span>Subscriptions</span>
+                </a>
+                <a href="carts.html" class="menu-item">
+                    <img src="images/Dashboard/d_carts.png" width="40"><span>Carts</span>
+                </a>
+                <a href="transaction-history.html" class="menu-item">
+                    <img src="images/Dashboard/d_transaction_history.png" width="40"><span>Transaction History</span>
+                </a>
+                <a href="profiles.html" class="menu-item">
+                    <img src="images/Dashboard/d_profiles.png" width="40"><span>Profiles</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ===================================================
+             MAIN CONTENT AREA
+        =================================================== -->
+        <main class="main-content">
+            <!-- ===================================================
+                 HEADER SECTION
+                 Contains user action icons
+            =================================================== -->
+            <header class="header">
+                <div></div>
+                <div class="header-icons">
+                    <!-- Notifications button -->
+                    <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
+                        <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
+                    </button>
+                    <!-- Profile button -->
+                    <button class="icon-btn" id="profileBtn" aria-label="Profile">
+                        <img src="images/h_profiles.png" width="55" height="50" alt="Profile">
+                    </button>
+                </div>
+            </header>
+
+            <!-- ===================================================
+                 STORE TITLE SECTION
+                 Page heading and description
+            =================================================== -->
+            <div class="store-title">
+                <h1>Mascot Store</h1>
+                <p>Collect mascots to boost motivation and productivity</p>
+            </div>
+
+            <!-- ===================================================
+                 FILTER SECTION
+                 Allows users to filter mascots by tier
+            =================================================== -->
+            <div class="filter-container">
+                <span class="filter-label">Filter:</span>
+                <div class="filter-options">
+                    <!-- Show all mascots (default) -->
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="filterAll" checked>
+                        <span>All</span>
+                    </label>
+                    <!-- Show only basic tier mascots -->
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="filterBasic">
+                        <span>Basic</span>
+                    </label>
+                    <!-- Show only standard tier mascots -->
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="filterStandard">
+                        <span>Standard</span>
+                    </label>
+                    <!-- Show only premium tier mascots -->
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="filterPremium">
+                        <span>Premium</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ===================================================
+                 MASCOT GRID
+                 Displays all available mascots in cards
+            =================================================== -->
+            <div class="mascot-grid">
+                
+                <!-- ===================================================
+                     BASIC TIER MASCOTS (FREE)
+                     Available to all users
+                =================================================== -->
+                
+                <!-- Pawfessor Cat - Default mascot (equipped) -->
+                <div class="mascot-card" data-tier="basic">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_cat.png" alt="Cat">
+                    </div>
+                    <div class="mascot-name">Pawfessor Cat</div>
+                    <div class="mascot-controls">
+                        <button class="status-btn equipped" disabled>Equipped</button>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Panda - Unlockable basic mascot -->
+                <div class="mascot-card" data-tier="basic">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_panda.png" alt="Panda">
+                    </div>
+                    <div class="mascot-name">Pawfessor Panda</div>
+                    <div class="mascot-controls">
+                        <button class="status-btn unlock">Unlock</button>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Bear - Unlockable basic mascot -->
+                <div class="mascot-card" data-tier="basic">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_bear.png" alt="Bear">
+                    </div>
+                    <div class="mascot-name">Pawfessor Bear</div>
+                    <div class="mascot-controls">
+                        <button class="status-btn unlock">Unlock</button>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Racoon - Unlockable basic mascot -->
+                <div class="mascot-card" data-tier="basic">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_racoon.png" alt="Racoon">
+                    </div>
+                    <div class="mascot-name">Pawfessor Racoon</div>
+                    <div class="mascot-controls">
+                        <button class="status-btn unlock">Unlock</button>
+                    </div>
+                </div>
+
+                <!-- ===================================================
+                     STANDARD TIER MASCOTS (RM4.99)
+                     Requires Standard subscription or purchase
+                =================================================== -->
+                
+                <!-- Pawfessor Sheep - Standard tier -->
+                <div class="mascot-card" data-tier="standard">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_sheep.png" alt="Sheep">
+                    </div>
+                    <div class="mascot-name">Pawfessor Sheep</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Standard</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM4.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Rabbit - Standard tier -->
+                <div class="mascot-card" data-tier="standard">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_rabbit.png" alt="Rabbit">
+                    </div>
+                    <div class="mascot-name">Pawfessor Rabbit</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Standard</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM4.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Fox - Standard tier -->
+                <div class="mascot-card" data-tier="standard">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_fox.png" alt="Fox">
+                    </div>
+                    <div class="mascot-name">Pawfessor Fox</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Standard</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM4.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Cow - Standard tier -->
+                <div class="mascot-card" data-tier="standard">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_cow.png" alt="Cow">
+                    </div>
+                    <div class="mascot-name">Pawfessor Cow</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Standard</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM4.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================================================
+                     PREMIUM TIER MASCOTS (RM5.99)
+                     Requires Premium subscription or purchase
+                =================================================== -->
+                
+                <!-- Pawfessor Penguin - Premium tier -->
+                <div class="mascot-card" data-tier="premium">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_penguin.png" alt="Penguin">
+                    </div>
+                    <div class="mascot-name">Pawfessor Penguin</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Premium</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM5.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Axolotl - Premium tier -->
+                <div class="mascot-card" data-tier="premium">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_axolotl.png" alt="Axolotl">
+                    </div>
+                    <div class="mascot-name">Pawfessor Axolotl</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Premium</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM5.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Dragon - Premium tier -->
+                <div class="mascot-card" data-tier="premium">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_dragon.png" alt="Dragon">
+                    </div>
+                    <div class="mascot-name">Pawfessor Dragon</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Premium</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM5.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pawfessor Wolf - Premium tier -->
+                <div class="mascot-card" data-tier="premium">
+                    <div class="mascot-image">
+                        <img src="images/Mascots/pawfessor_wolf.png" alt="Wolf">
+                    </div>
+                    <div class="mascot-name">Pawfessor Wolf</div>
+                    <div class="mascot-controls">
+                        <button class="upgrade-btn">Upgrade to Premium</button>
+                        <div class="purchase-row">
+                            <span class="price-text">Buy for RM5.99</span>
+                            <button class="cart-add-btn">🛒</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ===================================================
+         JAVASCRIPT
+         Handles sidebar toggle and store functionality
+    =================================================== -->
+    <script src="js/main.js"></script>
+    <script src="js/store.js"></script>
+</body>
+</html>
