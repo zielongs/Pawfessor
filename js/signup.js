@@ -1,7 +1,7 @@
 /* ============================================
    SIGNUP PAGE FUNCTIONALITY - JAVASCRIPT
    Author      : Md Habibullah Habib
-   Updated By  : Siti Norlie Yana
+   Updated By  : Siti Norlie Yana, Nur 'Aainaa Hamraa
    Tested By   : Siti Norlie Yana
    Description : Handles signup page interactions,
                  including password visibility toggle,
