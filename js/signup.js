@@ -10,42 +10,58 @@
                  navbar loading.
    ============================================ */
 
-// ================================
 // Toggle password visibility
-// ================================
 const togglePassword = document.getElementById("togglePassword");
 const passwordInput = document.getElementById("password");
 
-togglePassword.addEventListener("click", () => {
-    const isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-
-    togglePassword.classList.toggle("fa-eye");
-    togglePassword.classList.toggle("fa-eye-slash");
+togglePassword.addEventListener("click", function () {
+  const type = passwordInput.type === "password" ? "text" : "password";
+  passwordInput.type = type;
+  this.classList.toggle("fa-eye-slash");
 });
 
-// ================================
-// Handle form submission
-// ================================
-const signupForm = document.querySelector("form");
+// Signup logic
+document.getElementById("signupForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-signupForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // stop page refresh
+  const fullName = document.getElementById("fullname").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
 
-    // Simple validation (HTML already does required check)
-    alert("Account created successfully!");
+  if (!fullName || !email || !password) {
+    alert("Please fill in all fields");
+    return;
+  }
 
-    // Redirect to login page
-    window.location.href = "login.html";
+  const emailRegex = /^[^\s@]+@[^\s@]+\.(com|my|edu|net|org)$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email (e.g. name@gmail.com)");
+    return;
+  }
+
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+  if (!passwordRegex.test(password)) {
+    alert("Password must be at least 8 characters and contain letters and numbers");
+    return;
+  }
+
+  const existingUser = UserService.findUserByEmail(email);
+  if (existingUser) {
+    alert("This email is already registered. Please login.");
+    return;
+  }
+
+  const newUser = {
+    id: Date.now(),
+    name: fullName,
+    email: email,
+    password: btoa(password),
+    role: "user",
+    registeredAt: new Date().toISOString()
+  };
+
+  UserService.registerUser(newUser);
+
+  alert("Signup successful! Please login.");
+  window.location.href = "login.html";
 });
-
-// ================================
-// Load navbar
-// ================================
-fetch("/navbar.html")
-    .then(res => res.text())
-    .then(html => {
-        document.getElementById("navbar").innerHTML = html;
-    })
-    .catch(err => console.error("Navbar load failed:", err));
-
