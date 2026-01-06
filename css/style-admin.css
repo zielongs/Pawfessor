@@ -1,330 +1,525 @@
+
 /* ============================================
-   ADMIN DASHBOARD - MAIN STYLESHEET
+   STUDENT DASHBOARD - MAIN STYLESHEET
 -----------------------------------------------
-    Author: Alyssa Annabelle binti James Pekan
+    Author: Siti Norlie Yana
     Date: 1 January 2026
-    Tested by:
+    Tested by: Alyssa Annabelle binti James Pekan
     Updated by:
     Description:
-    This stylesheet defines the global layout, typography,
-    spacing, and reusable UI components used across the
-    admin panel pages to ensure visual consistency.
+        Core CSS styles used across all dashboard pages,
+        including sidebar, header, main layout, and global utilities.
    ============================================ */
 
-:root{
-  --bg:#f4f6ff;
-  --text:#111827;
-  --muted:rgba(17,24,39,.6);
-
-  --stroke:rgba(255,255,255,.42);
-  --glass:rgba(255,255,255,.18);
-
-  --shadow:0 18px 40px rgba(17,24,39,.10);
-  --shadow2:0 10px 24px rgba(17,24,39,.08);
-
-  --brand:#5b7cfa;
-
-  --radius-xl:22px;
-  --radius-lg:18px;
-  --radius-md:14px;
-  --radius-pill:999px;
-
-  --gap:16px;
-  --pad:18px;
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Base */
-*{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #e8e9ff 0%, #c5c9ff 100%);
+    min-height: 100vh;
 }
 
-body{
-  font-family:"DM Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(1000px 650px at 70% 70%,rgba(140,120,255,.20),transparent 60%),
-    radial-gradient(900px 600px at 25% 20%,rgba(255,160,190,.16),transparent 58%),
-    radial-gradient(800px 520px at 90% 10%,rgba(110,190,255,.12),transparent 55%),
-    var(--bg);
+.container {
+    display: flex;
+    min-height: 100vh;
 }
 
-h1,h2,h3,.dash_greeting{
-  font-family:"Raleway",sans-serif;
+/* ============================================
+   SIDEBAR STYLES
+   ============================================ */
+
+.sidebar {
+    width: 200px;
+    background: #f8f9fa;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
 }
 
-/* Glass */
-.glass{
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(255,255,255,.55);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  box-shadow:var(--shadow2);
+.sidebar-header {
+    padding: 0 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-/* Layout */
-.dash_body{
-  display:flex;
-  min-height:100vh;
+.logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
 }
 
-.dash_sidebar{
-  width:220px;
-  padding:22px 14px;
-  border-right:1px solid rgba(17,24,39,.08);
-  background:rgba(255,255,255,.85);
-  backdrop-filter:blur(10px);
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #333;
+    gap: 12px;
 }
 
-.dash_main{
-  flex:1;
-  padding:22px 26px;
+.menu-item:hover {
+    background: #e9ecef;
 }
 
-/* Sidebar */
-.dash_brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:18px;
+.menu-item.active {
+    background: #007bff;
+    color: white;
+    border-right: 3px solid #0056b3;
 }
 
-.dash_brand img{
-  width:34px;
-  height:34px;
-  object-fit:contain;
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.dash_nav{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
 }
 
-.dash_link{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:10px 12px;
-  border-radius:14px;
-  text-decoration:none;
-  font-weight:700;
-  color:rgba(17,24,39,.82);
-  border:1px solid transparent;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-.dash_link:hover{
-  background:rgba(17,24,39,.04);
+.header-icons {
+    display: flex;
+    gap: 15px;
 }
 
-.dash_link.active{
-  background:rgba(91,124,250,.14);
-  color:#2f4df6;
-  border-color:rgba(91,124,250,.12);
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
 }
 
-.dash_icon{
-  width:26px;
-  height:26px;
-  object-fit:contain;
-  flex:0 0 26px;
+.icon-btn:hover {
+    transform: scale(1.1);
 }
 
-/* Greeting */
-.dash_greeting{
-  font-size:20px;
-  margin:2px 0 14px;
+.greeting {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 30px;
 }
 
-.dash_greeting span{
-  font-weight:800;
+.greeting strong {
+    color: #007bff;
+}
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    opacity: 0.9;
+    z-index: 1000;
+    font-size: 14px;
 }
 
-/* Stats */
-.dash_cards{
-  position:relative;
-  display:flex;
-  gap:var(--gap);
-  padding:18px;
-  border-radius:28px;
-  margin-bottom:18px;
-  background:rgba(255,255,255,.38);
-  border:1px solid rgba(255,255,255,.42);
-  backdrop-filter:blur(14px);
-  box-shadow:0 16px 34px rgba(17,24,39,.08);
+.toast-success { background-color: #4caf50; }
+.toast-info { background-color: #2196f3; }
+.toast-error { background-color: #f44336; }
+
+
+/* ============================================
+   CARD COMPONENTS
+   ============================================ */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-.dash_cards::before{
-  content:"";
-  position:absolute;
-  inset:12px;
-  border-radius:22px;
-  background:rgba(255,255,255,.52);
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-.dash_cards > *{
-  position:relative;
+/* ============================================
+   TASK ITEMS
+   ============================================ */
+
+.task-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
 }
 
-.dash_card{
-  flex:1;
-  border-radius:var(--radius-xl);
-  padding:18px 16px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.task-item:hover {
+    background: #f8f9fa;
 }
 
-.dash_card_label{
-  font-size:13px;
-  font-weight:600;
-  color:rgba(17,24,39,.55);
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;       /* space between icon and text */
+    flex-wrap: wrap;  /* text can wrap without affecting arrow */
 }
 
-.dash_card_value{
-  margin-top:6px;
-  font-size:26px;
-  font-weight:800;
-  letter-spacing:.2px;
-  font-family:"Raleway",sans-serif;
+.task-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
 }
 
-/* Panels */
-.dash_panel{
-  border-radius:var(--radius-xl);
-  padding:var(--pad);
-  margin-bottom:18px;
+.task-info h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+.task-info {
+    display: flex;
+    flex-direction: column; /* title above due date */
 }
 
-.dash_panel_head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
+.task-title {
+    font-size: 14px;
+    font-weight: 500;
 }
 
-.dash_panel_title{
-  font-weight:800;
+.task-due {
+    font-size: 13px;
+    color: #666;
+}
+.priority-low {
+    background-color: #4CAF50; /* green */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
-.dash_panel_sub{
-  font-size:12px;
-  color:var(--muted);
+.priority-medium {
+    background-color: #2196F3; /* blue */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
-/* Buttons */
-button{
-  height:40px;
-  padding:0 14px;
-  border-radius:var(--radius-pill);
-  border:1px solid rgba(255,255,255,.42);
-  background:rgba(255,255,255,.22);
-  backdrop-filter:blur(14px);
-  box-shadow:0 14px 28px rgba(17,24,39,.10);
-  font-weight:800;
-  cursor:pointer;
+.priority-high {
+    background-color: #F44336; /* red */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.reset-btn {
+    background-color: #ccc;      /* light gray */
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-button.primary{
-  background:rgba(91,124,250,.86);
-  border-color:rgba(91,124,250,.25);
-  color:#fff;
+.reset-btn:hover {
+    background-color: #bbb;
+}
+.task-edit-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #888;
 }
 
-/* SVG */
-.sales_svg{width:100%;height:auto}
-.svg_bg{fill:rgba(255,255,255,.45)}
-.svg_axis{stroke:rgba(0,0,0,.12);stroke-width:1}
-.svg_line{fill:none;stroke:rgba(250,190,60,.95);stroke-width:3}
-.svg_fill{fill:rgba(250,190,60,.18)}
-.svg_lbl{fill:rgba(0,0,0,.45);font-size:12px}
-
-/* Responsive */
-@media (max-width:900px){
-  .dash_sidebar{display:none}
-  .dash_cards{flex-direction:column}
-}
-body{ outline:6px solid red; }
-
-/* ===================================================
-   GLOBAL MOBILE SIDEBAR TOGGLE (ADMIN)
-   =================================================== */
-
-/* Top bar (mobile only) */
-.dash_topbar{
-  display:none;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 14px;
-  position:sticky;
-  top:0;
-  z-index:100;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(0,0,0,.08);
+.task-edit-btn:hover {
+    color: #1976d2; /* blue on hover */
 }
 
-.dash_menu_btn{
-  border:0;
-  border-radius:12px;
-  padding:10px 12px;
-  font-weight:800;
-  cursor:pointer;
-  background: rgba(0,0,0,.06);
+.arrow-btn {
+    margin-left: auto;   /* push arrow to the far right */
+    flex-shrink: 0;      /* don’t let arrow shrink */
+}
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
 }
 
-.dash_overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  z-index:90;
+.task-item h4 {
+    margin: 0; /* remove extra spacing */
+    font-size: 14px;
 }
 
-/* ------------------------------
-   Mobile behavior
--------------------------------- */
-@media (max-width: 900px){
-
-  .dash_topbar{
-    display:flex;
-  }
-
-  .dash_sidebar{
-    position:fixed;
-    top:0;
-    left:0;
-    height:100vh;
-    width:260px;
-    max-width:85vw;
-    z-index:110;
-    transform:translateX(-110%);
-    transition:transform .25s ease;
-    background: rgba(255,255,255,.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-right:1px solid rgba(0,0,0,.08);
-  }
-
-  body.sidebar_open .dash_sidebar{
-    transform:translateX(0);
-  }
-
-  body.sidebar_open .dash_overlay{
-    display:block;
-  }
-
-  html, body{
-    overflow-x:hidden;
-  }
+.task-item .arrow-btn {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 18px;
 }
+
+/* ============================================
+   PROGRESS BARS
+   ============================================ */
+
+.progress-bar-container {
+    margin-bottom: 20px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Progress bar container */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;   /* gray background */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Progress fill (THIS controls the color) */
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;   /* green for all bars */
+    transition: width 0.4s ease-in-out;
+    border-radius: 10px;
+}
+
+
+
+/* ============================================
+   DEADLINE ITEMS
+   ============================================ */
+
+.deadline-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.deadline-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.flame-icon {
+    font-size: 24px;
+}
+
+.deadline-info h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.deadline-info p {
+    font-size: 12px;
+    color: #666;
+}
+
+.arrow-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+
+.arrow-btn:hover {
+    background: #333;
+    color: white;
+}
+
+/* ============================================
+   WEEKLY VIEW BUTTON
+   ============================================ */
+
+.weekly-view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.weekly-view:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.task-delete-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: auto;
+    color: #888;
+}
+
+.task-delete-btn:hover {
+    color: #e53935;
+}
+
+/* ============================================
+   MOBILE MENU TOGGLE
+   ============================================ */
+
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 20px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .greeting {
+        font-size: 20px;
+    }
+
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-due {
+        margin-top: 5px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+    .card {
+        padding: 15px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .greeting {
+        font-size: 18px;
+    }
+
+    .header-icons {
+        gap: 10px;
+    }
+
+    .icon-btn {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-center {
+    text-align: center;
+}
+
+.mb-0 { margin-bottom: 0; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+
+.mt-0 { margin-top: 0; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+
+
