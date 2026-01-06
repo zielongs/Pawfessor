@@ -8,41 +8,52 @@
    Description:
    Handles report-related interactions, including
    loading, filtering, and generating report data
-   for display.
+   for display + mobile sidebar toggle.
 =================================================== */
+
+/* ------------------------------
+   Catalog
+-------------------------------- */
 
 const PRODUCT_CATALOG = [
   /* subscriptions */
-  { key:"Free Plan", type:"subscription", price:0.00 },
-  { key:"Standard Plan", type:"subscription", price:5.99 },
-  { key:"Premium Plan", type:"subscription", price:7.99 },
+  { key: "Free Plan", type: "subscription", price: 0.0 },
+  { key: "Standard Plan", type: "subscription", price: 5.99 },
+  { key: "Premium Plan", type: "subscription", price: 7.99 },
 
   /* mascots free */
-  { key:"Pawfessor Cat", type:"mascot", price:0.00 },
-  { key:"Pawfessor Panda", type:"mascot", price:0.00 },
-  { key:"Pawfessor Bear", type:"mascot", price:0.00 },
-  { key:"Pawfessor Racoon", type:"mascot", price:0.00 },
+  { key: "Pawfessor Cat", type: "mascot", price: 0.0 },
+  { key: "Pawfessor Panda", type: "mascot", price: 0.0 },
+  { key: "Pawfessor Bear", type: "mascot", price: 0.0 },
+  { key: "Pawfessor Racoon", type: "mascot", price: 0.0 },
 
   /* mascots standard (RM1.99) */
-  { key:"Pawfessor Sheep", type:"mascot", price:1.99 },
-  { key:"Pawfessor Rabbit", type:"mascot", price:1.99 },
-  { key:"Pawfessor Fox", type:"mascot", price:1.99 },
-  { key:"Pawfessor Cow", type:"mascot", price:1.99 },
+  { key: "Pawfessor Sheep", type: "mascot", price: 1.99 },
+  { key: "Pawfessor Rabbit", type: "mascot", price: 1.99 },
+  { key: "Pawfessor Fox", type: "mascot", price: 1.99 },
+  { key: "Pawfessor Cow", type: "mascot", price: 1.99 },
 
   /* mascots premium (RM2.99) */
-  { key:"Pawfessor Penguin", type:"mascot", price:2.99 },
-  { key:"Pawfessor Axolotl", type:"mascot", price:2.99 },
-  { key:"Pawfessor Dragon", type:"mascot", price:2.99 },
-  { key:"Pawfessor Wolf", type:"mascot", price:2.99 },
+  { key: "Pawfessor Penguin", type: "mascot", price: 2.99 },
+  { key: "Pawfessor Axolotl", type: "mascot", price: 2.99 },
+  { key: "Pawfessor Dragon", type: "mascot", price: 2.99 },
+  { key: "Pawfessor Wolf", type: "mascot", price: 2.99 },
 ];
 
-/* demo transactions */
+/* ------------------------------
+   Demo transactions
+-------------------------------- */
+
 let transactions = [
-  { id: 1, date: "2025-12-05", item: "Pawfessor Sheep", type:"mascot", method:"google pay", total: 1.99 },
-  { id: 2, date: "2025-12-08", item: "Standard Plan",  type:"subscription", method:"debit card", total: 5.99 },
-  { id: 3, date: "2025-12-12", item: "Pawfessor Dragon",type:"mascot", method:"google pay", total: 2.99 },
-  { id: 4, date: "2025-12-21", item: "Premium Plan",   type:"subscription", method:"debit card", total: 7.99 },
+  { id: 1, date: "2025-12-05", item: "Pawfessor Sheep", type: "mascot", method: "google pay", total: 1.99 },
+  { id: 2, date: "2025-12-08", item: "Standard Plan", type: "subscription", method: "debit card", total: 5.99 },
+  { id: 3, date: "2025-12-12", item: "Pawfessor Dragon", type: "mascot", method: "google pay", total: 2.99 },
+  { id: 4, date: "2025-12-21", item: "Premium Plan", type: "subscription", method: "debit card", total: 7.99 },
 ];
+
+/* ------------------------------
+   DOM
+-------------------------------- */
 
 const elRange = document.getElementById("range_label");
 const elPicker = document.getElementById("picker");
@@ -74,8 +85,12 @@ const elTotal = document.getElementById("sum_total");
 
 const btnPdf = document.getElementById("btn_pdf");
 
+/* ------------------------------
+   State
+-------------------------------- */
+
 let rangeStart = new Date("2025-12-05");
-let rangeEnd   = new Date("2025-12-21");
+let rangeEnd = new Date("2025-12-21");
 
 let viewYear = 2025;
 let viewMonth = 11; // 0-based; 11 = December
@@ -83,205 +98,320 @@ let viewMonth = 11; // 0-based; 11 = December
 let pickA = null;
 let pickB = null;
 
-fillItemSelect();
-setupQuickPrices();
-setDefaultFormDate();
-updateRangeLabel();
-renderCalendar();
-render();
+/* ------------------------------
+   Mobile sidebar toggle (global)
+-------------------------------- */
 
-btnPick.addEventListener("click", () => {
-  elPicker.classList.toggle("show");
-});
+function setSidebarOpen(isOpen) {
+  document.body.classList.toggle("sidebar_open", isOpen);
 
-btnPrev.addEventListener("click", () => {
-  viewMonth--;
-  if (viewMonth < 0){ viewMonth = 11; viewYear--; }
-  renderCalendar();
-});
+  const btn = document.getElementById("dashMenuBtn");
+  if (btn) btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
 
-btnNext.addEventListener("click", () => {
-  viewMonth++;
-  if (viewMonth > 11){ viewMonth = 0; viewYear++; }
-  renderCalendar();
-});
+function toggleSidebar() {
+  setSidebarOpen(!document.body.classList.contains("sidebar_open"));
+}
 
-btnClear.addEventListener("click", () => {
-  pickA = null;
-  pickB = null;
-  renderCalendar();
-});
+function initSidebar() {
+  const btn = document.getElementById("dashMenuBtn");
+  const overlay = document.querySelector(".dash_overlay");
+  const sidebar = document.querySelector(".dash_sidebar");
 
-btnApply.addEventListener("click", () => {
-  if (!pickA) return;
-  const a = new Date(pickA);
-  const b = pickB ? new Date(pickB) : new Date(pickA);
+  if (btn) {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleSidebar();
+    });
+  }
 
-  rangeStart = (a <= b) ? a : b;
-  rangeEnd = (a <= b) ? b : a;
+  if (overlay) {
+    overlay.addEventListener("click", () => setSidebarOpen(false));
+  }
 
-  elPicker.classList.remove("show");
+  if (sidebar) {
+    sidebar.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        setSidebarOpen(false);
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setSidebarOpen(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (!window.matchMedia("(max-width: 900px)").matches) {
+      setSidebarOpen(false);
+    }
+  });
+}
+
+/* ------------------------------
+   Init helpers
+-------------------------------- */
+
+function initReports() {
+  if (selItem && inpTotal) fillItemSelect();
+  if (elQuick) setupQuickPrices();
+  if (inpDate) setDefaultFormDate();
+
   updateRangeLabel();
+  renderCalendar();
   render();
-});
+}
 
-selItem.addEventListener("change", () => {
-  const p = PRODUCT_CATALOG.find(x => x.key === selItem.value);
-  if (p) inpTotal.value = p.price.toFixed(2);
-});
+/* ------------------------------
+   Events
+-------------------------------- */
 
-btnReset.addEventListener("click", () => {
-  setDefaultFormDate();
-  selItem.selectedIndex = 0;
-  selMethod.value = "google pay";
-  const p = PRODUCT_CATALOG.find(x => x.key === selItem.value);
-  inpTotal.value = p ? p.price.toFixed(2) : "0.00";
-});
+if (btnPick && elPicker) {
+  btnPick.addEventListener("click", () => {
+    elPicker.classList.toggle("show");
+  });
+}
 
-btnAdd.addEventListener("click", () => {
-  const date = inpDate.value;
-  const item = selItem.value;
-  const method = selMethod.value;
-  const total = Number(inpTotal.value || 0);
+if (btnPrev) {
+  btnPrev.addEventListener("click", () => {
+    viewMonth--;
+    if (viewMonth < 0) {
+      viewMonth = 11;
+      viewYear--;
+    }
+    renderCalendar();
+  });
+}
 
-  if (!date) return alert("please choose a date");
-  if (!item) return alert("please choose an item");
-  if (Number.isNaN(total)) return alert("total must be a number");
+if (btnNext) {
+  btnNext.addEventListener("click", () => {
+    viewMonth++;
+    if (viewMonth > 11) {
+      viewMonth = 0;
+      viewYear++;
+    }
+    renderCalendar();
+  });
+}
 
-  const cat = PRODUCT_CATALOG.find(x => x.key === item);
-  const type = cat ? cat.type : "unknown";
+if (btnClear) {
+  btnClear.addEventListener("click", () => {
+    pickA = null;
+    pickB = null;
+    renderCalendar();
+  });
+}
 
-  const nextId = transactions.length ? Math.max(...transactions.map(t => t.id)) + 1 : 1;
-  transactions.push({ id: nextId, date, item, type, method, total });
+if (btnApply && elPicker) {
+  btnApply.addEventListener("click", () => {
+    if (!pickA) return;
 
-  render();
-});
+    const a = new Date(pickA);
+    const b = pickB ? new Date(pickB) : new Date(pickA);
+
+    rangeStart = a <= b ? a : b;
+    rangeEnd = a <= b ? b : a;
+
+    elPicker.classList.remove("show");
+    updateRangeLabel();
+    render();
+  });
+}
+
+if (selItem && inpTotal) {
+  selItem.addEventListener("change", () => {
+    const p = PRODUCT_CATALOG.find((x) => x.key === selItem.value);
+    if (p) inpTotal.value = p.price.toFixed(2);
+  });
+}
+
+if (btnReset) {
+  btnReset.addEventListener("click", () => {
+    setDefaultFormDate();
+    if (selItem) selItem.selectedIndex = 0;
+    if (selMethod) selMethod.value = "google pay";
+
+    const p = PRODUCT_CATALOG.find((x) => x.key === selItem?.value);
+    if (inpTotal) inpTotal.value = p ? p.price.toFixed(2) : "0.00";
+  });
+}
+
+if (btnAdd) {
+  btnAdd.addEventListener("click", () => {
+    const date = inpDate?.value;
+    const item = selItem?.value;
+    const method = selMethod?.value;
+    const total = Number(inpTotal?.value || 0);
+
+    if (!date) return alert("please choose a date");
+    if (!item) return alert("please choose an item");
+    if (Number.isNaN(total)) return alert("total must be a number");
+
+    const cat = PRODUCT_CATALOG.find((x) => x.key === item);
+    const type = cat ? cat.type : "unknown";
+
+    const nextId = transactions.length ? Math.max(...transactions.map((t) => t.id)) + 1 : 1;
+    transactions.push({ id: nextId, date, item, type, method, total });
+
+    render();
+  });
+}
 
 document.addEventListener("click", (e) => {
   const del = e.target.closest("button[data-del]");
   if (!del) return;
 
   const id = Number(del.dataset.del);
-  const tx = transactions.find(t => t.id === id);
+  const tx = transactions.find((t) => t.id === id);
   if (!tx) return;
 
   const ok = confirm(`delete transaction: ${tx.item}?`);
   if (!ok) return;
 
-  transactions = transactions.filter(t => t.id !== id);
+  transactions = transactions.filter((t) => t.id !== id);
   render();
 });
 
-btnPdf.addEventListener("click", () => {
-  // print-to-pdf. user chooses "Save as PDF" in browser dialog.
-  window.print();
-});
-
-function fillItemSelect(){
-  selItem.innerHTML = PRODUCT_CATALOG.map(p => `<option value="${escapeHtml(p.key)}">${escapeHtml(p.key)}</option>`).join("");
-  const first = PRODUCT_CATALOG[0];
-  inpTotal.value = first ? first.price.toFixed(2) : "0.00";
+if (btnPdf) {
+  btnPdf.addEventListener("click", () => {
+    // print-to-pdf. user chooses "Save as PDF" in browser dialog.
+    window.print();
+  });
 }
 
-function setupQuickPrices(){
+/* ------------------------------
+   Core functions
+-------------------------------- */
+
+function fillItemSelect() {
+  if (!selItem) return;
+
+  selItem.innerHTML = PRODUCT_CATALOG.map(
+    (p) => `<option value="${escapeHtml(p.key)}">${escapeHtml(p.key)}</option>`
+  ).join("");
+
+  const first = PRODUCT_CATALOG[0];
+  if (inpTotal) inpTotal.value = first ? first.price.toFixed(2) : "0.00";
+}
+
+function setupQuickPrices() {
+  if (!elQuick) return;
+
   // show quick buttons for common paid prices
-  const prices = Array.from(new Set(PRODUCT_CATALOG.map(p => p.price).filter(x => x > 0))).sort((a,b) => a-b);
-  elQuick.innerHTML = prices.map(v => `
-    <button class="qbtn" type="button" data-price="${v.toFixed(2)}">RM${v.toFixed(2)}</button>
-  `).join("");
+  const prices = Array.from(new Set(PRODUCT_CATALOG.map((p) => p.price).filter((x) => x > 0))).sort((a, b) => a - b);
+
+  elQuick.innerHTML = prices
+    .map(
+      (v) => `
+      <button class="qbtn" type="button" data-price="${v.toFixed(2)}">RM${v.toFixed(2)}</button>
+    `
+    )
+    .join("");
 
   elQuick.addEventListener("click", (e) => {
     const b = e.target.closest("button[data-price]");
     if (!b) return;
-    inpTotal.value = b.dataset.price;
+    if (inpTotal) inpTotal.value = b.dataset.price;
   });
 }
 
-function setDefaultFormDate(){
-  // set to today 
+function setDefaultFormDate() {
+  if (!inpDate) return;
   const today = new Date();
   inpDate.value = toISO(today);
 }
 
-function updateRangeLabel(){
+function updateRangeLabel() {
+  if (!elRange) return;
   elRange.textContent = `${fmt(rangeStart)} - ${fmt(rangeEnd)}`;
 }
 
-function render(){
+function render() {
+  if (!elList || !elEmpty || !elCount) return;
+
   const start = stripTime(rangeStart);
   const end = stripTime(rangeEnd);
 
   const inRange = transactions
-    .filter(t => {
+    .filter((t) => {
       const d = new Date(t.date + "T00:00:00");
       return d >= start && d <= end;
     })
-    .sort((a,b) => a.date.localeCompare(b.date));
+    .sort((a, b) => a.date.localeCompare(b.date));
 
   elCount.textContent = `${inRange.length} records`;
 
-  if (inRange.length === 0){
+  if (inRange.length === 0) {
     elList.innerHTML = "";
     elEmpty.style.display = "block";
   } else {
     elEmpty.style.display = "none";
-    elList.innerHTML = inRange.map(t => `
-      <div class="tx_row glass">
-        <div>${escapeHtml(prettyDate(t.date))}</div>
-        <div>${escapeHtml(t.item)}</div>
-        <div>${escapeHtml(t.method)}</div>
-        <div class="right"><strong>RM${Number(t.total).toFixed(2)}</strong></div>
-        <div class="right">
-          <button class="delbtn" type="button" data-del="${t.id}">🗑️</button>
+    elList.innerHTML = inRange
+      .map(
+        (t) => `
+        <div class="tx_row glass">
+          <div>${escapeHtml(prettyDate(t.date))}</div>
+          <div>${escapeHtml(t.item)}</div>
+          <div>${escapeHtml(t.method)}</div>
+          <div class="right"><strong>RM${Number(t.total).toFixed(2)}</strong></div>
+          <div class="right">
+            <button class="delbtn" type="button" data-del="${t.id}">🗑️</button>
+          </div>
         </div>
-      </div>
-    `).join("");
+      `
+      )
+      .join("");
   }
 
   // totals
-  const mascotSum = sum(inRange.filter(x => x.type === "mascot").map(x => x.total));
-  const subSum = sum(inRange.filter(x => x.type === "subscription").map(x => x.total));
+  const mascotSum = sum(inRange.filter((x) => x.type === "mascot").map((x) => x.total));
+  const subSum = sum(inRange.filter((x) => x.type === "subscription").map((x) => x.total));
   const totalSum = mascotSum + subSum;
 
-  elMascot.textContent = `RM ${mascotSum.toFixed(2)}`;
-  elSub.textContent = `RM ${subSum.toFixed(2)}`;
-  elTotal.textContent = `RM ${totalSum.toFixed(2)}`;
+  if (elMascot) elMascot.textContent = `RM ${mascotSum.toFixed(2)}`;
+  if (elSub) elSub.textContent = `RM ${subSum.toFixed(2)}`;
+  if (elTotal) elTotal.textContent = `RM ${totalSum.toFixed(2)}`;
 }
 
-function renderCalendar(){
-  const monthName = new Date(viewYear, viewMonth, 1).toLocaleString("en-US", { month:"long" });
+function renderCalendar() {
+  if (!elDays || !elMonth) return;
+
+  const monthName = new Date(viewYear, viewMonth, 1).toLocaleString("en-US", { month: "long" });
   elMonth.textContent = `${monthName} ${viewYear}`;
 
   const first = new Date(viewYear, viewMonth, 1);
-  const startDay = first.getDay(); 
+  const startDay = first.getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
   const prevDays = startDay;
   const cells = [];
 
   const prevMonthLast = new Date(viewYear, viewMonth, 0).getDate();
-  for (let i = prevDays; i > 0; i--){
+  for (let i = prevDays; i > 0; i--) {
     const d = new Date(viewYear, viewMonth - 1, prevMonthLast - i + 1);
     cells.push(renderDayCell(d, true));
   }
 
-  for (let d = 1; d <= daysInMonth; d++){
+  for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(viewYear, viewMonth, d);
     cells.push(renderDayCell(date, false));
   }
 
-  while (cells.length % 7 !== 0){
+  while (cells.length % 7 !== 0) {
     const d = new Date(viewYear, viewMonth + 1, cells.length - (prevDays + daysInMonth) + 1);
     cells.push(renderDayCell(d, true));
   }
 
   elDays.innerHTML = cells.join("");
 
-  elDays.querySelectorAll("button.day:not(.off)").forEach(btn => {
+  elDays.querySelectorAll("button.day:not(.off)").forEach((btn) => {
     btn.addEventListener("click", () => {
       const iso = btn.dataset.iso;
 
-      if (!pickA || (pickA && pickB)){
+      if (!pickA || (pickA && pickB)) {
         pickA = iso;
         pickB = null;
       } else {
@@ -293,7 +423,7 @@ function renderCalendar(){
   });
 }
 
-function renderDayCell(date, off){
+function renderDayCell(date, off) {
   const iso = toISO(date);
   const todayIso = toISO(new Date());
 
@@ -301,50 +431,58 @@ function renderDayCell(date, off){
   const selB = pickB === iso;
 
   let inRange = false;
-  if (pickA && pickB){
+  if (pickA && pickB) {
     const a = new Date(pickA);
     const b = new Date(pickB);
-    const s = (a <= b) ? a : b;
-    const e = (a <= b) ? b : a;
+    const s = a <= b ? a : b;
+    const e = a <= b ? b : a;
     inRange = date >= stripTime(s) && date <= stripTime(e);
   }
 
   const classes = [
     "day",
     off ? "off" : "",
-    (selA || selB) ? "sel" : "",
+    selA || selB ? "sel" : "",
     inRange && !(selA || selB) ? "in" : "",
-    iso === todayIso ? "today" : ""
-  ].filter(Boolean).join(" ");
+    iso === todayIso ? "today" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return `<button class="${classes}" type="button" ${off ? "disabled" : ""} data-iso="${iso}">${date.getDate()}</button>`;
 }
 
-function sum(arr){ return arr.reduce((a,b) => a + Number(b || 0), 0); }
+/* ------------------------------
+   Utils
+-------------------------------- */
 
-function stripTime(d){
+function sum(arr) {
+  return arr.reduce((a, b) => a + Number(b || 0), 0);
+}
+
+function stripTime(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
-function toISO(d){
+function toISO(d) {
   const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
 
-function fmt(d){
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmt(d) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-function prettyDate(iso){
-  const [y,m,d] = iso.split("-").map(Number);
-  const dt = new Date(y, m-1, d);
+function prettyDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
   return fmt(dt);
 }
 
-function escapeHtml(s){
+function escapeHtml(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -352,3 +490,12 @@ function escapeHtml(s){
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+/* ------------------------------
+   Boot
+-------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  initSidebar();
+  initReports();
+});
