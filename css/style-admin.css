@@ -253,3 +253,78 @@ button.primary{
   .dash_cards{flex-direction:column}
 }
 body{ outline:6px solid red; }
+
+/* ===================================================
+   GLOBAL MOBILE SIDEBAR TOGGLE (ADMIN)
+   =================================================== */
+
+/* Top bar (mobile only) */
+.dash_topbar{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.dash_menu_btn{
+  border:0;
+  border-radius:12px;
+  padding:10px 12px;
+  font-weight:800;
+  cursor:pointer;
+  background: rgba(0,0,0,.06);
+}
+
+.dash_overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:90;
+}
+
+/* ------------------------------
+   Mobile behavior
+-------------------------------- */
+@media (max-width: 900px){
+
+  .dash_topbar{
+    display:flex;
+  }
+
+  .dash_sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:260px;
+    max-width:85vw;
+    z-index:110;
+    transform:translateX(-110%);
+    transition:transform .25s ease;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-right:1px solid rgba(0,0,0,.08);
+  }
+
+  body.sidebar_open .dash_sidebar{
+    transform:translateX(0);
+  }
+
+  body.sidebar_open .dash_overlay{
+    display:block;
+  }
+
+  html, body{
+    overflow-x:hidden;
+  }
+}
