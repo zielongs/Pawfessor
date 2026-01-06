@@ -8,8 +8,12 @@
    Description:
    Handles interactive behaviour for the members page,
    including loading member data and responding to
-   user actions such as edit or delete.
+   user actions such as edit or delete + mobile sidebar toggle.
 =================================================== */
+
+/* ------------------------------
+   Data
+-------------------------------- */
 
 let members = [
   { id: 1, name: "Hana Smith", email: "hana@gmail.com", status: "active" },
@@ -20,6 +24,10 @@ let members = [
 
 let mode = "view"; // view | edit | add
 let activeId = null;
+
+/* ------------------------------
+   DOM
+-------------------------------- */
 
 const elList = document.getElementById("members_list");
 const elEmpty = document.getElementById("empty_state");
@@ -32,12 +40,74 @@ const inpName = document.getElementById("m_name");
 const inpEmail = document.getElementById("m_email");
 const inpStatus = document.getElementById("m_status");
 
-document.getElementById("btn_add").addEventListener("click", () => openAdd());
-document.getElementById("btn_close").addEventListener("click", closeModal);
-document.getElementById("btn_cancel").addEventListener("click", closeModal);
-document.getElementById("btn_save").addEventListener("click", saveModal);
+const btnAdd = document.getElementById("btn_add");
+const btnClose = document.getElementById("btn_close");
+const btnCancel = document.getElementById("btn_cancel");
+const btnSave = document.getElementById("btn_save");
 
-elSearch.addEventListener("input", render);
+/* ------------------------------
+   Mobile sidebar toggle (global)
+-------------------------------- */
+
+function setSidebarOpen(isOpen) {
+  document.body.classList.toggle("sidebar_open", isOpen);
+
+  const btn = document.getElementById("dashMenuBtn");
+  if (btn) btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
+
+function toggleSidebar() {
+  setSidebarOpen(!document.body.classList.contains("sidebar_open"));
+}
+
+function initSidebar() {
+  const btn = document.getElementById("dashMenuBtn");
+  const overlay = document.querySelector(".dash_overlay");
+  const sidebar = document.querySelector(".dash_sidebar");
+
+  if (btn) {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleSidebar();
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener("click", () => setSidebarOpen(false));
+  }
+
+  if (sidebar) {
+    sidebar.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        setSidebarOpen(false);
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setSidebarOpen(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (!window.matchMedia("(max-width: 900px)").matches) {
+      setSidebarOpen(false);
+    }
+  });
+}
+
+/* ------------------------------
+   Event listeners
+-------------------------------- */
+
+if (btnAdd) btnAdd.addEventListener("click", openAdd);
+if (btnClose) btnClose.addEventListener("click", closeModal);
+if (btnCancel) btnCancel.addEventListener("click", closeModal);
+if (btnSave) btnSave.addEventListener("click", saveModal);
+
+if (elSearch) elSearch.addEventListener("input", render);
 
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-action]");
@@ -51,10 +121,16 @@ document.addEventListener("click", (e) => {
   if (action === "delete") doDelete(id);
 });
 
-function render(){
-  const q = (elSearch.value || "").trim().toLowerCase();
+/* ------------------------------
+   Render list
+-------------------------------- */
 
-  const filtered = members.filter(m => {
+function render() {
+  if (!elList || !elEmpty) return;
+
+  const q = (elSearch?.value || "").trim().toLowerCase();
+
+  const filtered = members.filter((m) => {
     if (!q) return true;
     return (
       m.name.toLowerCase().includes(q) ||
@@ -63,7 +139,7 @@ function render(){
     );
   });
 
-  if (filtered.length === 0){
+  if (filtered.length === 0) {
     elList.innerHTML = "";
     elEmpty.style.display = "block";
     return;
@@ -71,22 +147,30 @@ function render(){
 
   elEmpty.style.display = "none";
 
-  elList.innerHTML = filtered.map(m => `
+  elList.innerHTML = filtered
+    .map(
+      (m) => `
     <div class="mm_row glass">
       <div class="mm_namewrap">
         <input type="checkbox" aria-label="select ${escapeHtml(m.name)}" />
         <div class="mm_name">${escapeHtml(m.name)}</div>
       </div>
 
-      <button class="mm_btn ghost" data-action="view" data-id="${m.id}">View</button>
-      <button class="mm_btn" data-action="edit" data-id="${m.id}">Edit</button>
-      <button class="mm_btn danger" data-action="delete" data-id="${m.id}">Delete</button>
+      <button class="mm_btn ghost" data-action="view" data-id="${m.id}" type="button">View</button>
+      <button class="mm_btn" data-action="edit" data-id="${m.id}" type="button">Edit</button>
+      <button class="mm_btn danger" data-action="delete" data-id="${m.id}" type="button">Delete</button>
     </div>
-  `).join("");
+  `
+    )
+    .join("");
 }
 
-function openView(id){
-  const m = members.find(x => x.id === id);
+/* ------------------------------
+   Modal flows
+-------------------------------- */
+
+function openView(id) {
+  const m = members.find((x) => x.id === id);
   if (!m) return;
 
   mode = "view";
@@ -101,13 +185,13 @@ function openView(id){
   inpEmail.disabled = true;
   inpStatus.disabled = true;
 
-  document.getElementById("btn_save").style.display = "none";
+  if (btnSave) btnSave.style.display = "none";
 
   modal.classList.add("show");
 }
 
-function openEdit(id){
-  const m = members.find(x => x.id === id);
+function openEdit(id) {
+  const m = members.find((x) => x.id === id);
   if (!m) return;
 
   mode = "edit";
@@ -122,13 +206,13 @@ function openEdit(id){
   inpEmail.disabled = false;
   inpStatus.disabled = false;
 
-  document.getElementById("btn_save").style.display = "inline-flex";
+  if (btnSave) btnSave.style.display = "inline-flex";
 
   modal.classList.add("show");
   inpName.focus();
 }
 
-function openAdd(){
+function openAdd() {
   mode = "add";
   activeId = null;
 
@@ -141,13 +225,13 @@ function openAdd(){
   inpEmail.disabled = false;
   inpStatus.disabled = false;
 
-  document.getElementById("btn_save").style.display = "inline-flex";
+  if (btnSave) btnSave.style.display = "inline-flex";
 
   modal.classList.add("show");
   inpName.focus();
 }
 
-function saveModal(){
+function saveModal() {
   const name = (inpName.value || "").trim();
   const email = (inpEmail.value || "").trim();
   const status = inpStatus.value;
@@ -155,13 +239,13 @@ function saveModal(){
   if (!name) return alert("name is required");
   if (!email) return alert("email is required");
 
-  if (mode === "add"){
-    const nextId = members.length ? Math.max(...members.map(x => x.id)) + 1 : 1;
+  if (mode === "add") {
+    const nextId = members.length ? Math.max(...members.map((x) => x.id)) + 1 : 1;
     members.push({ id: nextId, name, email, status });
   }
 
-  if (mode === "edit"){
-    const idx = members.findIndex(x => x.id === activeId);
+  if (mode === "edit") {
+    const idx = members.findIndex((x) => x.id === activeId);
     if (idx >= 0) members[idx] = { ...members[idx], name, email, status };
   }
 
@@ -169,22 +253,26 @@ function saveModal(){
   render();
 }
 
-function doDelete(id){
-  const m = members.find(x => x.id === id);
+function doDelete(id) {
+  const m = members.find((x) => x.id === id);
   if (!m) return;
 
   const ok = confirm(`delete "${m.name}"?`);
   if (!ok) return;
 
-  members = members.filter(x => x.id !== id);
+  members = members.filter((x) => x.id !== id);
   render();
 }
 
-function closeModal(){
+function closeModal() {
   modal.classList.remove("show");
 }
 
-function escapeHtml(s){
+/* ------------------------------
+   Helpers
+-------------------------------- */
+
+function escapeHtml(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -193,4 +281,11 @@ function escapeHtml(s){
     .replaceAll("'", "&#039;");
 }
 
-render();
+/* ------------------------------
+   Init
+-------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  initSidebar();
+  render();
+});
