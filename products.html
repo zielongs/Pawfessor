@@ -25,7 +25,11 @@
 </head>
 
 <body class="dash_body">
-  <aside class="dash_sidebar glass">
+
+  <!-- ✅ overlay for mobile sidebar -->
+  <div class="dash_overlay" aria-hidden="true"></div>
+
+  <aside class="dash_sidebar glass" id="dashSidebar">
     <div class="dash_brand">
       <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo">
     </div>
@@ -54,6 +58,19 @@
   </aside>
 
   <main class="dash_main">
+
+    <!-- ✅ mobile topbar (toggle button) -->
+    <div class="dash_topbar">
+      <button type="button" class="dash_menu_btn" id="dashMenuBtn"
+        aria-label="Open menu"
+        aria-controls="dashSidebar"
+        aria-expanded="false">☰</button>
+
+      <div class="dash_topbar_title">Products</div>
+
+      <div class="dash_topbar_spacer" aria-hidden="true"></div>
+    </div>
+
     <section class="fig_cards">
       <div class="fig_card glass">
         <div class="fig_label">Total Sales</div>
