@@ -24,36 +24,53 @@
 </head>
 
 <body class="dash_body">
-<aside class="dash_sidebar glass">
-  <div class="dash_brand">
-    <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo">
-  </div>
 
-  <nav class="dash_nav">
-    <a class="dash_link" href="dashboard-admin.html">
-      <img class="dash_icon" src="images/Dashboard/d_dashboard.png" alt="">
-      <span>Dashboard</span>
-    </a>
+  <!-- ✅ overlay for mobile sidebar -->
+  <div class="dash_overlay" aria-hidden="true"></div>
 
-    <a class="dash_link" href="members.html">
-      <img class="dash_icon" src="images/Dashboard/d_profiles.png" alt="">
-      <span>Members</span>
-    </a>
+  <aside class="dash_sidebar glass" id="dashSidebar">
+    <div class="dash_brand">
+      <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo">
+    </div>
 
-    <a class="dash_link" href="products.html">
-      <img class="dash_icon" src="images/Dashboard/d_carts.png" alt="">
-      <span>Products</span>
-    </a>
+    <nav class="dash_nav">
+      <a class="dash_link" href="dashboard-admin.html">
+        <img class="dash_icon" src="images/Dashboard/d_dashboard.png" alt="">
+        <span>Dashboard</span>
+      </a>
 
-    <a class="dash_link" href="reports.html">
-      <img class="dash_icon" src="images/Dashboard/d_my_tasks.png" alt="">
-      <span>Reports</span>
-    </a>
-  </nav>
-</aside>
+      <a class="dash_link" href="members.html">
+        <img class="dash_icon" src="images/Dashboard/d_profiles.png" alt="">
+        <span>Members</span>
+      </a>
 
+      <a class="dash_link" href="products.html">
+        <img class="dash_icon" src="images/Dashboard/d_carts.png" alt="">
+        <span>Products</span>
+      </a>
+
+      <!-- ✅ make Reports active -->
+      <a class="dash_link active" href="reports.html">
+        <img class="dash_icon" src="images/Dashboard/d_my_tasks.png" alt="">
+        <span>Reports</span>
+      </a>
+    </nav>
+  </aside>
 
   <main class="dash_main">
+
+    <!-- ✅ mobile topbar (toggle button) -->
+    <div class="dash_topbar">
+      <button type="button" class="dash_menu_btn" id="dashMenuBtn"
+        aria-label="Open menu"
+        aria-controls="dashSidebar"
+        aria-expanded="false">☰</button>
+
+      <div class="dash_topbar_title">Reports</div>
+
+      <div class="dash_topbar_spacer" aria-hidden="true"></div>
+    </div>
+
     <!-- TOP CARDS -->
     <section class="fig_cards">
       <div class="fig_card glass">
@@ -84,9 +101,9 @@
 
           <div class="picker" id="picker">
             <div class="pick_head">
-              <button class="navbtn" id="prev_month" type="button">‹</button>
+              <button class="navbtn" id="prev_month" type="button" aria-label="Previous month">‹</button>
               <div class="month" id="month_label">December 2025</div>
-              <button class="navbtn" id="next_month" type="button">›</button>
+              <button class="navbtn" id="next_month" type="button" aria-label="Next month">›</button>
             </div>
 
             <div class="dow">
@@ -136,7 +153,6 @@
             <button class="glass" id="btn_reset" type="button">Reset</button>
             <button class="glass primary" id="btn_add_tx" type="button">Add Transaction</button>
           </div>
-
         </div>
 
         <div class="panel glass rep_panel">
