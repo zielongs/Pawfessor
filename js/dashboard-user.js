@@ -6,267 +6,230 @@
    Progress bars intentionally recalculate
    directly from localStorage to avoid stale data.
    ============================================ */
+console.log('dashboard-user.js loaded');
+
 const DashboardState = {
-    tasks: [],
-    todayTasks: [],
-    deadlines: []
+    tasks: []
 };
 
-// ================= UTILITY FUNCTIONS =================
-function formatDate(date) {
-    if (!date) return 'No due date';
-    const options = { weekday: 'short', day: 'numeric', month: 'short' };
-    return new Date(date).toLocaleDateString('en-US', options);
+/* =========================================
+   DATE HELPERS
+========================================= */
+function todayStr() {
+    return new Date().toISOString().split('T')[0];
 }
 
-function getProgressColor(percent) {
-    if (percent === 100) return '#2e7d32';
-    if (percent >= 60) return '#4CAF50';
-    if (percent >= 30) return '#FFC107';
-    return '#F44336';
+function normalizeDate(dateStr) {
+    const d = new Date(dateStr);
+    d.setHours(0, 0, 0, 0);
+    return d;
 }
 
-function getTodayDate() {
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    return today;
-}
-
-// ================= LOAD TASKS =================
-function loadTasks() {
-    const storedTasks = JSON.parse(localStorage.getItem('userTasks') || '[]');
-    const today = getTodayDate();
-
-    DashboardState.tasks = storedTasks;
-
-    // Filter tasks due today
-    DashboardState.todayTasks = storedTasks.filter(task => {
-        if (!task.dueDate) return false;
-        const due = new Date(task.dueDate);
-        due.setHours(0,0,0,0);
-        return due.getTime() === today.getTime();
+function formatDate(dateStr) {
+    if (!dateStr) return 'No due date';
+    return new Date(dateStr).toLocaleDateString('en-US', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short'
     });
-
-    // Sort today's tasks by priority (high → low)
-    const priorities = { high: 3, medium: 2, low: 1 };
-    DashboardState.todayTasks.sort((a,b) => (priorities[b.priority]||0) - (priorities[a.priority]||0));
 }
 
-// ================= RENDER TODAY'S TASKS =================
+/* =========================================
+   FETCH TASKS
+========================================= */
+async function fetchDashboardTasks() {
+    try {
+        const res = await fetch('tasks-actions.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'fetch' })
+        });
+
+        const data = await res.json();
+
+        if (data.status === 'success') {
+            DashboardState.tasks = data.tasks;
+
+            // Render all sections after fetching
+            renderTodayTasks();
+            renderUpcomingDeadlines();
+            renderProgress();
+        } else {
+            console.error('Fetch tasks error:', data.message);
+        }
+    } catch (err) {
+        console.error('Dashboard fetch error:', err);
+    }
+}
+
+/* =========================================
+   RENDER TODAY'S TASKS
+========================================= */
 function renderTodayTasks() {
     const container = document.getElementById('todayTasksContainer');
     if (!container) return;
 
     container.innerHTML = '';
+    const today = todayStr();
 
-    if (DashboardState.todayTasks.length === 0) {
+    // Filter today's tasks
+    let todayTasks = DashboardState.tasks.filter(t => {
+        return t.due_date && t.due_date.split(' ')[0] === today;
+    });
+
+    if (todayTasks.length === 0) {
         container.innerHTML = '<p style="padding:15px;">No tasks for today 🎉</p>';
         return;
     }
 
-    DashboardState.todayTasks.forEach(task => {
-        const item = document.createElement('div');
-        item.className = 'task-item';
-        item.style.display = 'flex';
-        item.style.justifyContent = 'space-between';
-        item.style.alignItems = 'center';
-        item.style.padding = '10px 15px';
-        item.style.borderBottom = '1px solid #ddd'; // optional for separation
+    // Map priority to number for sorting: high=1, medium=2, low=3
+    const priorityMap = { 'high': 1, 'medium': 2, 'low': 3 };
 
-        // LEFT SIDE: icon + title
-        const left = document.createElement('div');
-        left.style.display = 'flex';
-        left.style.alignItems = 'center';
-        left.style.gap = '10px';
+    // Sort by priority
+    todayTasks.sort((a, b) => priorityMap[a.priority.toLowerCase()] - priorityMap[b.priority.toLowerCase()]);
 
-        const icon = document.createElement('img');
-        icon.src = task.completed
-            ? 'images/check_icon.png'
-            : 'images/pin_icon.png';
-        icon.alt = task.completed ? 'Completed' : 'Pending';
-        icon.width = 20;
-        icon.height = 20;
+    // Take only first 5 tasks
+    todayTasks = todayTasks.slice(0, 5);
 
-        const title = document.createElement('strong');
-        title.textContent = task.title;
+    // Render tasks
+    todayTasks.forEach(task => {
+        const row = document.createElement('div');
+        row.className = 'task-item';
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '10px 15px';
+        row.style.borderBottom = '1px solid #ddd';
 
-        left.appendChild(icon);
-        left.appendChild(title);
+        // Optional: color code by priority
+        const color = task.priority.toLowerCase() === 'high' ? '#F44336' :
+                      task.priority.toLowerCase() === 'medium' ? '#FFC107' : '#4CAF50';
+        row.style.borderLeft = `4px solid ${color}`;
 
-        // RIGHT SIDE: due date + arrow
-        const right = document.createElement('div');
-        right.style.display = 'flex';
-        right.style.alignItems = 'center';
-        right.style.gap = '10px';
+        row.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="${task.completed ? 'images/check_icon.png' : 'images/pin_icon.png'}" width="20">
+                <strong>${task.title}</strong>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span>${formatDate(task.due_date)}</span>
+                <button class="arrow-btn" onclick="location.href='tasks.php'">→</button>
+            </div>
+        `;
 
-        const due = document.createElement('span');
-        due.textContent = formatDate(task.dueDate);
-
-        const arrow = document.createElement('button');
-        arrow.className = 'arrow-btn';
-        arrow.textContent = '→';
-        arrow.onclick = () => {
-    window.location.href = 'tasks.html';
-};
-
-        right.appendChild(due);
-        right.appendChild(arrow);
-
-        // Combine left + right
-        item.appendChild(left);
-        item.appendChild(right);
-
-        container.appendChild(item);
+        container.appendChild(row);
     });
 }
 
 
-// ================= PROGRESS BARS =================
-function updateProgressBars() {
-    const tasks = DashboardState.tasks || [];
-
-    const total = tasks.length;
-    const completed = tasks.filter(t => t.completed).length;
-    const overallPercent = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-    const overallBar = document.getElementById('todayTaskProgress');
-    const overallText = document.getElementById('taskPercent');
-    if (overallBar && overallText) {
-        overallBar.style.width = overallPercent + '%';
-        overallBar.style.backgroundColor = getProgressColor(overallPercent);
-        overallText.textContent = `${completed}/${total}`;
-    }
-
-    // Weekly Progress
-    const today = getTodayDate();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay() + 1);
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-    const weeklyTasks = tasks.filter(task => {
-        if (!task.dueDate) return false;
-        const due = new Date(task.dueDate);
-        due.setHours(0,0,0,0);
-        return due >= startOfWeek && due <= endOfWeek;
-    });
-
-    const weeklyCompleted = weeklyTasks.filter(t => t.completed).length;
-    const weeklyPercent = weeklyTasks.length === 0 ? 0 : Math.round((weeklyCompleted / weeklyTasks.length) * 100);
-
-    const weeklyBar = document.getElementById('weeklyProgress');
-    const weeklyText = document.getElementById('weeklyPercent');
-    if (weeklyBar && weeklyText) {
-        weeklyBar.style.width = weeklyPercent + '%';
-        weeklyBar.style.backgroundColor = getProgressColor(weeklyPercent);
-        weeklyText.textContent = weeklyPercent + '%';
-    }
-}
-
-// ================= DEADLINES =================
-function loadDeadlines() {
-    const tasks = DashboardState.tasks;
-    const today = getTodayDate();
-
-    DashboardState.deadlines = tasks
-        .filter(t => t.dueDate && new Date(t.dueDate) >= today)
-        .map(t => {
-            const due = new Date(t.dueDate);
-            due.setHours(0,0,0,0);
-            return {
-                id: t.id,
-                title: t.title,
-                date: due,
-                daysUntil: Math.ceil((due - today)/(1000*60*60*24))
-            };
-        })
-        .sort((a,b) => a.date - b.date)
-        .slice(0,5);
-}
-
-function renderDeadlines() {
+/* =========================================
+   RENDER UPCOMING DEADLINES
+========================================= */
+function renderUpcomingDeadlines() {
     const container = document.getElementById('deadlinesContainer');
     if (!container) return;
 
     container.innerHTML = '';
-    if (DashboardState.deadlines.length === 0) {
+
+    const today = normalizeDate(todayStr());
+
+    const upcoming = DashboardState.tasks
+        .filter(t => t.due_date)
+        .map(t => {
+            const due = normalizeDate(t.due_date);
+            return {
+                ...t,
+                due,
+                daysLeft: Math.ceil((due - today) / (1000 * 60 * 60 * 24))
+            };
+        })
+        .filter(t => t.daysLeft >= 0)
+        .sort((a, b) => a.due - b.due)
+        .slice(0, 5);
+
+    if (upcoming.length === 0) {
         container.innerHTML = '<p style="padding:15px;">No upcoming deadlines 🎉</p>';
         return;
     }
 
-    DashboardState.deadlines.forEach(d => {
-        const item = document.createElement('div');
-        item.className = 'deadline-item';
-        // Use flex: space-between
-        item.style.display = 'flex';
-        item.style.justifyContent = 'space-between';
-        item.style.alignItems = 'center';
-        item.style.padding = '10px';
+    upcoming.forEach(task => {
+        const row = document.createElement('div');
+        row.className = 'deadline-item';
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '10px';
 
-        // LEFT: icon + title
-        const left = document.createElement('div');
-        left.style.display = 'flex';
-        left.style.alignItems = 'center';
-        left.style.gap = '10px';
+        row.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="images/Dashboard/s_deadlines.png" width="26">
+                <div>
+                    <strong>${task.title}</strong> - ${task.daysLeft} day(s) left
+                </div>
+            </div>
+            <button class="arrow-btn" onclick="location.href='tasks.php'">→</button>
+        `;
 
-        const fire = document.createElement('img');
-        fire.src = 'images/Dashboard/s_deadlines.png';
-        fire.alt = 'Urgent';
-        fire.style.width = '26px';
-        fire.style.height = '26px';
-
-        const info = document.createElement('div');
-        info.style.textAlign = 'left';  // <--- ensure text stays left
-        info.innerHTML = `<strong>${d.title}</strong> - ${d.daysUntil} days left`;
-
-        left.appendChild(fire);
-        left.appendChild(info);
-
-        // RIGHT: arrow button
-        const arrow = document.createElement('button');
-        arrow.className = 'arrow-btn';
-        arrow.textContent = '→';
-        arrow.onclick = () => {
-    window.location.href = 'tasks.html';
-};
-
-
-        item.appendChild(left);
-        item.appendChild(arrow);
-
-        container.appendChild(item);
+        container.appendChild(row);
     });
 }
 
+/* =========================================
+   RENDER PROGRESS
+========================================= */
+function renderProgress() {
+    const total = DashboardState.tasks.length;
+    const completed = DashboardState.tasks.filter(t => t.completed).length;
+    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
-// ================= INIT DASHBOARD =================
-function initDashboard() {
-    loadTasks();
-    loadDeadlines();
-    renderTodayTasks();
-    renderDeadlines();
-    updateProgressBars();
+    const bar = document.getElementById('todayTaskProgress');
+    const text = document.getElementById('taskPercent');
+
+    if (bar && text) {
+        bar.style.width = percent + '%';
+        bar.style.backgroundColor =
+            percent === 100 ? '#2e7d32' :
+            percent >= 60 ? '#4CAF50' :
+            percent >= 30 ? '#FFC107' :
+            '#F44336';
+        text.textContent = `${completed}/${total}`;
+    }
+
+    // Weekly progress
+    const today = normalizeDate(todayStr());
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay() + 1); // Monday
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6); // Sunday
+
+    const weeklyTasks = DashboardState.tasks.filter(t => {
+        if (!t.due_date) return false;
+        const due = normalizeDate(t.due_date);
+        return due >= start && due <= end;
+    });
+
+    const weeklyCompleted = weeklyTasks.filter(t => t.completed).length;
+    const weeklyPercent = weeklyTasks.length === 0
+        ? 0
+        : Math.round((weeklyCompleted / weeklyTasks.length) * 100);
+
+    const weeklyBar = document.getElementById('weeklyProgress');
+    const weeklyText = document.getElementById('weeklyPercent');
+
+    if (weeklyBar && weeklyText) {
+        weeklyBar.style.width = weeklyPercent + '%';
+        weeklyBar.style.backgroundColor = '#4CAF50';
+        weeklyText.textContent = weeklyPercent + '%';
+    }
 }
 
-// Refresh dashboard when page becomes visible
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        initDashboard();
-    }
-});
+/* =========================================
+   INIT
+========================================= */
+document.addEventListener('DOMContentLoaded', fetchDashboardTasks);
 
-// Run on page load
-document.addEventListener('DOMContentLoaded', () => {
-    initDashboard();
 
-    const weeklyBtn = document.getElementById('weeklyViewBtn');
-    if (weeklyBtn) {
-        weeklyBtn.style.cursor = 'pointer';
-        weeklyBtn.addEventListener('click', () => {
-            window.location.href = 'weekly-view.html';
-        });
-    }
-});
 
 
 
