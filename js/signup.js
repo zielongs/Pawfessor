@@ -1,6 +1,6 @@
 /* ============================================
    SIGNUP PAGE FUNCTIONALITY - JAVASCRIPT
-   Author      : Md Habibullah Habib
+   Author      : Noraziela Binti Jepsin
    Updated By  : Siti Norlie Yana, Nur 'Aainaa Hamraa
    Tested By   : Siti Norlie Yana
    Description : Handles signup page interactions,

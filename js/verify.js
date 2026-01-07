@@ -1,6 +1,6 @@
 /* ============================================
    VERIFY CODE PAGE FUNCTIONALITY - JAVASCRIPT
-   Author      : Md Habibullah Habib
+   Author      : Noraziela Binti Jepsin
    Updated By  : Siti Norlie Yana
    Tested By   : Siti Norlie Yana
    Description : Handles verification code input

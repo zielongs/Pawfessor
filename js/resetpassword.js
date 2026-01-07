@@ -1,8 +1,8 @@
 /* ============================================
    RESET PASSWORD PAGE FUNCTIONALITY - JAVASCRIPT
-   Author      : Md Habibullah Habib
-   Updated By  : Siti Norlie Yana
-   Tested By   : Siti Norlie Yana
+   Author      : Noraziela Binti Jepsin
+   Updated By  : Siti Norlie Yana, Noraziela Binti Jepsin
+   Tested By   : Siti Norlie Yana, Noraziela Binti Jepsin
    Description : Handles resetting the user's password,
                  including validation for empty fields,
                  password confirmation, success alert, 
@@ -10,7 +10,7 @@
                  navbar loading.
    ============================================ */
 
-function resetPassword() {
+function resetPassword(token) {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
@@ -24,14 +24,21 @@ function resetPassword() {
         return;
     }
 
-    alert("Your password has been reset successfully!");
-    // Redirect to login page
-    window.location.href = "login.html";
+    // Send to backend to update password
+    fetch("resetpassword-backend.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`
+    })
+    .then(res => res.text())
+    .then(msg => {
+        alert(msg);
+        if (msg.includes("successfully")) {
+            window.location.href = "login.php";
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error updating password. Try again.");
+    });
 }
-
-fetch("/navbar.html")
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById("navbar").innerHTML = html;
-  })
-  .catch(err => console.error("Navbar load failed:", err));

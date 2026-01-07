@@ -1,6 +1,6 @@
 /* ============================================
    LOGIN PAGE FUNCTIONALITY - JAVASCRIPT
-   Author      : Md Habibullah Habib
+   Author      : Noraziela binti Jepsin
    Updated By  : Siti Norlie Yana
 				     Alyssa Annabelle binti James Pekan
    Tested By   : Siti Norlie Yana
