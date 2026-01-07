@@ -2,7 +2,7 @@
      WEEKLY VIEW JAVASCRIPT
      ---------------------------------------------------
     Author: Noraziela Binti Jepsin
-    Updated: 08 January 2026
+    Updated: Noraziela Binti Jepsin
     
     Features:
     - Click empty slots to add tasks
@@ -338,4 +338,5 @@ document.getElementById('taskModal')?.addEventListener('click', (e) => {
 });
 
 console.log('📅 Weekly view loaded successfully');
+
 console.log('💡 Keyboard shortcuts: ← → (navigate), T (today), N (new task), ESC (close)');
