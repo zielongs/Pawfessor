@@ -1,0 +1,584 @@
+================================================================================
+                    PAWFESSOR - COMPLETE USER GUIDE
+================================================================================
+Project: Pawfessor - The Smart Study Planner
+Version: 2.0
+Last Updated: January 8, 2026
+================================================================================
+
+TABLE OF CONTENTS
+================================================================================
+1. System Overview
+2. Creating an Account
+3. Logging In
+4. Setting Up Security Questions
+5. Forgot Password
+6. Updating Your Profile
+7. Logging Out
+8. Admin Login
+9. Troubleshooting
+10. FAQs
+
+================================================================================
+1. SYSTEM OVERVIEW
+================================================================================
+
+Pawfessor is a web-based productivity application with secure user 
+authentication. The system includes:
+
+✓ User Registration & Login
+✓ Profile Management
+✓ Security Questions (2-Factor Authentication)
+✓ Password Reset System
+✓ Admin Dashboard
+✓ User Dashboard
+
+Default URL: http://localhost/pawfessor/
+
+================================================================================
+2. CREATING AN ACCOUNT (SIGN UP)
+================================================================================
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+Step 1: Go to Sign Up Page
+   → Navigate to: http://localhost/pawfessor/signup.php
+   → Or click "Get Pawfessor Free" or "Sign up" on the home page
+
+Step 2: Fill in Registration Form
+   → Full Name: Enter your complete name
+      Example: John Doe
+   
+   → Email Address: Enter a valid email
+      Example: john.doe@example.com
+      Note: Use a real email if you want to receive notifications
+   
+   → Password: Create a strong password
+      Requirements:
+      - Minimum 8 characters
+      - Must contain letters (A-Z or a-z)
+      - Must contain numbers (0-9)
+      Example: MyPass123
+
+Step 3: Submit
+   → Click "Create an account" button
+   → Wait for confirmation message
+   → You'll be automatically logged in
+
+Step 4: Success!
+   → You'll be redirected to your dashboard
+   → Your account is now active
+
+IMPORTANT NOTES:
+- Email must be unique (not already registered)
+- Remember your password - it's hashed and cannot be retrieved
+- Case doesn't matter for email (john@email.com = JOHN@email.com)
+
+================================================================================
+3. LOGGING IN
+================================================================================
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+Step 1: Go to Login Page
+   → Navigate to: http://localhost/pawfessor/login.php
+   → Or click "Login" on the home page
+
+Step 2: Enter Credentials
+   → Email: Enter your registered email
+      Example: john.doe@example.com
+   
+   → Password: Enter your password
+      Example: MyPass123
+   
+   → Toggle: Click the eye icon to show/hide password
+
+Step 3: Submit
+   → Click "LOGIN" button
+   → System validates your credentials
+
+Step 4: Success!
+   → Regular User: Redirected to dashboard-user.php
+   → Admin User: Redirected to dashboard-admin.php
+
+TROUBLESHOOTING LOGIN:
+- "Email not registered" → Check spelling or sign up first
+- "Incorrect password" → Check caps lock, try again
+- Forgot password? → Click "Forgot your password?" link
+
+================================================================================
+4. SETTING UP SECURITY QUESTIONS
+================================================================================
+
+WHY SET UP SECURITY QUESTIONS?
+- Adds extra layer of account protection
+- Required for password reset
+- Only you know the answers
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+Step 1: Access Security Questions Page
+   → After logging in, go to:
+      http://localhost/pawfessor/setup-security-questions.php
+   → Or find the link in your profile/dashboard
+
+Step 2: Choose Question 1
+   → Select from dropdown menu:
+      • What was the name of your first pet?
+      • What is your mother's maiden name?
+      • What city were you born in?
+      • What was the name of your elementary school?
+      • What is your favorite book?
+      • What was your childhood nickname?
+      • What is your favorite food?
+      • What was the model of your first car?
+      • What is your favorite movie?
+      • What street did you grow up on?
+
+Step 3: Enter Answer 1
+   → Type your answer in the text field
+   → Example: "Fluffy" (for first pet)
+   → Case doesn't matter (fluffy = FLUFFY = Fluffy)
+
+Step 4: Choose Question 2
+   → Select a DIFFERENT question from dropdown
+   → Must be different from Question 1
+
+Step 5: Enter Answer 2
+   → Type your answer
+   → Example: "Kuching" (for birth city)
+
+Step 6: Save
+   → Click "Save Security Questions"
+   → You'll see: ✓ "Security questions saved successfully!"
+
+IMPORTANT TIPS:
+- Choose questions only YOU know the answer to
+- Don't share answers with anyone
+- Remember your answers (write them down somewhere safe)
+- You can update questions anytime by visiting the same page
+- Answers are encrypted - even admins can't see them
+
+================================================================================
+5. FORGOT PASSWORD (PASSWORD RESET)
+================================================================================
+
+COMPLETE PASSWORD RESET PROCESS:
+--------------------------------
+
+Step 1: Go to Forgot Password Page
+   → Navigate to: http://localhost/pawfessor/forgetpassword.php
+   → Or click "Forgot your password?" on login page
+
+Step 2: Enter Your Email
+   → Type your registered email address
+   → Click "Get Reset Code"
+   → Wait for response
+
+Step 3: Copy the 6-Digit Code
+   → A code will appear on screen (example: 123456)
+   → Code is large and easy to read
+   → IMPORTANT: Copy this code!
+   → Code expires in 1 hour
+
+Step 4: Continue to Security Questions
+   → Click "Continue to Security Questions"
+   → You'll be asked to verify your identity
+
+Step 5: Answer Security Questions
+   → You'll see your 2 security questions
+   → Enter the answers you set up earlier
+   → Case doesn't matter
+   → Example:
+      Q: What was the name of your first pet?
+      A: fluffy (or Fluffy, FLUFFY - all work)
+   → Click "Verify & Continue"
+
+Step 6: Enter Verification Code
+   → Type the 6-digit code from Step 3
+   → The form auto-submits when you enter 6 digits
+   → Or click "Verify Code" button
+
+Step 7: Set New Password
+   → Enter your new password
+      Requirements:
+      - Minimum 8 characters
+      - Must contain letters
+      - Must contain numbers
+   
+   → Confirm your new password (type it again)
+   → Click "Reset Password"
+
+Step 8: Success!
+   → You'll see: ✓ "Password reset successful!"
+   → Auto-redirects to login page in 2 seconds
+   → Log in with your NEW password
+
+WHAT IF I DON'T HAVE SECURITY QUESTIONS?
+- The system will skip Step 5
+- You go directly from code display to code verification
+- After resetting, set up security questions for better security
+
+TROUBLESHOOTING:
+- "Invalid or expired code" → Code might have expired, try again
+- "Wrong security answers" → Check spelling, try again
+- "Passwords don't match" → Make sure both password fields match
+- Code not showing? → Check if email is registered
+
+================================================================================
+6. UPDATING YOUR PROFILE
+================================================================================
+
+WHAT YOU CAN UPDATE:
+-------------------
+✓ Full Name (First & Last)
+✓ Phone Number (with country code)
+✓ Gender (Male/Female/Other)
+✓ Date of Birth
+✓ Profile Avatar (Photo)
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+Step 1: Go to Profile Page
+   → Navigate to: http://localhost/pawfessor/profiles.php
+   → Or click "Profiles" in sidebar menu
+
+Step 2: Click Edit Icon
+   → Click the ✎ (pencil) icon next to your name
+   → Or go directly to:
+      http://localhost/pawfessor/update-profile.php
+
+Step 3: Update Information
+   
+   CHANGE NAME:
+   → First Name: Enter new first name
+   → Last Name: Enter new last name
+   
+   CHANGE PHONE:
+   → Select country code from dropdown:
+      🇲🇾 Malaysia (+60)
+      🇺🇸 USA (+1)
+      🇬🇧 UK (+44)
+      🇸🇬 Singapore (+65)
+      🇮🇩 Indonesia (+62)
+      ✏️ Other (type your own)
+   → Enter phone number (without country code)
+   → Example: +60 123456789
+   
+   SELECT GENDER:
+   → Choose from dropdown: Male / Female / Other
+   
+   ENTER DATE OF BIRTH:
+   → Click the calendar icon
+   → Select your birth date
+   
+   CHANGE AVATAR:
+   → Click the ✎ icon on your profile picture
+   → Select an image file (JPG, PNG, GIF)
+   → Maximum size: 5MB
+   → Preview shows immediately
+
+Step 4: Save Changes
+   → Click "Update Profile" button
+   → Wait for confirmation
+   → You'll see: ✓ "Profile updated successfully!"
+   → Auto-redirects to profile page
+
+AVATAR REQUIREMENTS:
+- File types: JPG, JPEG, PNG, GIF only
+- Maximum size: 5MB
+- Recommended: Square image (200x200 or larger)
+- Image is saved in: uploads/avatars/ folder
+
+================================================================================
+7. LOGGING OUT
+================================================================================
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+Step 1: Find Logout Option
+   → Go to your profile page (profiles.php)
+   → Or look for "Log Out" in the navigation
+
+Step 2: Click Log Out
+   → Click the "Log Out" option
+   → A confirmation modal will appear
+
+Step 3: Confirm Logout
+   → Modal shows: "Are you sure you want to log out?"
+   → Click "Log Out" to confirm
+   → Or click "Cancel" to stay logged in
+
+Step 4: Logged Out
+   → Your session is cleared
+   → Redirected to home page (index.php)
+   → You'll need to log in again to access your account
+
+AUTOMATIC LOGOUT:
+- Session expires after inactivity (browser dependent)
+- Closing browser may end session
+- Clearing cookies will log you out
+
+================================================================================
+8. ADMIN LOGIN
+================================================================================
+
+DEFAULT ADMIN ACCOUNT:
+---------------------
+Email: admin@pawfessor.com
+Password: Admin@123
+
+⚠️ IMPORTANT: Change this password immediately after first login!
+
+ADMIN LOGIN STEPS:
+------------------
+
+Step 1: Go to Login Page
+   → Navigate to: http://localhost/pawfessor/login.php
+
+Step 2: Enter Admin Credentials
+   → Email: admin@pawfessor.com
+   → Password: Admin@123
+
+Step 3: Login
+   → Click "LOGIN" button
+   → System detects admin role
+
+Step 4: Admin Dashboard
+   → Redirected to: dashboard-admin.php
+   → Access admin features
+
+ADMIN PRIVILEGES:
+- View all users
+- Manage accounts
+- Access reports
+- System settings
+
+================================================================================
+9. TROUBLESHOOTING
+================================================================================
+
+COMMON ISSUES & SOLUTIONS:
+--------------------------
+
+ISSUE: "White screen" or blank page
+SOLUTION:
+→ Check if XAMPP Apache and MySQL are running
+→ Clear browser cache (Ctrl + Shift + Delete)
+→ Check PHP error logs: C:\xampp\php\logs\php_error_log.txt
+→ Make sure db.php has correct database credentials
+
+ISSUE: "Database connection failed"
+SOLUTION:
+→ Start MySQL in XAMPP Control Panel
+→ Check database exists: pawfessor_db
+→ Verify db.php settings:
+   Host: localhost
+   User: root
+   Pass: (blank or your password)
+   Name: pawfessor_db
+
+ISSUE: "Email already registered"
+SOLUTION:
+→ Use a different email address
+→ Or login with existing account
+→ Or reset password if you forgot it
+
+ISSUE: "Invalid or expired verification code"
+SOLUTION:
+→ Generate a new code (codes expire in 1 hour)
+→ Make sure you're entering the code correctly
+→ Check if you copied all 6 digits
+
+ISSUE: Password reset code not showing
+SOLUTION:
+→ Make sure email is registered in the system
+→ Check if JavaScript is enabled in browser
+→ Try different browser
+
+ISSUE: Can't upload avatar
+SOLUTION:
+→ Check file size (must be under 5MB)
+→ Check file type (JPG, PNG, GIF only)
+→ Make sure uploads/avatars/ folder exists
+→ Check folder permissions (Windows: read/write access)
+
+ISSUE: Redirect loop (page keeps reloading)
+SOLUTION:
+→ Clear browser cookies and cache
+→ Use incognito/private mode
+→ Check if session_start() is at top of PHP files
+
+ISSUE: Security questions not working
+SOLUTION:
+→ Make sure you've set up security questions first
+→ Check answers (case doesn't matter, but spelling does)
+→ Try setting up questions again
+
+================================================================================
+10. FAQs (FREQUENTLY ASKED QUESTIONS)
+================================================================================
+
+Q: Do I need a real email address?
+A: No, you can use any format (test@example.com). Real email is only needed
+   if you want to receive notifications in the future.
+
+Q: Can I change my email address?
+A: Currently, email cannot be changed (it's the unique identifier). You would
+   need to create a new account with a different email.
+
+Q: How secure is my password?
+A: Very secure! Passwords are hashed using bcrypt (industry standard). Even
+   database administrators cannot see your actual password.
+
+Q: What if I forget my security question answers?
+A: Unfortunately, answers are also hashed and cannot be retrieved. You'll
+   need to contact an administrator to reset your account.
+
+Q: Can I use the same password for multiple accounts?
+A: Technically yes, but NOT recommended for security reasons. Use unique
+   passwords for different accounts.
+
+Q: How long is my session active?
+A: Sessions last until you logout or close your browser (browser dependent).
+   Some browsers keep sessions active even after closing.
+
+Q: Can I have multiple accounts with the same name?
+A: Yes! Names don't have to be unique. Only email addresses must be unique.
+
+Q: What happens if I enter wrong password multiple times?
+A: Currently, there's no lockout. You can keep trying (but be careful of
+   typos and caps lock).
+
+Q: Can I delete my account?
+A: Contact an administrator to delete your account. This feature may be
+   added in future updates.
+
+Q: Is my data safe?
+A: Yes! All sensitive data is encrypted/hashed. The system uses prepared
+   statements to prevent SQL injection attacks.
+
+Q: Can I use special characters in my password?
+A: Yes! You can use letters, numbers, and special characters. The only
+   requirements are: 8+ characters, contains letters and numbers.
+
+Q: What's the difference between user and admin accounts?
+A: Admin accounts have access to admin dashboard and management features.
+   Regular users have access to user dashboard and personal features.
+
+Q: Can I upgrade from free to premium plan?
+A: The subscription_plan field exists in the database. This feature can be
+   implemented based on your needs.
+
+Q: Do I need to set up security questions?
+A: It's optional but HIGHLY RECOMMENDED. Without security questions, your
+   account is less secure during password reset.
+
+Q: Can I change my security questions?
+A: Yes! Visit setup-security-questions.php anytime to update your questions
+   and answers.
+
+Q: What if the 6-digit code expires?
+A: Just request a new code by going through the forgot password process
+   again. Each code is valid for 1 hour.
+
+Q: Can someone else reset my password if they know my email?
+A: No! They also need to:
+   1. Know your security question answers
+   2. Have access to see the verification code
+   Both are required to reset password.
+
+Q: Why do I see "timezone" in some error messages?
+A: This is fixed in the current version. Make sure your db.php includes
+   the timezone settings for Malaysia (UTC+8).
+
+Q: Can I use this system on a live server?
+A: Yes! Just update these in db.php:
+   - Database credentials
+   - Change localhost to your domain
+   - Update URLs in password reset emails (if using email)
+
+================================================================================
+SYSTEM INFORMATION
+================================================================================
+
+Technology Stack:
+- Frontend: HTML, CSS, JavaScript
+- Backend: PHP 7.4+
+- Database: MySQL/MariaDB
+- Server: Apache (XAMPP)
+
+Security Features:
+✓ Password Hashing (Bcrypt)
+✓ SQL Injection Prevention (Prepared Statements)
+✓ XSS Protection (Input Sanitization)
+✓ Session Management
+✓ Security Questions (2FA)
+✓ Token-Based Password Reset
+✓ CSRF Protection
+
+File Upload Support:
+✓ Avatar/Profile Pictures
+✓ Max Size: 5MB
+✓ Formats: JPG, PNG, GIF
+✓ Storage: uploads/avatars/
+
+Browser Compatibility:
+✓ Chrome (Recommended)
+✓ Firefox
+✓ Edge
+✓ Safari
+✓ Opera
+
+Mobile Support:
+✓ Responsive Design
+✓ Touch-Friendly
+✓ Mobile Browsers Supported
+
+================================================================================
+SUPPORT & CONTACT
+================================================================================
+
+For technical support or questions:
+- Check this guide first
+- Review troubleshooting section
+- Contact system administrator
+- Check database logs
+- Review PHP error logs
+
+Project Repository: (Add your repository URL if applicable)
+Documentation: This file + SQL setup file
+
+================================================================================
+VERSION HISTORY
+================================================================================
+
+Version 2.0 (January 8, 2026)
+- Added security questions feature
+- Improved password reset flow
+- Added profile management
+- Fixed timezone issues
+- Added avatar upload
+- Enhanced security
+
+Version 1.0 (Initial Release)
+- Basic authentication
+- User registration
+- Login/Logout
+- Password reset
+
+================================================================================
+END OF USER GUIDE
+================================================================================
+
+Thank you for using Pawfessor! 🐾
+
+For the latest updates and documentation, please refer to the project files.
+
+Last Updated: January 8, 2026
+System Version: 2.0
