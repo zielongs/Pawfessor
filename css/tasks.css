@@ -11,6 +11,7 @@
         and add task button styling.
    ============================================ */
 
+  
         .tasks-header {
             margin-bottom: 30px;
         }
@@ -179,30 +180,47 @@
             gap: 4px;
         }
 
-        .priority-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-        }
+        /* Priority badges */
+.priority-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
 
-        .priority-high {
-            background: #fee;
-            color: #d00;
-        }
+/* Specific priority colors */
+.priority-high {
+    background-color: #F44336;  /* Red */
+}
+.priority-medium {
+    background-color: #FFC107;  /* Amber/Yellow */
+    color: black;
+}
+.priority-low {
+    background-color: #4CAF50;  /* Green */
+}
 
-        .priority-medium {
-            background: #fef3cd;
-            color: #856404;
-        }
 
-        .category-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            background: #e7f3ff;
-            color: #0066cc;
-        }
+        /* Category badges */
+.category-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    text-transform: capitalize;
+}
+
+/* Specific categories */
+.category-exam { background-color: #E53935; }        /* Red */
+.category-revision { background-color: #FB8C00; }    /* Orange */
+.category-assignment { background-color: #43A047; }  /* Green */
+.category-project { background-color: #1E88E5; }     /* Blue */
+.category-quiz { background-color: #8E24AA; }        /* Purple */
+.category-other { background-color: #607D8B; }       /* Grey */
+
 
         .add-task-btn {
             width: 100%;
