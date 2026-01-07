@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Pawfessor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .setting-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .setting-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .setting-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .notification-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #1565c0;
+        }
+
+        .danger-zone {
+            background: #ffebee;
+            border: 2px solid #ef5350;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .danger-zone h3 {
+            color: #c62828;
+            margin-bottom: 15px;
+        }
+
+        .danger-button {
+            background: #ef5350;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .danger-button:hover {
+            background: #c62828;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Settings</h1>
+            <p>Manage your preferences and notifications</p>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="settings-section">
+            <div class="section-title">
+                🔔 Notifications
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">
+                        Push Notifications
+                        <span class="notification-badge">NEW</span>
+                    </div>
+                    <div class="setting-description">
+                        Receive browser notifications for upcoming tasks and deadlines
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="push">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Email Notifications</div>
+                    <div class="setting-description">
+                        Get daily summary emails of your tasks and progress
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="email">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Task Reminders</div>
+                    <div class="setting-description">
+                        Remind me 1 hour before task deadlines
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="reminders">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Streak Notifications</div>
+                    <div class="setting-description">
+                        Celebrate your daily streak achievements
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="streak">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Weekly Summary</div>
+                    <div class="setting-description">
+                        Receive a weekly report of your productivity every Sunday
+                    </div>
+                </div>
+                <div class="toggle-switch" data-setting="weekly">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Section -->
+        <div class="settings-section">
+            <div class="section-title">
+                🔒 Privacy & Security
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Profile Visibility</div>
+                    <div class="setting-description">
+                        Allow others to see your public profile
+                    </div>
+                </div>
+                <div class="toggle-switch" data-setting="profile">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Activity Status</div>
+                    <div class="setting-description">
+                        Show when you're actively using Pawfessor
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="activity">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Section -->
+        <div class="settings-section">
+            <div class="section-title">
+                🎨 Display
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Animations</div>
+                    <div class="setting-description">
+                        Enable smooth transitions and animations
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="animations">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Sound Effects</div>
+                    <div class="setting-description">
+                        Play sounds when completing tasks
+                    </div>
+                </div>
+                <div class="toggle-switch active" data-setting="sounds">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            💡 <strong>Tip:</strong> Enable notifications to never miss a deadline! You'll receive timely reminders for all your important tasks.
+        </div>
+
+        <button class="save-button" id="saveSettings">Save All Settings</button>
+
+        <!-- Danger Zone -->
+        <div class="danger-zone">
+            <h3>⚠️ Danger Zone</h3>
+            <p style="color: #666; margin-bottom: 15px;">These actions cannot be undone. Please be careful!</p>
+            <button class="danger-button" id="clearData">Clear All Data</button>
+            <button class="danger-button" id="deleteAccount" style="margin-left: 10px;">Delete Account</button>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="profiles.html" class="back-link">← Back to Profile</a>
+        </div>
+    </div>
+
+    <script>
+        // Store settings state
+        const settings = {
+            push: true,
+            email: true,
+            reminders: true,
+            streak: true,
+            weekly: false,
+            profile: false,
+            activity: true,
+            animations: true,
+            sounds: true
+        };
+
+        // Load saved settings from localStorage
+        const savedSettings = localStorage.getItem('pawfessorSettings');
+        if (savedSettings) {
+            Object.assign(settings, JSON.parse(savedSettings));
+        }
+
+        // Initialize toggle switches based on saved settings
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            const settingName = toggle.dataset.setting;
+            if (settings[settingName]) {
+                toggle.classList.add('active');
+            } else {
+                toggle.classList.remove('active');
+            }
+        });
+
+        // Toggle switch click handlers
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const settingName = toggle.dataset.setting;
+                toggle.classList.toggle('active');
+                settings[settingName] = toggle.classList.contains('active');
+            });
+        });
+
+        // Save settings
+        document.getElementById('saveSettings').addEventListener('click', () => {
+            localStorage.setItem('pawfessorSettings', JSON.stringify(settings));
+            
+            // Show success message
+            const button = document.getElementById('saveSettings');
+            const originalText = button.textContent;
+            button.textContent = '✓ Settings Saved!';
+            button.style.background = '#4CAF50';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 2000);
+        });
+
+        // Clear data button
+        document.getElementById('clearData').addEventListener('click', () => {
+            if (confirm('⚠️ Are you sure you want to clear all your data? This action cannot be undone!')) {
+                if (confirm('This will delete all your tasks, progress, and settings. Are you absolutely sure?')) {
+                    localStorage.clear();
+                    alert('✓ All data has been cleared. Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                }
+            }
+        });
+
+        // Delete account button
+        document.getElementById('deleteAccount').addEventListener('click', () => {
+            if (confirm('⚠️ Are you sure you want to DELETE your account? This action is PERMANENT and cannot be undone!')) {
+                const confirmation = prompt('Type "DELETE" to confirm account deletion:');
+                if (confirmation === 'DELETE') {
+                    alert('Your account has been scheduled for deletion. You will receive a confirmation email within 24 hours.');
+                    // In real app, this would call an API
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    alert('Account deletion cancelled.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
