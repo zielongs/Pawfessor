@@ -1,6 +1,8 @@
 /* ===================================================
      WEEKLY VIEW STYLES - ENHANCED
      ---------------------------------------------------
+    Author: Noraziela Binti Jepsin
+    Update: Noraziela Binti Jepsin
     Modern calendar design with interactive elements
 =================================================== */
 
@@ -475,4 +477,5 @@
 
 .toast.error {
     background: #ff4757;
+
 }
