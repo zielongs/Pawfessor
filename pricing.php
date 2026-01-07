@@ -58,7 +58,7 @@ if (isset($_GET['plan'])) {
   </div>
 
   <nav class="pricing-nav">
-    <a href="index.html">Home</a>
+    <a href="index.php">Home</a>
     <a href="pricing.php" class="active">Pricing</a>
     <a href="#">Help</a>
     <a href="login.php">Log In</a>
@@ -162,6 +162,7 @@ if (isset($_GET['plan'])) {
 
 </body>
 </html>
+
 
 
 
