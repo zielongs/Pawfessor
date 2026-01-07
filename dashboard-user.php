@@ -159,6 +159,18 @@ $user_id = $_SESSION['user_id'];
 <script src="js/main.js"></script>
 <script src="js/dashboard-user.js"></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const weeklyViewBtn = document.getElementById('weeklyViewBtn');
+    if (weeklyViewBtn) {
+        weeklyViewBtn.addEventListener('click', () => {
+            window.location.href = 'weekly-view.php';
+        });
+    }
+});
+</script>
+
+
 </body>
 </html>
 

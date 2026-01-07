@@ -1,21 +1,18 @@
-<!-- ===================================================
-     TASKS PAGE
+<?php
+/* ===================================================
+     TASKS PAGE - ENHANCED VERSION
      ---------------------------------------------------
     Author: Siti Norlie Yana
-    Date: 01 January 2026
-    Tested by:
-    Updated by:
-    Description:
-     This page displays the user's task list including:
-     - Search bar for tasks
-     - Task categories filter
-     - Task list (dynamically populated)
-     - Add New Task button
+    Updated: Noraziela Binti Jepsin
+    
+    Features:
+    - Beautiful card-based layout
+    - Quick filters and search
+    - Mark complete inline
+    - Edit and delete options
+    - Drag to reorder (coming soon)
+=================================================== */
 
-     All dynamic content is populated via tasks.js
-     using data stored in localStorage.
-=================================================== -->
-<?php
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -28,15 +25,17 @@ if (!isset($_SESSION['user_id'])) {
 include "db.php";
 
 $user_id = intval($_SESSION['user_id']);
-$fullname = $_SESSION['fullname'];
+$fullname = $_SESSION['fullname'] ?? 'User';
 
 // Fetch tasks for this user
-$sql = "SELECT * FROM tasks WHERE user_id = $user_id ORDER BY due_date ASC, created_at DESC";
-$result = mysqli_query($conn, $sql);
-
-if (!$result) {
-    die("Database query error: " . mysqli_error($conn));
-}
+$sql = "SELECT * FROM tasks WHERE user_id = ? ORDER BY 
+        CASE WHEN completed = 0 THEN 0 ELSE 1 END,
+        due_date ASC, 
+        created_at DESC";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 $tasks = [];
 while ($row = mysqli_fetch_assoc($result)) {
@@ -51,14 +50,13 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Tasks</title>
+<title>My Tasks - Pawfessor</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/tasks.css">
 </head>
 <body>
 
-<!-- Sidebar and header remain unchanged -->
 <button class="menu-toggle" id="menuToggle">
     <img src="images/Dashboard/d_sidebar.png" width="40" height="40">
 </button>
@@ -78,9 +76,13 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
                 <img src="images/Dashboard/d_my_tasks.png" width="40" height="40">
                 <span>My Tasks</span>
             </a>
-            <a href="progress.html" class="menu-item">
+            <a href="progress.php" class="menu-item">
                 <img src="images/Dashboard/d_progress.png" width="40" height="40">
                 <span>Progress</span>
+            </a>
+            <a href="weekly-view.php" class="menu-item">
+                <img src="images/Dashboard/d_progress.png" width="40" height="40">
+                <span>Weekly View</span>
             </a>
             <a href="store.html" class="menu-item">
                 <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
@@ -105,56 +107,89 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
         </nav>
     </aside>
 
-     <main class="main-content">
-        <div class="tasks-header">
-            <h1 class="tasks-title">TASK LISTS</h1>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search Task" id="searchInput">
-                <span class="search-icon">
-                    <img src="images/search_icon.png" width="40" height="35">
-                </span>
+     <main class="main-content tasks-page">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📋 My Tasks</h1>
+            <p>Manage and organize your academic tasks</p>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search tasks..." class="search-input">
             </div>
-            <div class="categories-filter">
-                <span class="categories-label">Categories:</span>
-                <div class="category-checkboxes">
-                    <div class="category-item">
-                        <input type="checkbox" id="catAll" checked data-category="all">
-                        <label for="catAll">All</label>
-                    </div>
-                    <div class="category-item">
-                        <input type="checkbox" id="catExam" data-category="Exam">
-                        <label for="catExam">Exam</label>
-                    </div>
-                    <div class="category-item">
-                        <input type="checkbox" id="catRevision" data-category="Revision">
-                        <label for="catRevision">Revision</label>
-                    </div>
-                    <div class="category-item">
-                        <input type="checkbox" id="catAssignment" data-category="Assignment">
-                        <label for="catAssignment">Assignment</label>
-                    </div>
-                    <div class="category-item">
-                        <input type="checkbox" id="catProject" data-category="Project">
-                        <label for="catProject">Project</label>
-                    </div>
-                    <div class="category-item">
-                        <input type="checkbox" id="catQuiz" data-category="Quiz">
-                        <label for="catQuiz">Quiz</label>
-                    </div>
-                </div>
+
+            <div class="quick-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button class="filter-btn" data-filter="overdue">Overdue</button>
+            </div>
+
+            <div class="category-filters">
+                <button class="category-chip active" data-category="all">All</button>
+                <button class="category-chip" data-category="Exam">📝 Exam</button>
+                <button class="category-chip" data-category="Assignment">📄 Assignment</button>
+                <button class="category-chip" data-category="Project">🎯 Project</button>
+                <button class="category-chip" data-category="Quiz">❓ Quiz</button>
+                <button class="category-chip" data-category="Revision">📚 Revision</button>
+            </div>
+
+            <button class="add-task-btn" onclick="window.location.href='add-task.php'">
+                ➕ Add New Task
+            </button>
+        </div>
+
+        <!-- Task Statistics -->
+        <div class="task-stats">
+            <div class="stat-box">
+                <span class="stat-number" id="totalTasks">0</span>
+                <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="activeTasks">0</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="completedTasks">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="overdueTasks">0</span>
+                <span class="stat-label">Overdue</span>
             </div>
         </div>
 
-        <!-- TASK LIST -->
-        <div class="task-list" id="taskList" data-tasks='<?php echo $tasks_json; ?>'>
-            <!-- Tasks rendered by JS -->
+        <!-- Task List -->
+        <div class="task-grid" id="taskList" data-tasks='<?php echo $tasks_json; ?>'>
+            <!-- Tasks will be rendered here by JavaScript -->
         </div>
 
-        <a href="add-task.php">
-            <button class="add-task-btn" id="addTaskBtn">ADD NEW TASK</button>
-        </a>
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">📭</div>
+            <h3>No tasks found</h3>
+            <p>Start by adding a new task or adjust your filters</p>
+            <button class="add-task-btn" onclick="window.location.href='add-task.php'">
+                ➕ Add Your First Task
+            </button>
+        </div>
     </main>
 </div>
+
+<!-- Task Detail Modal -->
+<div class="modal" id="taskModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalBody">
+            <!-- Task details will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Success Toast -->
+<div class="toast" id="toast"></div>
 
 <script src="js/security.js"></script>
 <script src="js/main.js"></script>
@@ -162,5 +197,3 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
 
 </body>
 </html>
-
-
