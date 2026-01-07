@@ -2,6 +2,8 @@
 /* ===================================================
      ENHANCED TASK API WITH PROGRESS TRACKING
      ---------------------------------------------------
+    Author: Siti Norlie Yana
+    Update: Noraziela Binti Jepsin
     Features:
      - CRUD operations for tasks
      - Automatic progress calculation
