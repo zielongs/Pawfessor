@@ -1,8 +1,8 @@
 /* ============================================
    TASKS.JS - Enhanced Task Management
 -----------------------------------------------
-Author: Siti Norlie Yana
-Date: 08 January 2026
+    Author: Siti Norlie Yana
+    Update: Noraziela Binti Jepsin
 Features:
     - Card-based task display
     - Inline complete/edit/delete
@@ -418,5 +418,6 @@ function showEmptyState() {
     container.style.display = 'none';
     emptyState.style.display = 'block';
 }
+
 
 console.log('📋 Tasks.js loaded successfully');
