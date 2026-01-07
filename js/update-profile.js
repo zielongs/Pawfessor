@@ -2,7 +2,6 @@
          UPDATE PROFILE PAGE - JavaScript
          Author: Noraziela Binti Jepsin
          Date: 31 December 2025S
-         Tested by:
          Updated by:
 
          ============================================ */
