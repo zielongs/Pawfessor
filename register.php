@@ -4,7 +4,7 @@ include "db.php"; // mysqli connection
 
 // Redirect logged-in users away
 if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard-user.php");
+    header("Location: login.php");
     exit();
 }
 
