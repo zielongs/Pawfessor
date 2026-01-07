@@ -6,9 +6,33 @@
     Tested by: Siti Norlie Yana
     Updated by: Siti Norlie Yana
     Description:
-       This page displays the available pricing plans 
-       for the Pawfessor system.
+       - This page displays the available pricing plans 
+         for the Pawfessor system.
+       - Check login status
+       - Store selected plan in session
+       - Redirect user accordingly
 =================================================== -->
+
+<?php
+session_start(); 
+
+// Handle plan selection
+if (isset($_GET['plan'])) {
+
+  // If user not logged in → signup first
+  if (!isset($_SESSION['user_id'])) {
+    header("Location: signup.php");
+    exit();
+  }
+
+  // Logged in → save selected plan to session (temporary)
+  $_SESSION['cart']['plan'] = $_GET['plan'];
+
+  // Redirect to add-to-cart page
+  header("Location: carts.php");
+  exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,10 +59,10 @@
 
   <nav class="pricing-nav">
     <a href="index.html">Home</a>
-    <a href="pricing.html" class="active">Pricing</a>
+    <a href="pricing.php" class="active">Pricing</a>
     <a href="#">Help</a>
-    <a href="login.html">Log In</a>
-    <a href="signup.html" class="cta">Get Pawfessor Free</a>
+    <a href="login.php">Log In</a>
+    <a href="signup.php" class="cta">Get Pawfessor Free</a>
   </nav>
 </header>
 
@@ -67,7 +91,7 @@
         <img src="images/Plans/free.png" class="plan-icon">
       </div>
 
-      <a href="signup.html" class="btn">
+      <a href="signup.php" class="btn">
         SIGN UP FOR FREE
       </a>
       
@@ -76,7 +100,6 @@
         <li>Limited Task</li>
         <li>Basic Analytics</li>
       </ul>
-
 
     </div>
 
@@ -95,7 +118,7 @@
         <img src="images/Plans/standard.png" class="plan-icon">
       </div>
 
-      <a href="carts.html" class="btn">
+      <a href="pricing.php?plan=STANDARD" class="btn">
         UPGRADE
       </a>
 
@@ -122,7 +145,7 @@
         <img src="images/Plans/premium.png" class="plan-icon">
       </div>
       
-      <a href="carts.html" class="btn">
+      <a href="pricing.php?plan=PREMIUM" class="btn">
         UPGRADE
       </a>
 
@@ -139,5 +162,7 @@
 
 </body>
 </html>
+
+
 
 
