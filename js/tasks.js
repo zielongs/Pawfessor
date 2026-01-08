@@ -13,16 +13,21 @@
         - Marking tasks as completed
         - Persisting tasks in localStorage
    ============================================ */
-
-/* ============================================
-   GLOBAL STATE
-   ============================================ */
 let TasksState = {
     tasks: [],
     filteredTasks: [],
     selectedCategories: ['all'],
     searchQuery: ''
 };
+
+/* =========================================
+   SIDEBAR TOGGLE
+========================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize tasks & filters
+    initTasksData();
+    setupEvents();
+});
 
 /* =========================================
    INIT TASKS FROM PHP DATA
@@ -33,10 +38,7 @@ function initTasksData() {
 
     try {
         const phpTasks = JSON.parse(tasksEl.dataset.tasks);
-        TasksState.tasks = phpTasks.map(t => ({
-            ...t,
-            completed: t.completed == 1
-        }));
+        TasksState.tasks = phpTasks.map(t => ({ ...t, completed: t.completed == 1 }));
         applyFilters();
     } catch (e) {
         console.error('Error parsing tasks JSON from PHP:', e);
@@ -50,13 +52,11 @@ function initTasksData() {
 function applyFilters() {
     let filtered = [...TasksState.tasks];
 
-    // Search filter
     if (TasksState.searchQuery) {
         const q = TasksState.searchQuery.toLowerCase();
         filtered = filtered.filter(t => t.title.toLowerCase().includes(q));
     }
 
-    // Category filter
     if (!TasksState.selectedCategories.includes('all')) {
         filtered = filtered.filter(t =>
             TasksState.selectedCategories
@@ -86,33 +86,18 @@ function renderTasks() {
         card.className = `task-card ${task.completed ? 'completed' : ''}`;
         card.dataset.taskId = task.id;
 
-        // Checkbox
         const checkbox = document.createElement('div');
         checkbox.className = `task-checkbox ${task.completed ? 'checked' : ''}`;
         checkbox.textContent = task.completed ? '✓' : '';
         checkbox.onclick = e => { e.stopPropagation(); toggleComplete(task.id); };
 
-        // Priority badge
         const priorityClass = task.priority.trim().toLowerCase();
-        const priorityBadge = `<span class="priority-badge priority-${priorityClass}">
-            ${task.priority.toUpperCase()}
-        </span>`;
+        const priorityBadge = `<span class="priority-badge priority-${priorityClass}">${task.priority.toUpperCase()}</span>`;
 
-        // Normalize to lowercase for class, but display original for text
-const categoryClass = task.category ? task.category.toLowerCase() : 'other';
-const categoryText = task.category
-    ? task.category.charAt(0).toUpperCase() + task.category.slice(1)
-    : 'Other';
+        const categoryClass = task.category ? task.category.toLowerCase() : 'other';
+        const categoryText = task.category ? task.category.charAt(0).toUpperCase() + task.category.slice(1) : 'Other';
+        const categoryBadge = `<span class="category-badge category-${categoryClass}">${categoryText}</span>`;
 
-const categoryBadge = `<span class="category-badge category-${categoryClass}">
-    ${categoryText}
-</span>`;
-
-
-
-
-
-        // Content
         const content = document.createElement('div');
         content.className = 'task-content';
         content.innerHTML = `
@@ -127,7 +112,6 @@ const categoryBadge = `<span class="category-badge category-${categoryClass}">
             <p><small>Created at: ${task.created_at}</small></p>
         `;
 
-        // Edit & Delete buttons
         const editBtn = document.createElement('button');
         editBtn.className = 'task-edit-btn';
         editBtn.innerHTML = '<img src="images/edit_icon.png" width="40">';
@@ -138,7 +122,6 @@ const categoryBadge = `<span class="category-badge category-${categoryClass}">
         delBtn.innerHTML = '<img src="images/delete_icon.png" width="20">';
         delBtn.onclick = e => { e.stopPropagation(); deleteTask(task.id); };
 
-        // Append to card
         card.appendChild(checkbox);
         card.appendChild(content);
         card.appendChild(editBtn);
@@ -147,15 +130,31 @@ const categoryBadge = `<span class="category-badge category-${categoryClass}">
     });
 }
 
-
 /* =========================================
    TASK ACTIONS
 ========================================= */
 function toggleComplete(id) {
     const task = TasksState.tasks.find(t => t.id == id);
     if (!task) return;
-    task.completed = !task.completed;
-    applyFilters();
+
+    const newStatus = task.completed ? 0 : 1;
+
+    fetch('tasks-actions.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'complete', task_id: id, completed: newStatus })
+    })
+    .then(res => res.json())
+    .then(res => {
+        if (res.status === 'success') {
+            task.completed = !task.completed;
+            applyFilters();
+        } else {
+            alert('Error updating task: ' + res.message);
+        }
+    })
+    .catch(err => console.error('AJAX error:', err));
 }
 
 function deleteTask(id) {
@@ -179,42 +178,9 @@ function deleteTask(id) {
     .catch(err => console.error('AJAX error:', err));
 }
 
-
 function editTask(id) {
     window.location.href = `edit-task.php?id=${id}`;
 }
-
-
-function toggleComplete(id) {
-    const task = TasksState.tasks.find(t => t.id == id);
-    if (!task) return;
-
-    const newStatus = task.completed ? 0 : 1;
-
-    fetch('tasks-actions.php', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            action: 'complete',
-            task_id: id,
-            completed: newStatus
-        })
-    })
-    .then(res => res.json())
-    .then(res => {
-        if (res.status === 'success') {
-            task.completed = !task.completed;
-            applyFilters();
-        } else {
-            alert('Error updating task: ' + res.message);
-        }
-    })
-    .catch(err => console.error('AJAX error:', err));
-}
-
-
-
 
 /* =========================================
    EVENTS
@@ -237,13 +203,4 @@ function setupEvents() {
         });
     });
 }
-
-/* =========================================
-   INIT
-========================================= */
-document.addEventListener('DOMContentLoaded', () => {
-    initTasksData();
-    setupEvents();
-});
-
 
