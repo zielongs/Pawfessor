@@ -11,6 +11,15 @@
      charts, and quick action sections for system overview.
 =================================================== -->
 
+<?php
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+  header("Location: login.php");
+  exit;
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,22 +43,22 @@
     </div>
 
     <nav class="dash_nav">
-      <a class="dash_link active" href="dashboard-admin.html">
+      <a class="dash_link active" href="dashboard-admin.php">
         <img class="dash_icon" src="images/Dashboard/d_dashboard.png" alt="">
         <span>Dashboard</span>
       </a>
 
-      <a class="dash_link" href="members.html">
+      <a class="dash_link" href="members.php">
         <img class="dash_icon" src="images/Dashboard/d_profiles.png" alt="">
         <span>Members</span>
       </a>
 
-      <a class="dash_link" href="products.html">
+      <a class="dash_link" href="products.php">
         <img class="dash_icon" src="images/Dashboard/d_carts.png" alt="">
         <span>Products</span>
       </a>
 
-      <a class="dash_link" href="reports.html">
+      <a class="dash_link" href="reports.php">
         <img class="dash_icon" src="images/Dashboard/d_my_tasks.png" alt="">
         <span>Reports</span>
       </a>
@@ -67,7 +76,8 @@
 
       <div class="dash_topbar_title">Dashboard</div>
 
-      <div class="dash_topbar_spacer" aria-hidden="true"></div>
+      <!-- ✅ Logout -->
+      <a href="logout.php" class="dash_logout_link">Logout</a>
     </div>
 
     <h1 class="dash_greeting">Good Morning, <span>Admin</span> ☁️</h1>
