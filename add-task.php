@@ -254,11 +254,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="form-group">
     <label>Due Time</label>
-    <input type="date" name="taskDueDate" 
-       value="<?php echo htmlspecialchars($prefill_date); ?>" 
-       required>
-
+    <input type="time" name="taskDueTime"
+           value="<?php echo htmlspecialchars($prefill_time); ?>"
+           required>
 </div>
+
 
 
                 <div class="form-group">
@@ -295,3 +295,4 @@ menuToggle.addEventListener('click', () => {
 
 </body>
 </html>
+
