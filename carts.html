@@ -1,34 +1,29 @@
 <!-- ===================================================
      ADD TO CART PAGE
      ---------------------------------------------------
-    Author: Nur 'Aainaa Hamraa binti Hamka
-    Date: 01 January 2026
-    Tested by: Siti Norlie Yana
-    Updated by: Siti Norlie Yana
-    Description:
-       This page displays the shopping 
-       cart page for Pawfessor subscription.
+     Author: Nur 'Aainaa Hamraa binti Hamka
+     Date: 01 January 2026
+     Tested by: Siti Norlie Yana
+     Updated by: 
+     Description:
+     Shopping cart page for subscriptions and mascots.
 =================================================== -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Pawfessor | Add to Cart</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/add_to_cart.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <header class="cart-header">
   <div class="cart-logo">
-    <img src="images/Pawfessor_Logo.png" alt="Pawfessor Logo">
+    <img src="images/Pawfessor_Logo.png">
     <span>PAWFESSOR</span>
   </div>
 
@@ -36,40 +31,30 @@
     <a href="index.html">Home</a>
     <a href="pricing.html">Pricing</a>
     <a href="transaction-history.html">Transaction History</a>
-
-    <div class="cart-icons">
-      <a href="carts.html">
-        <img src="images/h_add_to_cart.png" alt="Cart">
-      </a>
-      <a href="profiles.html">
-        <img src="images/h_profiles.png" alt="Profile">
-      </a>
-    </div>
   </nav>
 </header>
 
-<!-- ================= MAIN ================= -->
 <main class="cart-main">
 
-  <!-- LEFT SIDE -->
+  <!-- ================= LEFT ================= -->
   <section class="cart-left">
     <h2>Shopping Cart</h2>
-    <p class="subtext">You have 3 available plans.</p>
 
-    <!-- STANDARD -->
+    <!-- ================= SUBSCRIPTIONS ================= -->
+    <h3>Subscription (Optional)</h3>
+
     <label class="cart-item">
-      <input type="radio" name="plan" onclick="selectPlan('Standard Plan', 5.99)">
+      <input type="radio" name="plan" value="Standard Plan" data-price="5.99">
       <img src="images/Plans/standard.png">
       <div class="item-info">
         <strong>Standard Plan</strong>
-        <span>1 months</span>
+        <span>1 month</span>
       </div>
       <span class="price">RM5.99</span>
     </label>
 
-     <!-- PREMIUM -->
     <label class="cart-item">
-      <input type="radio" name="plan" onclick="selectPlan('Premium Plan', 7.99)">
+      <input type="radio" name="plan" value="Premium Plan" data-price="7.99">
       <img src="images/Plans/premium.png">
       <div class="item-info">
         <strong>Premium Plan</strong>
@@ -78,32 +63,24 @@
       <span class="price">RM7.99</span>
     </label>
 
+    <!-- CANCEL SUBSCRIPTION -->
+    <button id="cancel-plan" class="cancel-btn">
+      Remove Subscription
+    </button>
 
-    <!-- DRAGON -->
-    <label class="cart-item">
-      <input type="radio" name="plan" onclick="selectPlan('Professor Dragon', 2.99)">
-      <img src="images/Mascots/pawfessor_dragon.png">
-      <div class="item-info">
-        <strong>Professor Dragon</strong>
-        <span>Special Edition</span>
-      </div>
-      <span class="price">RM2.99</span>
-    </label>
+    <!-- ================= MASCOTS ================= -->
+    <h3 style="margin-top:30px;">Mascots</h3>
+    <div id="mascot-cart"></div>
 
   </section>
 
-  <!-- RIGHT SIDE -->
+  <!-- ================= RIGHT ================= -->
   <section class="cart-summary">
-    <h3 id="summary-title">Select a Plan</h3>
+    <h3>Order Summary</h3>
 
     <div class="summary-row">
-      <span>Order</span>
+      <span>Subtotal</span>
       <span id="order-price">RM0.00</span>
-    </div>
-
-    <div class="summary-row">
-      <span>Discount</span>
-      <span>RM0.00</span>
     </div>
 
     <hr>
@@ -113,16 +90,13 @@
       <span id="total-price">RM0.00</span>
     </div>
 
-    <a href="checkout.html" class="pay-btn">Proceed to Payment</a>
+    <a href="checkout.php" class="pay-btn">
+      Proceed to Payment
+    </a>
   </section>
 
 </main>
 
-<!-- JS -->
 <script src="js/add_to_cart.js"></script>
-
 </body>
 </html>
-
-
-
