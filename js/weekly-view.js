@@ -56,10 +56,22 @@ function changeWeek(offset) {
 /* =====================================
    ADD TASK TO SLOT
 ===================================== */
-function addTaskToSlot(date, hour) {
-    // Redirect to add task page with pre-filled date
-    window.location.href = `add-task.php?date=${date}`;
+function addTaskToSlot(date, hourLabel) {
+    const time = convertHourToTime(hourLabel);
+    window.location.href = `add-task.php?date=${date}&time=${time}`;
 }
+
+function convertHourToTime(hourLabel) {
+    // Example: "7 AM", "12 PM", "3 PM"
+    const [hourStr, period] = hourLabel.split(' ');
+    let hour = parseInt(hourStr, 10);
+
+    if (period === 'PM' && hour !== 12) hour += 12;
+    if (period === 'AM' && hour === 12) hour = 0;
+
+    return `${String(hour).padStart(2, '0')}:00`;
+}
+
 
 /* =====================================
    SHOW TASK DETAIL
