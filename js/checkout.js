@@ -13,32 +13,81 @@
    - Updating the order summary dynamically
    - Preparing the checkout data before payment
 
-   This script is for front-end simulation only and does
-   not perform real payment processing or backend calls.
 ========================================================= */
 
-window.onload = function () {
+let selectedPayment = "Online Banking";
+
+/* ===============================
+   LOAD CHECKOUT DATA
+=============================== */
+function loadCheckoutData() {
+
   const plan = localStorage.getItem("selectedPlan");
-  const price = localStorage.getItem("selectedPrice");
+  const planPrice = parseFloat(localStorage.getItem("selectedPlanPrice")) || 0;
+  const mascots = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
 
-  const planName = document.getElementById("plan-name");
-  const planPrice = document.getElementById("plan-price");
-  const totalPrice = document.getElementById("total-price");
-  const planIcon = document.getElementById("plan-icon");
+  let total = 0;
+  let html = "";
+  let products = [];
 
-  if (plan && price) {
-    planName.innerText = plan;
-    planPrice.innerText = "RM" + parseFloat(price).toFixed(2);
-    totalPrice.innerText = "RM" + parseFloat(price).toFixed(2);
-
-    // Change icon based on plan
-    if (plan.includes("Premium")) {
-      planIcon.src = "images/Plans/premium.png";
-    } else if (plan.includes("Standard")) {
-      planIcon.src = "images/Plans/standard.png";
-    } else if (plan.includes("Dragon")) {
-      planIcon.src = "images/Mascots/pawfessor_dragon.png";
-    }
+  // PLAN
+  if (plan) {
+    html += `
+      <div class="summary-row">
+        <span>${plan}</span>
+        <span>RM${planPrice.toFixed(2)}</span>
+      </div>`;
+    total += planPrice;
+    products.push(plan);
   }
+
+  // MASCOTS
+  mascots.forEach(name => {
+    html += `
+      <div class="summary-row">
+        <span>${name}</span>
+        <span>RM2.99</span>
+      </div>`;
+    total += 2.99;
+    products.push(name);
+  });
+
+  if (!html) {
+    html = "<p>No items selected</p>";
+  }
+
+  document.getElementById("order-list").innerHTML = html;
+  document.getElementById("total-price").innerText = `RM${total.toFixed(2)}`;
+
+  // Hidden inputs (FOR RECEIPT & HISTORY)
+  document.getElementById("hidden-product").value = products.join(", ");
+  document.getElementById("hidden-amount").value = total;
+}
+
+/* ===============================
+   PAYMENT METHOD SELECTION
+=============================== */
+document.querySelectorAll(".payment-item, .payment-card").forEach(item => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll(".payment-item, .payment-card")
+      .forEach(i => i.classList.remove("selected"));
+
+    item.classList.add("selected");
+    selectedPayment = item.dataset.method;
+  });
+});
+
+/* ===============================
+   ON LOAD
+=============================== */
+window.onload = () => {
+  document.querySelector('[data-method="Online Banking"]').classList.add("selected");
+  loadCheckoutData();
 };
 
+/* ===============================
+   FORM SUBMIT
+=============================== */
+document.querySelector("form").addEventListener("submit", () => {
+  document.getElementById("hidden-payment").value = selectedPayment;
+});
