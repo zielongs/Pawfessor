@@ -88,7 +88,7 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
                 <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
                 <span>Mascot Store</span>
             </a>
-            <a href="subscriptions.html" class="menu-item">
+            <a href="subscriptions.php" class="menu-item">
                 <img src="images/Dashboard/d_subscriptions.png" width="40" height="40">
                 <span>Subscriptions</span>
             </a>
@@ -196,4 +196,5 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
 <script src="js/tasks.js"></script>
 
 </body>
+
 </html>
