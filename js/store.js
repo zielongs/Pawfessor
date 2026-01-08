@@ -1,109 +1,152 @@
 /* ===================================================
-     MASCOT STORE PAGE - JavaScript
-     ---------------------------------------------------
-    Author: Noraziela Binti Jepsin
-    Date: 31 December 2025
-    Tested by: 
-    Updated by:
-
+   MASCOT STORE PAGE - JavaScript
+   ---------------------------------------------------
+   Author: Noraziela Binti Jepsin
+   Updated by: ChatGPT
+   Description:
+   - Filter mascots by tier
+   - Equip ONE basic mascot at a time
+   - Restrict Standard & Premium mascots by user plan
+   - Add mascots to cart (no duplicates)
+   - Store data using localStorage (frontend simulation)
 =================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const mascotCards = document.querySelectorAll('.mascot-card');
-    const checkboxes = document.querySelectorAll('.filter-checkbox input');
+document.addEventListener("DOMContentLoaded", () => {
 
-    // ============================================
-    // 1. FILTERING LOGIC
-    // ============================================
-    function updateFilters() {
-        const activeTiers = Array.from(checkboxes)
-            .filter(i => i.checked)
-            .map(i => i.id.replace('filter', '').toLowerCase());
+  /* ============================================
+     USER PLAN (TEMP – SIMULATES BACKEND)
+     Change value for testing:
+     FREE | STANDARD | PREMIUM
+  ============================================ */
+  let userPlan = localStorage.getItem("userPlan") || "STANDARD"; //later buang
+  // Example testing:
+  // localStorage.setItem("userPlan", "STANDARD");
+  // localStorage.setItem("userPlan", "PREMIUM");
 
-        mascotCards.forEach(card => {
-            const cardTier = card.getAttribute('data-tier');
-            // Show card if 'All' is selected or if its specific tier matches
-            if (activeTiers.includes('all') || activeTiers.includes(cardTier)) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+  const mascotCards = document.querySelectorAll(".mascot-card");
+  const checkboxes = document.querySelectorAll(".filter-checkbox input");
 
-    checkboxes.forEach(box => {
-        box.addEventListener('change', (e) => {
-            if (e.target.id === 'filterAll' && e.target.checked) {
-                // Uncheck others if "All" is selected
-                checkboxes.forEach(b => { if(b.id !== 'filterAll') b.checked = false; });
-            } else if (e.target.checked) {
-                // Uncheck "All" if a specific tier is selected
-                const allBox = document.getElementById('filterAll');
-                if(allBox) allBox.checked = false;
-            }
-            updateFilters();
-        });
-    });
+  /* ============================================
+     1. FILTERING LOGIC
+  ============================================ */
+  function updateFilters() {
+    const activeTiers = Array.from(checkboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.id.replace("filter", "").toLowerCase());
 
-    // ============================================
-    // 2. INTERACTION LOGIC (Browser Alerts Only)
-    // ============================================
-    
-    // Add to Cart Button Logic
-    document.querySelectorAll('.cart-add-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // e.stopPropagation() is critical: it stops the "Viewing details" 
-            // alert from the card background from appearing at the same time.
-            e.stopPropagation(); 
-            
-            const card = btn.closest('.mascot-card');
-            const mascotName = card.querySelector('.mascot-name').textContent;
-
-            // Standard browser alert
-            alert("successfully added to cart");
-
-            // Save to localStorage for use in your carts page
-            let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
-            if (!cart.some(item => item.name === mascotName)) {
-                cart.push({ 
-                    name: mascotName, 
-                    addedAt: new Date().toISOString() 
-                });
-                localStorage.setItem('shoppingCart', JSON.stringify(cart));
-            }
-        });
-    });
-
-    // Upgrade and Unlock Button Logic
-    document.querySelectorAll('.upgrade-btn, .status-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Stops the "Viewing details" alert from triggering
-            e.stopPropagation(); 
-            
-            // If the button says "Equipped", we don't need an alert
-            if (btn.classList.contains('equipped')) return;
-
-            const card = btn.closest('.mascot-card');
-            const tier = card.getAttribute('data-tier');
-
-            // Specific alerts as requested
-            if (tier === 'basic') {
-                alert("Not unlocked yet!");
-            } else if (tier === 'standard') {
-                alert("Upgrade to standard plan or buy separately!");
-            } else if (tier === 'premium') {
-                alert("Upgrade to premium plan or buy separately!");
-            }
-        });
-    });
-
-    // ============================================
-    // 3. CARD BACKGROUND CLICK (View Details)
-    // ============================================
     mascotCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const name = this.querySelector('.mascot-name').textContent;
-            alert(`Viewing details for ${name}`);
-        });
+      const tier = card.getAttribute("data-tier");
+      if (activeTiers.includes("all") || activeTiers.includes(tier)) {
+        card.style.display = "flex";
+      } else {
+        card.style.display = "none";
+      }
     });
+  }
+
+  checkboxes.forEach(box => {
+    box.addEventListener("change", e => {
+      if (e.target.id === "filterAll" && e.target.checked) {
+        checkboxes.forEach(b => {
+          if (b.id !== "filterAll") b.checked = false;
+        });
+      } else if (e.target.checked) {
+        document.getElementById("filterAll").checked = false;
+      }
+      updateFilters();
+    });
+  });
+
+  updateFilters();
+
+  /* ============================================
+     2. BASIC MASCOT EQUIP LOGIC
+     (ONLY ONE CAN BE EQUIPPED)
+  ============================================ */
+
+  let equippedMascot =
+    localStorage.getItem("equippedMascot") || "Pawfessor Cat";
+
+  function updateEquippedUI() {
+    document
+      .querySelectorAll('.mascot-card[data-tier="basic"]')
+      .forEach(card => {
+        const name = card.querySelector(".mascot-name").textContent;
+        const btn = card.querySelector(".status-btn");
+
+        if (name === equippedMascot) {
+          btn.textContent = "Equipped";
+          btn.classList.add("equipped");
+          btn.disabled = true;
+        } else {
+          btn.textContent = "Equip";
+          btn.classList.remove("equipped");
+          btn.disabled = false;
+        }
+      });
+  }
+
+  document
+    .querySelectorAll('.mascot-card[data-tier="basic"] .status-btn')
+    .forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const card = btn.closest(".mascot-card");
+        const name = card.querySelector(".mascot-name").textContent;
+
+        equippedMascot = name;
+        localStorage.setItem("equippedMascot", name);
+        updateEquippedUI();
+      });
+    });
+
+  updateEquippedUI();
+
+  /* ============================================
+     3. ADD TO CART WITH PLAN RESTRICTION
+  ============================================ */
+
+  document.querySelectorAll(".cart-add-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+
+      const card = btn.closest(".mascot-card");
+      const name = card.querySelector(".mascot-name").textContent;
+      const tier = card.getAttribute("data-tier");
+
+      // PLAN CHECK
+      if (tier === "standard" && userPlan === "FREE") {
+        alert("Please upgrade to Standard plan to buy this mascot.");
+        return;
+      }
+
+      if (tier === "premium" && userPlan !== "PREMIUM") {
+        alert("Please upgrade to Premium plan to buy this mascot.");
+        return;
+      }
+
+      // CART STORAGE
+      let cart = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
+
+      if (!cart.includes(name)) {
+        cart.push(name);
+        localStorage.setItem("shoppingCart", JSON.stringify(cart));
+        alert("Successfully added to cart");
+      } else {
+        alert("This mascot is already in your cart");
+      }
+    });
+  });
+
+  /* ============================================
+     4. UPGRADE BUTTON REDIRECTION
+  ============================================ */
+
+  document.querySelectorAll(".upgrade-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      window.location.href = "pricing.html";
+    });
+  });
+
 });
