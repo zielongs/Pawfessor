@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql_update = "UPDATE tasks SET title='$title', subject='$subject', category='$category', due_date='$due_date', priority='$priority', notes='$notes' WHERE id='$task_id' AND user_id='$user_id'";
         if (mysqli_query($conn, $sql_update)) {
             $success = "Task updated successfully!";
-            // Refresh task data
             $result = mysqli_query($conn, "SELECT * FROM tasks WHERE id='$task_id' AND user_id='$user_id'");
             $task = mysqli_fetch_assoc($result);
         } else {
@@ -53,12 +52,156 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>Edit Task</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/add-tasks.css">
+<style>
+/* Form-specific tweaks inside main-content/card */
+.card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card .form-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.card .form-group input,
+.card .form-group select,
+.card .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.card .form-group input:focus,
+.card .form-group select:focus,
+.card .form-group textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    outline: none;
+}
+
+.card .save-btn,
+.card .reset-btn {
+    max-width: 200px;
+    padding: 12px 25px;
+    margin: 0 auto;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    border: none;
+    transition: all 0.3s;
+}
+
+.card .save-btn {
+    background: linear-gradient(135deg, #ffb6c1 0%, #ffd1dc 100%);
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card .save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.card .reset-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.success-message {
+    color: #4caf50;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #e53935;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.reset-btn {
+    background-color: #ccc;
+    color: #333;
+    text-decoration: none;  /* remove underline */
+}
+
+a .reset-btn {
+    text-decoration: none;  /* ensure no underline inside <a> */
+}
+
+</style>
 </head>
 <body>
+
+<!-- Sidebar toggle button -->
+<button class="menu-toggle" id="menuToggle">
+    <img src="images/Dashboard/d_sidebar.png" width="40" height="40" alt="Menu">
+</button>
+
 <div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="images/Pawfessor_Logo.png" width="55" height="65" alt="Pawfessor Logo">
+        </div>
+
+        <nav>
+            <a href="dashboard-user.php" class="menu-item">
+                <img src="images/Dashboard/d_dashboard.png" width="40" height="40">
+                <span>Dashboard</span>
+            </a>
+            <a href="tasks.php" class="menu-item active">
+                <img src="images/Dashboard/d_my_tasks.png" width="40" height="40">
+                <span>My Tasks</span>
+            </a>
+            <a href="progress.html" class="menu-item">
+                <img src="images/Dashboard/d_progress.png" width="40" height="40">
+                <span>Progress</span>
+            </a>
+            <a href="store.html" class="menu-item">
+                <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
+                <span>Mascot Store</span>
+            </a>
+            <a href="subscriptions.html" class="menu-item">
+                <img src="images/Dashboard/d_subscriptions.png" width="40" height="40">
+                <span>Subscriptions</span>
+            </a>
+            <a href="carts.html" class="menu-item">
+                <img src="images/Dashboard/d_carts.png" width="40" height="40">
+                <span>Carts</span>
+            </a>
+            <a href="transaction-history.html" class="menu-item">
+                <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
+                <span>Transaction History</span>
+            </a>
+            <a href="profiles.html" class="menu-item">
+                <img src="images/Dashboard/d_profiles.png" width="40" height="40">
+                <span>Profiles</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
     <main class="main-content">
-        <div class="form-container">
+        <div class="card">
             <h1 class="form-title">EDIT TASK</h1>
 
             <?php if ($success): ?>
@@ -70,18 +213,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form method="post">
                 <div class="form-group">
-                    <label class="form-label">Task Title</label>
-                    <input type="text" class="form-input" name="taskTitle" value="<?php echo htmlspecialchars($task['title']); ?>" required>
+                    <label>Task Title</label>
+                    <input type="text" name="taskTitle" value="<?php echo htmlspecialchars($task['title']); ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Subject:</label>
-                    <input type="text" class="form-input" name="taskSubject" value="<?php echo htmlspecialchars($task['subject']); ?>">
+                    <label>Subject</label>
+                    <input type="text" name="taskSubject" value="<?php echo htmlspecialchars($task['subject']); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Category:</label>
-                    <select class="form-select" name="taskCategory" required>
+                    <label>Category</label>
+                    <select name="taskCategory" required>
                         <?php
                         $categories = ['Assignment','Exam','Revision','Project','Quiz','Other'];
                         foreach ($categories as $cat) {
@@ -93,13 +236,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Due Date:</label>
-                    <input type="date" class="form-input" name="taskDueDate" value="<?php echo $task['due_date']; ?>" required>
+                    <label>Due Date</label>
+                    <input type="date" name="taskDueDate" value="<?php echo $task['due_date']; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Priority:</label>
-                    <select class="form-select" name="taskPriority" required>
+                    <label>Priority</label>
+                    <select name="taskPriority" required>
                         <?php
                         $priorities = ['High','Medium','Low'];
                         foreach ($priorities as $p) {
@@ -111,15 +254,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Notes:</label>
-                    <textarea class="form-textarea" name="taskNotes"><?php echo htmlspecialchars($task['notes']); ?></textarea>
+                    <label>Notes</label>
+                    <textarea name="taskNotes"><?php echo htmlspecialchars($task['notes']); ?></textarea>
                 </div>
 
                 <button type="submit" class="save-btn">UPDATE TASK</button>
-                <a href="tasks.php"><button type="button" class="reset-btn">CANCEL</button></a>
+                <button type="button" class="reset-btn" onclick="window.location.href='tasks.php'">CANCEL</button>
             </form>
         </div>
     </main>
 </div>
+
+<script>
+// Mobile sidebar toggle
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+});
+</script>
+
 </body>
 </html>
