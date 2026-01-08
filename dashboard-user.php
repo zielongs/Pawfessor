@@ -69,7 +69,7 @@ $user_id = $_SESSION['user_id'];
                 <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
                 <span>Mascot Store</span>
             </a>
-            <a href="subscriptions.html" class="menu-item">
+            <a href="subscriptions.php" class="menu-item">
                 <img src="images/Dashboard/d_subscriptions.png" width="40" height="40">
                 <span>Subscriptions</span>
             </a>
@@ -81,7 +81,7 @@ $user_id = $_SESSION['user_id'];
                 <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
                 <span>Transaction History</span>
             </a>
-            <a href="profiles.html" class="menu-item">
+            <a href="profiles.php" class="menu-item">
                 <img src="images/Dashboard/d_profiles.png" width="40" height="40">
                 <span>Profiles</span>
             </a>
@@ -95,19 +95,27 @@ $user_id = $_SESSION['user_id'];
         <header class="header">
             <div></div>
             <div class="header-icons">
-                <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
-                    <img src="images/bell_icon.png" width="40" height="40" alt="Notifications">
-                </button>
-                <a href="profiles.html" class="icon-btn" id="profileBtn" aria-label="Profile">
+                <a href="profiles.php" class="icon-btn" id="profileBtn" aria-label="Profile">
                     <img src="images/h_profiles.png" width="55" height="50" alt="Profile">
                 </a>
             </div>
         </header>
 
+        <?php
+$hour = date('H'); // 24-hour format
+
+if ($hour >= 5 && $hour < 12) {
+    $greeting = "Good morning";
+} elseif ($hour >= 12 && $hour < 17) {
+    $greeting = "Good afternoon";
+} else {
+    $greeting = "Good evening";
+}
+?>
         <!-- GREETING -->
         <div class="greeting">
-            Good morning, <strong><?php echo htmlspecialchars($fullname); ?></strong>
-        </div>
+    <?php echo $greeting; ?>, <strong><?php echo htmlspecialchars($fullname); ?></strong>
+</div>
 
         <!-- TODAY'S TASKS -->
         <div class="card">
@@ -173,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
