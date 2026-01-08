@@ -8,16 +8,15 @@
    and displays the payment receipt.
 ========================================================= */
 
-window.onload = function () {
-  const plan = localStorage.getItem("selectedPlan");
-  const price = localStorage.getItem("selectedPrice");
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (plan && price) {
-    document.getElementById("receipt-plan").innerText = plan;
-    document.getElementById("receipt-amount").innerText = "RM" + Number(price).toFixed(2);
+  const printBtn = document.querySelector(".share-btn");
+
+  if (printBtn) {
+    printBtn.addEventListener("click", () => {
+      window.print();
+    });
   }
 
-  const now = new Date();
-  document.getElementById("receipt-date").innerText =
-    now.toLocaleDateString() + " " + now.toLocaleTimeString();
-};
+});
+
