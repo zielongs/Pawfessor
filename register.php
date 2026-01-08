@@ -1,105 +1,113 @@
 <?php
 /* ============================================
-   REGISTRATION HANDLER
+   REGISTRATION HANDLER - SECURITY QUESTIONS REQUIRED
    Author: Noraziela Binti Jepsin
-   Tested by: Siti Norlie Yana
-   Description: Processes user registration and
-                stores data in MySQL database
+   Description: User registration with mandatory
+                security questions
    ============================================ */
 
 session_start();
 include "db.php";
 
-// Redirect logged-in users
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard-user.php");
     exit();
 }
 
 $errors = [];
-$success = '';
+$availableQuestions = [
+    "What was the name of your first pet?",
+    "What is your mother's maiden name?",
+    "What city were you born in?",
+    "What was the name of your elementary school?",
+    "What is your favorite book?",
+    "What was your childhood nickname?",
+    "What is your favorite food?",
+    "What was the model of your first car?",
+    "What is your favorite movie?",
+    "What street did you grow up on?"
+];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullname = trim($_POST['fullname']);
-    $email    = trim(strtolower($_POST['email']));
+    $email = trim(strtolower($_POST['email']));
     $password = trim($_POST['password']);
+    $question1 = trim($_POST['question1']);
+    $answer1 = trim(strtolower($_POST['answer1']));
+    $question2 = trim($_POST['question2']);
+    $answer2 = trim(strtolower($_POST['answer2']));
     
     // Validation
     if (empty($fullname) || empty($email) || empty($password)) {
-        $errors[] = "All fields are required!";
+        $errors[] = "Name, email and password are required!";
     }
     
-    // Validate email format
+    if (empty($question1) || empty($answer1) || empty($question2) || empty($answer2)) {
+        $errors[] = "Security questions are required!";
+    }
+    
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Please enter a valid email address!";
+        $errors[] = "Invalid email address!";
     }
     
-    // Validate password strength
-    if (strlen($password) < 8) {
-        $errors[] = "Password must be at least 8 characters long!";
+    if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        $errors[] = "Password must be 8+ characters with letters and numbers!";
     }
     
-    if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $errors[] = "Password must contain both letters and numbers!";
+    if ($question1 === $question2) {
+        $errors[] = "Please choose different security questions!";
     }
     
-    // Check if no errors so far
     if (empty($errors)) {
-        // Check if email already exists
         $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         
         if ($result->num_rows > 0) {
-            $errors[] = "This email is already registered! Please <a href='login.php'>login</a>.";
+            $errors[] = "Email already registered!";
         } else {
-            // Hash password
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            $answerHash1 = password_hash($answer1, PASSWORD_DEFAULT);
+            $answerHash2 = password_hash($answer2, PASSWORD_DEFAULT);
             
-            // Insert into database
-            $stmt = $conn->prepare("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $fullname, $email, $passwordHash);
+            $stmt = $conn->prepare("INSERT INTO users (fullname, email, password, security_question_1, security_answer_1, security_question_2, security_answer_2) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssss", $fullname, $email, $passwordHash, $question1, $answerHash1, $question2, $answerHash2);
             
             if ($stmt->execute()) {
-                $success = "Registration successful! You can now <a href='login.php'>login</a>.";
+                $user_id = $stmt->insert_id;
+                $_SESSION['user_id'] = $user_id;
+                $_SESSION['fullname'] = $fullname;
+                $_SESSION['email'] = $email;
+                $_SESSION['role'] = 'user';
+                
+                header("Location: dashboard-user.php");
+                exit();
             } else {
-                $errors[] = "Registration failed. Please try again.";
-                error_log("Registration error: " . $stmt->error);
+                $errors[] = "Registration failed!";
             }
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Pawfessor</title>
+    <title>Sign Up - Pawfessor</title>
     <link rel="stylesheet" href="css/signup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div id="navbar"></div>
-    
     <div class="signup-wrapper">
         <h1>Create an account</h1>
         
-        <!-- Error messages -->
         <?php if (!empty($errors)): ?>
-            <div style="background: #fee; border: 1px solid #fcc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <div style="background: #fee; border: 1px solid #fcc; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
                 <?php foreach ($errors as $error): ?>
-                    <p style="color: #c33; margin: 5px 0;">⚠️ <?php echo $error; ?></p>
+                    <p style="color: #c33; margin: 5px 0; font-size: 14px;">⚠️ <?php echo htmlspecialchars($error); ?></p>
                 <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-        
-        <!-- Success message -->
-        <?php if ($success): ?>
-            <div style="background: #efe; border: 1px solid #cfc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <p style="color: #3c3; margin: 5px 0;">✅ <?php echo $success; ?></p>
             </div>
         <?php endif; ?>
         
@@ -119,16 +127,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="password">Password</label>
             <div class="password-field">
                 <input type="password" name="password" id="password" 
-                       placeholder="Create your password (min. 8 characters)" 
+                       placeholder="Min. 8 characters, letters + numbers" 
                        required>
                 <i class="fa-regular fa-eye" id="togglePassword"></i>
             </div>
             
-            <p style="font-size: 12px; color: #666; margin-top: -10px;">
-                Password must be at least 8 characters and contain letters and numbers
-            </p>
+            <!-- Security Questions (REQUIRED) -->
+            <div style="margin: 25px 0; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #3b82f6;">
+                <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e40af; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-shield-alt"></i> Security Questions
+                </h3>
+                
+                <p style="font-size: 12px; color: #1e40af; margin: 0 0 20px 0; background: #dbeafe; padding: 10px; border-radius: 4px;">
+                    ⚠️ Required for password recovery - Choose questions only you know!
+                </p>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="font-size: 14px; font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">
+                        Question 1: <span style="color: #ef4444;">*</span>
+                    </label>
+                    <select name="question1" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white;">
+                        <option value="">-- Select a question --</option>
+                        <?php foreach ($availableQuestions as $q): ?>
+                            <option value="<?php echo htmlspecialchars($q); ?>"><?php echo htmlspecialchars($q); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="text" name="answer1" placeholder="Your answer" required
+                           style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
+                </div>
+                
+                <div>
+                    <label style="font-size: 14px; font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">
+                        Question 2: <span style="color: #ef4444;">*</span>
+                    </label>
+                    <select name="question2" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white;">
+                        <option value="">-- Select a question --</option>
+                        <?php foreach ($availableQuestions as $q): ?>
+                            <option value="<?php echo htmlspecialchars($q); ?>"><?php echo htmlspecialchars($q); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="text" name="answer2" placeholder="Your answer" required
+                           style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
+                </div>
+            </div>
             
-            <button type="submit" class="signup-btn">Create an account</button>
+            <button type="submit" class="signup-btn">Create Account</button>
         </form>
         
         <p class="login-text">
@@ -136,6 +179,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
     </div>
     
-    <script src="js/signup.js"></script>
+    <script>
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+        
+        if (togglePassword) {
+            togglePassword.addEventListener("click", function() {
+                passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+                this.classList.toggle("fa-eye");
+                this.classList.toggle("fa-eye-slash");
+            });
+        }
+    </script>
 </body>
 </html>
