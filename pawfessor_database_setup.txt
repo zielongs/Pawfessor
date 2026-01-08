@@ -33,6 +33,14 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+// To add subscription plan for the registered user
+ALTER TABLE users
+MODIFY subscription_plan ENUM('free','standard','premium') NOT NULL DEFAULT 'free',
+ADD plan_price DECIMAL(6,2) NOT NULL DEFAULT 0.00,
+ADD next_billing_date DATE DEFAULT NULL,
+ADD auto_renew TINYINT(1) NOT NULL DEFAULT 0,
+ADD payment_method VARCHAR(50) DEFAULT NULL;
+
 ================================================================================
 PASSWORD RESETS TABLE
 ================================================================================
