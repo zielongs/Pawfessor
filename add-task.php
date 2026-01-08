@@ -31,6 +31,8 @@ include "db.php";
 
 $success = '';
 $error = '';
+$prefill_date = $_GET['date'] ?? '';
+$prefill_time = $_GET['time'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id  = $_SESSION['user_id'];
@@ -39,14 +41,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = strtolower(trim($_POST['taskCategory'] ?? ''));
     $category = mysqli_real_escape_string($conn, $category);
     $due_date = $_POST['taskDueDate'] ?? null;
+    $due_time = $_POST['taskDueTime'] ?? null;
+
     $priority = mysqli_real_escape_string($conn, $_POST['taskPriority'] ?? '');
     $notes    = mysqli_real_escape_string($conn, $_POST['taskNotes'] ?? '');
 
-    if (!$title || !$category || !$priority || !$due_date) {
+    if(!$title || !$category || !$priority || !$due_date || !$due_time) {
+ 
         $error = "Please fill in all required fields.";
     } else {
-        $sql = "INSERT INTO tasks (user_id, title, subject, category, due_date, priority, notes, created_at) 
-                VALUES ('$user_id', '$title', '$subject', '$category', '$due_date', '$priority', '$notes', NOW())";
+        $sql = "INSERT INTO tasks (
+            user_id, title, subject, category, 
+            due_date, due_time, priority, notes, created_at
+        ) VALUES (
+            '$user_id', '$title', '$subject', '$category',
+            '$due_date', '$due_time', '$priority', '$notes', NOW()
+        )";
         if (mysqli_query($conn, $sql)) {
             header("Location: tasks.php?added=1");
             exit();
@@ -243,6 +253,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
+    <label>Due Time</label>
+    <input type="date" name="taskDueDate" 
+       value="<?php echo htmlspecialchars($prefill_date); ?>" 
+       required>
+
+</div>
+
+
+                <div class="form-group">
                     <label>Priority</label>
                     <select name="taskPriority" required>
                         <option value="">Select priority</option>
@@ -276,4 +295,3 @@ menuToggle.addEventListener('click', () => {
 
 </body>
 </html>
-
