@@ -76,6 +76,29 @@
   font-weight:700;
 }
 
+/* ✅ Topbar (mobile) */
+.dash_topbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* ✅ Logout link (matches sidebar style) */
+.dash_logout_link{
+  margin-left:auto;
+  padding:10px 12px;
+  border-radius:14px;
+  text-decoration:none;
+  color:inherit;
+  opacity:.85;
+  font-weight:700;
+}
+
+.dash_logout_link:hover{
+  opacity:1;
+  background:rgba(120,140,255,0.16);
+}
+
 /* Header */
 .dash_greeting{
   font-size:28px;
