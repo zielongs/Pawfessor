@@ -12,7 +12,7 @@
     - Edit and delete options
     - Drag to reorder (coming soon)
 =================================================== */
-
+<?php 
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -80,10 +80,6 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
                 <img src="images/Dashboard/d_progress.png" width="40" height="40">
                 <span>Progress</span>
             </a>
-            <a href="weekly-view.php" class="menu-item">
-                <img src="images/Dashboard/d_progress.png" width="40" height="40">
-                <span>Weekly View</span>
-            </a>
             <a href="store.html" class="menu-item">
                 <img src="images/Dashboard/d_mascot_store.png" width="40" height="40">
                 <span>Mascot Store</span>
@@ -100,7 +96,7 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
                 <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
                 <span>Transaction History</span>
             </a>
-            <a href="profiles.html" class="menu-item">
+            <a href="profiles.php" class="menu-item">
                 <img src="images/Dashboard/d_profiles.png" width="40" height="40">
                 <span>Profiles</span>
             </a>
@@ -198,3 +194,4 @@ $tasks_json = json_encode($tasks, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT |
 </body>
 
 </html>
+
