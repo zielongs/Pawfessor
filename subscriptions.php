@@ -177,6 +177,3 @@ $user_id = $_SESSION['user_id'];
 <script src="js/subscriptions.js"></script>
 </body>
 </html>
-
-
-
