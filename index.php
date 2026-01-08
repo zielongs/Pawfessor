@@ -58,7 +58,7 @@ if (isset($_SESSION['user_id'])) {
         <a href="pricing.html">Pricing</a>
         <a href="help.html">Help</a>
         <a href="login.php" class="login-btn">Login</a>
-        <a href="signup.php" class="cta-btn">Get Pawfessor Free</a>
+        <a href="register.php" class="cta-btn">Get Pawfessor Free</a>
     </nav>
 </header>
 
@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
     <h1>Plan smarter.<br>Study better.</h1>
     <p>Pawfessor is your friendly guide<br>to better productivity.</p>
 
-    <a href="signup.php" class="btn big">Get Pawfessor Free</a>
+    <a href="register.php" class="btn big">Get Pawfessor Free</a>
 </section>
 
 <!-- FOOTER -->
