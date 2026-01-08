@@ -1,3 +1,4 @@
+
 <!-- ===================================================
      SUBSCRIPTIONS PAGE
      ---------------------------------------------------
@@ -52,7 +53,7 @@ $user_id = $_SESSION['user_id'];
                 <img src="images/Dashboard/d_my_tasks.png" width="40" height="40">
                 <span>My Tasks</span>
             </a>
-            <a href="progress.html" class="menu-item">
+            <a href="progress.php" class="menu-item">
                 <img src="images/Dashboard/d_progress.png" width="40" height="40">
                 <span>Progress</span>
             </a>
@@ -72,7 +73,7 @@ $user_id = $_SESSION['user_id'];
                 <img src="images/Dashboard/d_transaction_history.png" width="40" height="40">
                 <span>Transaction History</span>
             </a>
-            <a href="profiles.html" class="menu-item">
+            <a href="profiles.php" class="menu-item">
                 <img src="images/Dashboard/d_profiles.png" width="40" height="40">
                 <span>Profiles</span>
             </a>
@@ -87,7 +88,7 @@ $user_id = $_SESSION['user_id'];
             <div></div>
             <div class="header-icons">
                 
-                <a href="profiles.html" class="icon-btn" id="profileBtn" aria-label="Profile">
+                <a href="profiles.php" class="icon-btn" id="profileBtn" aria-label="Profile">
                     <img src="images/h_profiles.png" width="55" height="50" alt="Profile">
                 </a>
             </div>
